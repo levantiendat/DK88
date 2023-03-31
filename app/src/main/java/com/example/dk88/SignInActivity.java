@@ -27,6 +27,13 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.e("login", "ok");
+                                if (!response.isSuccessful()) {
+                    Log.e("login", "Error1");
+                    return;
+                }
+                String resp = response.body();
+                Log.e("login", resp);
+
             }
 
             @Override
