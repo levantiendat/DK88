@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="15"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:text="CREATE ACCOUNT"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="34dp"
+        android:textStyle="bold" />
+    <EditText
+
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:id="@+id/fullname"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Full name"/>
+    <EditText
+        android:layout_weight="1"
+        android:id="@+id/phone"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Phone number"/>
+    <EditText
+
+
+        android:layout_weight="1"
+        android:layout_marginTop="15dp"
+        android:id="@+id/studentid"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Student ID"/>
+    <EditText
+        android:layout_marginTop="15dp"
+
+        android:layout_weight="1"
+        android:id="@+id/Username"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Username"/>
+    <EditText
+        android:drawableRight="@drawable/eye"
+
+        android:layout_weight="1"
+        android:layout_marginTop="15dp"
+        android:id="@+id/Password"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Password"/>
+
+    <TextView
+        android:id="@+id/tw2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:text="Upload image of Student ID: "
+        android:textColor="@color/black"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_height="35dp">
+        <TextView
+            android:textStyle="bold"
+            android:text="*  Front side:"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_weight="1"
+            android:background="@drawable/upload"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+
+        <ImageView
+            android:id="@+id/eye1"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/eye"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_height="35dp">
+        <TextView
+            android:textStyle="bold"
+            android:text="*  Back side:"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/upload"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+
+        <ImageView
+            android:id="@+id/eye2"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/eye"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/signin1"
+        android:layout_width="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textColor="#F8F8F6"
+        android:background="@drawable/button2"
+
+        android:text="Register" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        android:layout_height="25dp">
+        <TextView
+
+            android:text="Already have account?"
+
+            android:layout_weight="2"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textColor="@color/black"
+            android:text="Login now"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>

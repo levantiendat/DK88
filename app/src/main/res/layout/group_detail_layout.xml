@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:weightSum="15"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GROUP DETAIL"
+        android:layout_marginLeft="20dp"
+
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/giveclass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="2"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="Summary: To get class you want, you will have to give class "
+
+        />
+    <TextView
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="3"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="Detail: xxxxxxxxx have class xxxxxxx.xxxx.xx.xx, yyyyyyyyy have class xxxxxxx.xxxx.xx.xx, yyyyyyyyy have class xxxxxxx.xxxx.xx.xx"
+
+        />
+    <TextView
+        android:id="@+id/waitinglist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="2"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="Joined: xxxxxxxxx \n Waiting: xxxxxxxxx, yyyyyyyyy"
+
+        />
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="3"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="Phone number: \n xxxxxxxxx: 0900000000\n xxxxxxxxx: 0900000000\n xxxxxxxxx: 0900000000"
+
+        />
+    <Button
+        android:id="@+id/join_button"
+        android:layout_width="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        android:layout_marginTop="50dp"
+        android:layout_weight="3"
+        android:background="@drawable/button2"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        />
+
+
+</LinearLayout>

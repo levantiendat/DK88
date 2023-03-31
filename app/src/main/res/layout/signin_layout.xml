@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="40"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"/>
+
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="8"
+
+
+        android:fontFamily="@font/roboto_black"
+        android:text="DK88"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+    <EditText
+
+        android:drawableLeft="@drawable/admin"
+        android:layout_weight="1"
+        android:id="@+id/Username"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Username"/>
+    <EditText
+        android:drawableRight="@drawable/eye"
+        android:drawableLeft="@drawable/key"
+        android:layout_weight="1"
+        android:layout_marginTop="35dp"
+        android:id="@+id/Password"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Password"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:textSize="16dp"
+        android:text="Remember me" />
+
+    <Button
+        android:id="@+id/signin1"
+        android:layout_width="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textColor="#F8F8F6"
+        android:background="@drawable/button2"
+
+        android:text="Sign in" />
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:background="@drawable/button1"
+        android:textColor="@color/black"
+
+        android:text="Sign up" />
+</LinearLayout>

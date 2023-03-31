@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="15"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_weight="2"
+        android:text="PROFILE"
+        android:textColor="@color/black"
+
+        android:textSize="30dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tw2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        android:text="Leave it empty means keep the old password"
+        android:textColor="@color/black"
+
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <EditText
+        android:drawableRight="@drawable/eye"
+        android:drawableLeft="@drawable/key"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/password"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Old password"/>
+    <EditText
+        android:drawableRight="@drawable/eye"
+        android:drawableLeft="@drawable/key"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:id="@+id/Password1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="New password"/>
+    <TextView
+        android:id="@+id/tw3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        android:text="Public info:"
+        android:textColor="@color/black"
+
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <EditText
+
+        android:drawableLeft="@drawable/name"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:id="@+id/fullname"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Full name"/>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/phone"
+        android:layout_weight="1"
+        android:id="@+id/phone"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Phone number"/>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/email"
+        android:layout_weight="1"
+        android:id="@+id/email"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/edt1"
+        android:hint="Email"/>
+
+
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="170dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textColor="#F8F8F6"
+        android:background="@drawable/button2"
+
+        android:text="OKAY" />
+
+</LinearLayout>
