@@ -22,22 +22,22 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_layout);
 
-        Call<String> call = ApiUserRequester.getJsonPlaceHolderApi().test();
-        call.enqueue(new Callback<String>() {
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().test();
+        call.enqueue(new Callback<ResponseObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 Log.e("login", "ok");
-                                if (!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     Log.e("login", "Error1");
                     return;
                 }
-                String resp = response.body();
-                Log.e("login", resp);
+                ResponseObject resp = response.body();
+                Log.e("login", resp.getData().toString());
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
                 Log.e("login", "!ok: " + call.request().url().toString());
             }
         });

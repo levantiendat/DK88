@@ -9,7 +9,7 @@ public class ApiUserRequester
     public static JsonPlaceHolderApi getJsonPlaceHolderApi() {
         if (jsonPlaceHolderApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://ec2-13-229-209-65.ap-southeast-1.compute.amazonaws.com:6969/api/v1/")
+                    .baseUrl("http://ec2-13-229-209-65.ap-southeast-1.compute.amazonaws.com:6969/api/v1/User/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);

@@ -9,8 +9,8 @@ import retrofit2.http.POST;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("User")
-    Call<String> test();
+    @GET(".")
+    Call<ResponseObject> test();
 
     @POST("Login")
     Call<ResponseObject> login(@Body Map<String, Object> body);
