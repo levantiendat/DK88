@@ -1,5 +1,6 @@
 package com.example.dk88;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
-    Button btnSignin;
+    Button btnSignin,btnSignup;
     EditText edtUser, edtPass;
 
     @Override
@@ -29,7 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         btnSignin = (Button) findViewById(R.id.signin1);
         edtUser = (EditText) findViewById(R.id.Username);
         edtPass = (EditText) findViewById(R.id.Password);
-
+        btnSignup=(Button) findViewById(R.id.signup);
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +62,13 @@ public class SignInActivity extends AppCompatActivity {
                 });
             }
 
-
+        });
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(SignInActivity.this,SignUpActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }
