@@ -15,4 +15,7 @@ public interface JsonPlaceHolderApi {
     @POST("Login")
     Call<ResponseObject> login(@Body Map<String, Object> body);
 
+    @POST("CreateAccount")
+    Call<ResponseObject> signup(@Body Map<String,Object> body);
+
 }

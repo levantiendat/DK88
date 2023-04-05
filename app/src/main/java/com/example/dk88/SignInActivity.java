@@ -2,6 +2,9 @@ package com.example.dk88;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,62 +19,49 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
+    Button btnSignin;
+    EditText edtUser, edtPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_layout);
+        btnSignin = (Button) findViewById(R.id.signin1);
+        edtUser = (EditText) findViewById(R.id.Username);
+        edtPass = (EditText) findViewById(R.id.Password);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().test();
-        call.enqueue(new Callback<ResponseObject>() {
+        btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                Log.e("login", "ok");
-                if (!response.isSuccessful()) {
-                    Log.e("login", "Error1");
-                    return;
-                }
-                ResponseObject resp = response.body();
-                Log.e("login", resp.getData().toString());
+            public void onClick(View v) {
+                Map<String, Object> loginInfo = new HashMap<>();
+                loginInfo.put("userName", edtUser.getText().toString());
+                loginInfo.put("hashPass", edtPass.getText().toString());
+                Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().login(loginInfo);
+                call.enqueue(new Callback<ResponseObject>() {
+                    @Override
+                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(SignInActivity.this, "Error", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        ResponseObject tmp = response.body();
+                        if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                            Toast.makeText(SignInActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                        String userRole = response.headers().get("UserRole");
+                        Toast.makeText(SignInActivity.this, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
+                    }
 
+                    @Override
+                    public void onFailure(Call<ResponseObject> call, Throwable t) {
+                        Toast.makeText(SignInActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Log.e("login", "!ok: " + call.request().url().toString());
-            }
+
         });
-
-//        Log.e("login", "TEST");
-//        Map<String, Object> body = new HashMap<>();
-//        body.put("userName", "levantiendat");
-//        body.put("hashPass", "12345678");
-//        Log.e("login", body.toString());
-//        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().login(body);
-//        call.enqueue(new Callback<ResponseObject>() {
-//            @Override
-//            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-//                if (!response.isSuccessful()) {
-//                    Log.e("login", "Error1");
-//                    return;
-//                }
-//                ResponseObject resp = response.body();
-//                if (resp.getRespCode() != ResponseObject.RESPONSE_OK) {
-////                    Toast.makeText(SignInActivity.this, resp.getMessage(), Toast.LENGTH_LONG).show();
-//                    Log.e("login", resp.getMessage());
-//                    return;
-//                }
-//                User user = (User) resp.getData();
-////                Toast.makeText(SignInActivity.this, user.getName(), Toast.LENGTH_LONG).show();
-//                Log.e("login", user.getName());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseObject> call, Throwable t) {
-//                Log.e("login", "Error2");
-//
-//            }
-//        });
-
     }
 }
