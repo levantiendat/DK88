@@ -2,24 +2,24 @@ package com.example.dk88;
 
 public class User {
 
-    public static final String USER_TYPE_ADMIN = "ADMIN";
-    public static final String USER_TYPE_STUDENT = "STUDENT";
+    public static final Integer ROLE_CODE_ADMIN = 0;
+    public static final Integer ROLE_CODE_STUDENT = 1;
 
     private String userName;
     private String name;
     private String phoneNumber;
-    private String token;
+    private Integer roleCode;
 
     public User() {
         super();
     }
 
-    public User(String userName, String name, String phoneNumber, String token) {
+    public User(String userName, String name, String phoneNumber, Integer roleCode) {
         super();
         this.userName = userName;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.token = token;
+        this.roleCode = roleCode;
     }
 
     public String getUserName() {
@@ -46,12 +46,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getToken() {
-        return token;
+    public Integer getRoleCode() {
+        return roleCode;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setRoleCode(Integer roleCode) {
+        this.roleCode = roleCode;
     }
 
     @Override

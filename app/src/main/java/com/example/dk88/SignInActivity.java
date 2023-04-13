@@ -1,5 +1,7 @@
 package com.example.dk88;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.internal.http2.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +50,20 @@ public class SignInActivity extends AppCompatActivity {
                             return;
                         }
                         ResponseObject tmp = response.body();
+                        String token = response.headers().get("token");
+                        if (token==null)
+                        {
+                            Toast.makeText(SignInActivity.this, "NULL", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        else
+                        {
+                            Toast.makeText(SignInActivity.this, token, Toast.LENGTH_LONG).show();
+                        }
+
+
+
+
                         if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                             Toast.makeText(SignInActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                             return;
@@ -53,6 +71,9 @@ public class SignInActivity extends AppCompatActivity {
                         Map<String, Object> data = (Map<String, Object>) tmp.getData();
                         String userRole = response.headers().get("UserRole");
                         Toast.makeText(SignInActivity.this, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
+                        intent.putExtra("token",token);
+                        startActivity(intent);
                     }
 
                     @Override
