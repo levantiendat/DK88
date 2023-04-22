@@ -25,8 +25,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
-        String token=getIntent().getStringExtra("token");
-        Toast.makeText(ProfileActivity.this,token,Toast.LENGTH_LONG).show();
+
+//        String token=getIntent().getStringExtra("token");
+//        Student student=(Student) getIntent().getSerializableExtra("student");
+
+//        Toast.makeText(ProfileActivity.this,token,Toast.LENGTH_LONG).show();
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
         edtName=(EditText) findViewById(R.id.fullname);
@@ -34,30 +37,16 @@ public class ProfileActivity extends AppCompatActivity {
         btnOK=(Button) findViewById(R.id.ok);
         txtGetAdmin=(TextView) findViewById(R.id.getAdmin1);
 
+
+//        edtName.setText(student.getName());
+//        edtPhone.setText(student.getPhoneNumber());
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        public static Map<String, Object> getDataFromToken(String token) {
-            return Jwts
-                    .parserBuilder()
-                    .setSigningKey(getSignKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        }
 
-        public static Boolean isValidToken(String token) {
-            try {
-                Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
-                return true;
-            } catch (Exception e) {
-
-            }
-            return false;
-        }
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.dk88;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     public static final Integer ROLE_CODE_ADMIN = 0;
     public static final Integer ROLE_CODE_STUDENT = 1;
