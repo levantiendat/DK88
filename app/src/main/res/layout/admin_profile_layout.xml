@@ -36,7 +36,7 @@
         android:drawableLeft="@drawable/key"
         android:layout_weight="1"
         android:layout_marginTop="20dp"
-        android:id="@+id/password"
+        android:id="@+id/Password"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
 
