@@ -45,8 +45,9 @@ public class AdminProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if((edtOld.getText().toString().compareTo("")==0&&edtName.getText().toString().compareTo(admin.getName())==0)
-                &&(edtEmail.getText().toString().compareTo(admin.getEmail())==0 &&edtPhone.getText().toString().compareTo(admin.getPhoneNumber())==0)){
+                        &&(edtEmail.getText().toString().compareTo(admin.getEmail())==0 &&edtPhone.getText().toString().compareTo(admin.getPhoneNumber())==0)){
                     Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                    intent.putExtra("token",token);
                     startActivity(intent);
                 }
                 if(edtOld.getText().toString().compareTo("")!=0){
@@ -58,7 +59,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                         passInfo.put("oldHassPass",edtOld.getText().toString());
                         passInfo.put("newHassPass",edtNew.getText().toString());
 
-                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(passInfo);
+                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(token,passInfo);
                         call1.enqueue(new Callback<ResponseObject>() {
                             @Override
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -84,7 +85,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                     }
                 }
                 if(!(edtName.getText().toString().compareTo(admin.getName())==0
-                &&(edtEmail.getText().toString().compareTo(admin.getEmail())==0 &&edtPhone.getText().toString().compareTo(admin.getPhoneNumber())==0))) {
+                        &&(edtEmail.getText().toString().compareTo(admin.getEmail())==0 &&edtPhone.getText().toString().compareTo(admin.getPhoneNumber())==0))) {
                     Map<String, Object> changeInfo = new HashMap<>();
                     changeInfo.put("userName", admin.getUserName());
                     changeInfo.put("name", edtName.getText().toString());
@@ -108,6 +109,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(AdminProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                            intent.putExtra("token",token);
                             startActivity(intent);
                         }
 
@@ -119,6 +121,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                 }
                 else{
                     Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                    intent.putExtra("token",token);
                     startActivity(intent);
                 }
 

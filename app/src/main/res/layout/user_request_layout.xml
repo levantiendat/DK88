@@ -49,8 +49,32 @@
         android:layout_width="match_parent"
         android:dividerHeight="10.0sp"
         android:divider="@android:color/transparent"
-        android:layout_height="500dp"/>
+        android:layout_height="450dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
 
 
+        android:layout_height="60dp"
+        >
+        <Button
+            android:id="@+id/previous"
+            android:background="@drawable/button3"
+            android:text="PREVIOUS"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button4"
+            android:text="NEXT"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
 </LinearLayout>

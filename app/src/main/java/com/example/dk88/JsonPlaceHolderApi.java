@@ -6,6 +6,8 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -20,8 +22,9 @@ public interface JsonPlaceHolderApi {
     @POST("CreateAccountStudent")
     Call<ResponseObject> signup(@Body Map<String,Object> body);
 
+    @Headers("Content-Type: application/json")
     @POST("ChangePassword")
-    Call<ResponseObject> changePass(@Body Map<String,Object> body);
+    Call<ResponseObject> changePass(@Header("token") String token, @Body Map<String,Object> body);
 
     @POST("ChangePublicInfo")
     Call<ResponseObject> changeProfile(@Body Map<String,Object> body);
@@ -33,7 +36,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> sendBanRequest(@Body Map<String,Object> body);
 
     @GET ("Request/Page/{page}")
-    Call<List<User>> groupList(@Path("page") int pageID);
+    Call<ResponseObject> readRequestPage(@Path("page") int pageID);
 
     @POST("Request/Detail")
     Call<ResponseObject> readDetailRequest(@Body Map<String,Object> body);

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.jsonwebtoken.Jwts;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,8 +82,8 @@ public class ProfileActivity extends AppCompatActivity {
                         passInfo.put("oldHassPass",edtOld.getText().toString());
                         passInfo.put("newHassPass",edtNew.getText().toString());
 
-                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(passInfo);
-                        call.enqueue(new Callback<ResponseObject>() {
+                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(token,passInfo);
+                        call1.enqueue(new Callback<ResponseObject>() {
                             @Override
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                                 if (!response.isSuccessful()) {
