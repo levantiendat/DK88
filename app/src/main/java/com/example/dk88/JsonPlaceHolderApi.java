@@ -1,5 +1,6 @@
 package com.example.dk88;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -31,8 +32,8 @@ public interface JsonPlaceHolderApi {
     @POST("Request/Ban")
     Call<ResponseObject> sendBanRequest(@Body Map<String,Object> body);
 
-    @GET("Request/Page/1")
-    Call<ResponseObject> requestActive();
+    @GET ("Request/Page/{page}")
+    Call<List<User>> groupList(@Path("page") int pageID);
 
     @POST("Request/Detail")
     Call<ResponseObject> readDetailRequest(@Body Map<String,Object> body);
