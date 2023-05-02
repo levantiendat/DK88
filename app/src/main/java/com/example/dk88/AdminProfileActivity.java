@@ -44,6 +44,44 @@ public class AdminProfileActivity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(edtOld.getText().toString().compareTo("")!=0){
+                    if(edtOld.getText().toString().compareTo(edtNew.getText().toString())==0){
+                        Toast.makeText(AdminProfileActivity.this,"The new password is duplicated than old password",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Map<String,Object> passInfo=new HashMap<>();
+                        passInfo.put("oldHassPass",edtOld.getText().toString());
+                        passInfo.put("newHassPass",edtNew.getText().toString());
+
+                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(passInfo);
+                        call1.enqueue(new Callback<ResponseObject>() {
+                            @Override
+                            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                                if (!response.isSuccessful()) {
+                                    Toast.makeText(AdminProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                ResponseObject tmp = response.body();
+                                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                                    Toast.makeText(AdminProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                                String userRole = response.headers().get("UserRole");
+                                Toast.makeText(AdminProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                                Toast.makeText(AdminProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+                else{
+                    Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                    startActivity(intent);
+                }
                 Map<String,Object> changeInfo=new HashMap<>();
                 changeInfo.put("userName",admin.getUserName());
                 changeInfo.put("name",edtName.getText().toString());
@@ -73,44 +111,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                         Toast.makeText(AdminProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
-                if(edtOld.getText().toString()!=""){
-                    if(edtOld.getText().toString().compareTo(edtNew.getText().toString())==0){
-                        Toast.makeText(AdminProfileActivity.this,"The new password is duplicated than old password",Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Map<String,Object> passInfo=new HashMap<>();
-                        passInfo.put("oldHassPass",edtOld.getText().toString());
-                        passInfo.put("newHassPass",edtNew.getText().toString());
 
-                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(passInfo);
-                        call.enqueue(new Callback<ResponseObject>() {
-                            @Override
-                            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                                if (!response.isSuccessful()) {
-                                    Toast.makeText(AdminProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                ResponseObject tmp = response.body();
-                                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                                    Toast.makeText(AdminProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                                String userRole = response.headers().get("UserRole");
-                                Toast.makeText(AdminProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                                Toast.makeText(AdminProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                }
-                else{
-                    Intent intent=new Intent(AdminProfileActivity.this,UserRequestAdapter.class);
-                    startActivity(intent);
-                }
             }
         });
     }

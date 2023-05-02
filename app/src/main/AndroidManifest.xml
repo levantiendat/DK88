@@ -28,6 +28,10 @@
             android:name=".AdminProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".UserRequest"
+            android:exported="false"
+             />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
