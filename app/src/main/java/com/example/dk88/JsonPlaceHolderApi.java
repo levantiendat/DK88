@@ -17,17 +17,17 @@ public interface JsonPlaceHolderApi {
     @GET(".")
     Call<ResponseObject> test();
 
-    @POST("Login")
+    @POST("User/Login")
     Call<ResponseObject> login(@Body Map<String, Object> body);
 
-    @POST("CreateAccountStudent")
+    @POST("User/CreateAccountStudent")
     Call<ResponseObject> signup(@Body Map<String,Object> body);
 
-   // @Headers("Content-Type: application/json")
-    @POST("ChangePassword")
+    // @Headers("Content-Type: application/json")
+    @POST("User/ChangePassword")
     Call<ResponseObject> changePass(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
-    @POST("ChangePublicInfo")
+    @POST("User/ChangePublicInfo")
     Call<ResponseObject> changeProfile(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
     @POST("Request/Active")
@@ -37,7 +37,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> sendBanRequest(@Body Map<String,Object> body);
 
     @GET ("Request/Page/{page}")
-    Call<ResponseObject> readRequestPage(@Path("page") int pageID);
+    Call<ResponseObject> readRequestPage(@HeaderMap Map<String,Object> header,@Path("page") int pageID);
 
     @POST("Request/Detail")
     Call<ResponseObject> readDetailRequest(@Body Map<String,Object> body);

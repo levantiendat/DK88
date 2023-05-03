@@ -56,26 +56,29 @@ public class UserRequest extends AppCompatActivity {
 
     private void getData()
     {
-        Map<String,Object> passInfo = new HashMap<>();
-        passInfo.put("token",token);
+        Map<String,Object> headers=new HashMap<>();
+        headers.put("token",token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readRequestPage(1);
+
+        Toast.makeText(UserRequest.this, token, Toast.LENGTH_LONG).show();
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readRequestPage(headers,1);
 
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful())
                 {
-                    Toast.makeText(UserRequest.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserRequest.this, "Error1: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
                     Toast.makeText(UserRequest.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                List<ActiveRequest> data = (List<ActiveRequest>) tmp.getData();
+                List<Request> data = (List<Request>) tmp.getData();
                 Toast.makeText(UserRequest.this, data.size(), Toast.LENGTH_LONG).show();
 
             }

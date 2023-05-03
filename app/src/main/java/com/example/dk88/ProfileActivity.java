@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
 
-       String token=getIntent().getStringExtra("token");
+        String token=getIntent().getStringExtra("token");
         Student student=(Student) getIntent().getSerializableExtra("student");
 
         Toast.makeText(ProfileActivity.this,token,Toast.LENGTH_LONG).show();
@@ -128,6 +128,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        }
+    }
 
 }
