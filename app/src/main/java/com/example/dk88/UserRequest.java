@@ -40,26 +40,26 @@ public class UserRequest extends AppCompatActivity {
 
         listview1.setAdapter(adapter);
     }
-//    private void addData(){
-//        for (int i=0; i < listRequest.size();i++)
-//        {
-//            StudentStateInfo std = new StudentStateInfo();
-//            std.setStudentID(listRequest.get(i).getTargetID());
-//            if (listRequest.get(i).getRequestCode()==0)
-//            {
-//                std.setState("ACTIVE");
-//            }
-//            else
-//            {
-//                std.setState("BAN");
-//            }
-//            arrayclass.add(std);
-//            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
-//        }
-//        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
-//        listview1.setAdapter(adapter);
-//        System.out.println(token);
-//    }
+    private void addData(ArrayList<Request> listRequest){
+        for (int i=0; i < listRequest.size();i++)
+        {
+            StudentStateInfo std = new StudentStateInfo();
+            std.setStudentID(listRequest.get(i).getTargetID());
+            if (listRequest.get(i).getRequestCode()==0)
+            {
+                std.setState("ACTIVE");
+            }
+            else
+            {
+                std.setState("BAN");
+            }
+            arrayclass.add(std);
+            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
+        }
+        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
+        listview1.setAdapter(adapter);
+        System.out.println(token);
+    }
 
     private void getData()
     {
@@ -93,6 +93,7 @@ public class UserRequest extends AppCompatActivity {
                     temp.setRequestCode( Math.toIntExact(Math.round(Double.parseDouble(student.get("requestCode").toString()))));
                     listRequest.add(temp);
                 }
+                addData(listRequest);
             }
 
             @Override
@@ -101,26 +102,9 @@ public class UserRequest extends AppCompatActivity {
             }
 
         });
-        Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
 
-        for (int i=0; i < listRequest.size();i++)
-        {
-            StudentStateInfo std = new StudentStateInfo();
-            std.setStudentID(listRequest.get(i).getTargetID());
-            if (listRequest.get(i).getRequestCode()==0)
-            {
-                std.setState("ACTIVE");
-            }
-            else
-            {
-                std.setState("BAN");
-            }
-            arrayclass.add(std);
-            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
-        }
-        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
-        listview1.setAdapter(adapter);
-        System.out.println(token);
+
+
     }
 
 }
