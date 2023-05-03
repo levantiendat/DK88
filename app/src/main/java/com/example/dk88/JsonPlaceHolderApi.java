@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -22,12 +23,12 @@ public interface JsonPlaceHolderApi {
     @POST("CreateAccountStudent")
     Call<ResponseObject> signup(@Body Map<String,Object> body);
 
-    @Headers("Content-Type: application/json")
+   // @Headers("Content-Type: application/json")
     @POST("ChangePassword")
-    Call<ResponseObject> changePass(@Header("token") String token, @Body Map<String,Object> body);
+    Call<ResponseObject> changePass(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
     @POST("ChangePublicInfo")
-    Call<ResponseObject> changeProfile(@Body Map<String,Object> body);
+    Call<ResponseObject> changeProfile(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
     @POST("Request/Active")
     Call<ResponseObject> sendActiveRequest(@Body Map<String,Object> body);

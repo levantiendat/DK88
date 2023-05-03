@@ -54,12 +54,14 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this,"The new password is duplicated than old password",Toast.LENGTH_LONG).show();
                     }
                     else{
+                        Map<String,Object> headers=new HashMap<>();
+                        headers.put("token",token);
                         Map<String,Object> passInfo=new HashMap<>();
                         passInfo.put("userName",student.getUserName());
-                        passInfo.put("oldHassPass",edtOld.getText().toString().trim());
-                        passInfo.put("newHassPass",edtNew.getText().toString().trim());
+                        passInfo.put("oldHashPass",edtOld.getText().toString().trim());
+                        passInfo.put("newHashPass",edtNew.getText().toString().trim());
 
-                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(token,passInfo);
+                        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(headers,passInfo);
                         call1.enqueue(new Callback<ResponseObject>() {
                             @Override
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -86,13 +88,15 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 if(!(edtName.getText().toString().compareTo(student.getName())==0
                         &&(edtPhone.getText().toString().compareTo(student.getPhoneNumber())==0))) {
+                    Map<String,Object> headers=new HashMap<>();
+                    headers.put("token",token);
                     Map<String, Object> changeInfo = new HashMap<>();
                     changeInfo.put("userName", student.getUserName());
                     changeInfo.put("name", edtName.getText().toString());
                     changeInfo.put("phoneNumber", edtPhone.getText().toString());
                     changeInfo.put("roleCode", Integer.toString(student.getRoleCode()));
 
-                    Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(changeInfo);
+                    Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers,changeInfo);
                     call.enqueue(new Callback<ResponseObject>() {
                         @Override
                         public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
