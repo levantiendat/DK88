@@ -32,18 +32,13 @@ public class UserRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_request_layout);
         token=getIntent().getStringExtra("token");
+        listview1=(ListView) findViewById(R.id.lwclass);
+        arrayclass =new ArrayList<>();
 
 
-        function();
         getData();
         addData();
         listview1.setAdapter(adapter);
-    }
-    private void function(){
-        listview1=(ListView) findViewById(R.id.lwclass);
-        arrayclass =new ArrayList<>();
-        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
-
     }
     private void addData(){
         for (Request temp: listRequest)
@@ -60,6 +55,7 @@ public class UserRequest extends AppCompatActivity {
             }
             arrayclass.add(std);
         }
+        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
         System.out.println(token);
     }
