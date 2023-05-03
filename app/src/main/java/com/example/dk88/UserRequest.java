@@ -26,6 +26,8 @@ public class UserRequest extends AppCompatActivity {
     ListView listview1;
     ArrayList<StudentActiveInfo> arrayclass;
 
+    ArrayList<Request> listRequest = new ArrayList<Request>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,7 @@ public class UserRequest extends AppCompatActivity {
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful())
                 {
-                    Toast.makeText(UserRequest.this, "Error1: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserRequest.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -78,9 +80,17 @@ public class UserRequest extends AppCompatActivity {
                     Toast.makeText(UserRequest.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                List<Request> data = (List<Request>) tmp.getData();
-                Toast.makeText(UserRequest.this, data.size(), Toast.LENGTH_LONG).show();
-
+                List<Map<String, Object>> data = (List<Map<String, Object>>) tmp.getData();
+                for (Map<String, Object> student: data)
+                {
+                    Request temp = new Request();
+                    Toast.makeText(UserRequest.this,student.get("requestID").toString()+student.get("targetID")+student.get("requestCode") , Toast.LENGTH_SHORT).show();
+                    temp.setRequestID(Integer.parseInt(student.get("requestID").toString()));
+//                    temp.setTargetID(student.get("targetID").toString());
+//                    temp.setRequestCode( Integer.parseInt(student.get("requestCode").toString()));
+                    listRequest.add(temp);
+                }
+//                                Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
             }
 
             @Override
