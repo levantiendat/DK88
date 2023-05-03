@@ -1,13 +1,13 @@
 package com.example.dk88;
 
-public class StudentActiveInfo {
+public class StudentStateInfo {
     private String StudentID;
     private String State;
 
-    public StudentActiveInfo() {
+    public StudentStateInfo() {
     }
 
-    public StudentActiveInfo(String studentID, String state) {
+    public StudentStateInfo(String studentID, String state) {
         StudentID = studentID;
         State = state;
     }

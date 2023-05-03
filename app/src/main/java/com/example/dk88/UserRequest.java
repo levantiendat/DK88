@@ -1,7 +1,6 @@
 package com.example.dk88;
 
 import android.os.Bundle;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,7 +23,7 @@ public class UserRequest extends AppCompatActivity {
     String token="";
     UserRequestAdapter adapter;
     ListView listview1;
-    ArrayList<StudentActiveInfo> arrayclass;
+    ArrayList<StudentStateInfo> arrayclass;
 
     ArrayList<Request> listRequest = new ArrayList<Request>();
 
@@ -36,8 +35,8 @@ public class UserRequest extends AppCompatActivity {
 
 
         function();
-        adddata();
         getData();
+        addData();
         listview1.setAdapter(adapter);
     }
     private void function(){
@@ -46,12 +45,21 @@ public class UserRequest extends AppCompatActivity {
         adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
 
     }
-    private void adddata(){
-        arrayclass.add(new StudentActiveInfo("102210001","ACTIVE"));
-        arrayclass.add(new StudentActiveInfo("122112111","BAN"));
-        arrayclass.add(new StudentActiveInfo("123212321","ACTIVE"));
-        arrayclass.add(new StudentActiveInfo("102210010","ACTiVE"));
-        arrayclass.add(new StudentActiveInfo("107656544","BAN"));
+    private void addData(){
+        for (Request temp: listRequest)
+        {
+            StudentStateInfo std = new StudentStateInfo();
+            std.setStudentID(temp.getTargetID());
+            if (temp.getRequestCode()==0)
+            {
+                std.setState("ACTIVE");
+            }
+            else
+            {
+                std.setState("BAN");
+            }
+            arrayclass.add(std);
+        }
         listview1.setAdapter(adapter);
         System.out.println(token);
     }
@@ -84,13 +92,11 @@ public class UserRequest extends AppCompatActivity {
                 for (Map<String, Object> student: data)
                 {
                     Request temp = new Request();
-                    Toast.makeText(UserRequest.this,student.get("requestID").toString()+student.get("targetID")+student.get("requestCode") , Toast.LENGTH_SHORT).show();
                     temp.setRequestID(Math.toIntExact(Math.round(Double.parseDouble(student.get("requestID").toString()))));
                     temp.setTargetID(student.get("targetID").toString());
                     temp.setRequestCode( Math.toIntExact(Math.round(Double.parseDouble(student.get("requestCode").toString()))));
                     listRequest.add(temp);
                 }
-                    Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
             }
 
             @Override

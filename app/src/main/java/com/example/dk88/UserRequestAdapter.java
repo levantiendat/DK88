@@ -12,9 +12,9 @@ import java.util.List;
 public class UserRequestAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<StudentActiveInfo> namelist;
+    private List<StudentStateInfo> namelist;
 
-    public UserRequestAdapter(Context context, int layout, List<StudentActiveInfo> namelist) {
+    public UserRequestAdapter(Context context, int layout, List<StudentStateInfo> namelist) {
         this.context = context;
         this.layout = layout;
         this.namelist = namelist;
@@ -55,7 +55,7 @@ public class UserRequestAdapter extends BaseAdapter {
         else{
             holder = (UserRequestAdapter.ViewHolder) view.getTag();
         }
-        StudentActiveInfo student = namelist.get(position);
+        StudentStateInfo student = namelist.get(position);
         holder.txtstudentid.setText(student.getStudentID());
 
         holder.txtstatus.setText(student.getState());
