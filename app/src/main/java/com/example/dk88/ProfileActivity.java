@@ -94,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
                     changeInfo.put("userName", student.getUserName());
                     changeInfo.put("name", edtName.getText().toString());
                     changeInfo.put("phoneNumber", edtPhone.getText().toString());
-                    changeInfo.put("roleCode", Integer.toString(student.getRoleCode()));
+                    changeInfo.put("roleCode", student.getRoleCode());
 
                     Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers,changeInfo);
                     call.enqueue(new Callback<ResponseObject>() {
@@ -112,9 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Map<String, Object> data = (Map<String, Object>) tmp.getData();
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(ProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(ProfileActivity.this,UserRequest.class);
-                            intent.putExtra("token",token);
-                            startActivity(intent);
+
                         }
 
                         @Override

@@ -95,7 +95,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                     changeInfo.put("userName", admin.getUserName());
                     changeInfo.put("name", edtName.getText().toString());
                     changeInfo.put("phoneNumber", edtPhone.getText().toString());
-                    changeInfo.put("roleCode", Integer.toString(admin.getRoleCode()));
+                    changeInfo.put("roleCode", admin.getRoleCode());
 
                     Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers,changeInfo);
                     call.enqueue(new Callback<ResponseObject>() {
