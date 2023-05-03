@@ -31,7 +31,6 @@ public class ProfileActivity extends AppCompatActivity {
         String token=getIntent().getStringExtra("token");
         Student student=(Student) getIntent().getSerializableExtra("student");
 
-        Toast.makeText(ProfileActivity.this,token,Toast.LENGTH_LONG).show();
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
         edtName=(EditText) findViewById(R.id.fullname);

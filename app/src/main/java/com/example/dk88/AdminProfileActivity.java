@@ -31,7 +31,6 @@ public class AdminProfileActivity extends AppCompatActivity {
         String token=getIntent().getStringExtra("token");
         Admin admin=(Admin) getIntent().getSerializableExtra("admin");
 
-        Toast.makeText(AdminProfileActivity.this,token,Toast.LENGTH_LONG).show();
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
         edtName=(EditText) findViewById(R.id.fullname);

@@ -37,28 +37,29 @@ public class UserRequest extends AppCompatActivity {
 
 
         getData();
-        addData();
+
         listview1.setAdapter(adapter);
     }
-    private void addData(){
-        for (Request temp: listRequest)
-        {
-            StudentStateInfo std = new StudentStateInfo();
-            std.setStudentID(temp.getTargetID());
-            if (temp.getRequestCode()==0)
-            {
-                std.setState("ACTIVE");
-            }
-            else
-            {
-                std.setState("BAN");
-            }
-            arrayclass.add(std);
-        }
-        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
-        listview1.setAdapter(adapter);
-        System.out.println(token);
-    }
+//    private void addData(){
+//        for (int i=0; i < listRequest.size();i++)
+//        {
+//            StudentStateInfo std = new StudentStateInfo();
+//            std.setStudentID(listRequest.get(i).getTargetID());
+//            if (listRequest.get(i).getRequestCode()==0)
+//            {
+//                std.setState("ACTIVE");
+//            }
+//            else
+//            {
+//                std.setState("BAN");
+//            }
+//            arrayclass.add(std);
+//            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
+//        }
+//        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
+//        listview1.setAdapter(adapter);
+//        System.out.println(token);
+//    }
 
     private void getData()
     {
@@ -66,7 +67,6 @@ public class UserRequest extends AppCompatActivity {
         headers.put("token",token);
 
 
-        Toast.makeText(UserRequest.this, token, Toast.LENGTH_LONG).show();
         Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readRequestPage(headers,1);
 
         call.enqueue(new Callback<ResponseObject>() {
@@ -99,8 +99,28 @@ public class UserRequest extends AppCompatActivity {
             public void onFailure(Call<ResponseObject> call, Throwable t) {
 
             }
-        });
 
+        });
+        Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
+
+        for (int i=0; i < listRequest.size();i++)
+        {
+            StudentStateInfo std = new StudentStateInfo();
+            std.setStudentID(listRequest.get(i).getTargetID());
+            if (listRequest.get(i).getRequestCode()==0)
+            {
+                std.setState("ACTIVE");
+            }
+            else
+            {
+                std.setState("BAN");
+            }
+            arrayclass.add(std);
+            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
+        }
+        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
+        listview1.setAdapter(adapter);
+        System.out.println(token);
     }
 
 }
