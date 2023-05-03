@@ -55,9 +55,11 @@ public class AdminProfileActivity extends AppCompatActivity {
                         Toast.makeText(AdminProfileActivity.this,"The new password is duplicated than old password",Toast.LENGTH_LONG).show();
                     }
                     else{
+
                         Map<String,Object> passInfo=new HashMap<>();
-                        passInfo.put("oldHassPass",edtOld.getText().toString());
-                        passInfo.put("newHassPass",edtNew.getText().toString());
+                        passInfo.put("userName",admin.getUserName());
+                        passInfo.put("oldHassPass",edtOld.getText().toString().trim());
+                        passInfo.put("newHassPass",edtNew.getText().toString().trim());
 
                         Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(token,passInfo);
                         call1.enqueue(new Callback<ResponseObject>() {

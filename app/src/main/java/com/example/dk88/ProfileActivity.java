@@ -55,8 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     else{
                         Map<String,Object> passInfo=new HashMap<>();
-                        passInfo.put("oldHassPass",edtOld.getText().toString());
-                        passInfo.put("newHassPass",edtNew.getText().toString());
+                        passInfo.put("userName",student.getUserName());
+                        passInfo.put("oldHassPass",edtOld.getText().toString().trim());
+                        passInfo.put("newHassPass",edtNew.getText().toString().trim());
 
                         Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(token,passInfo);
                         call1.enqueue(new Callback<ResponseObject>() {
