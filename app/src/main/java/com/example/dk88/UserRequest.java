@@ -85,12 +85,12 @@ public class UserRequest extends AppCompatActivity {
                 {
                     Request temp = new Request();
                     Toast.makeText(UserRequest.this,student.get("requestID").toString()+student.get("targetID")+student.get("requestCode") , Toast.LENGTH_SHORT).show();
-                    temp.setRequestID(Integer.parseInt(student.get("requestID").toString()));
-//                    temp.setTargetID(student.get("targetID").toString());
-//                    temp.setRequestCode( Integer.parseInt(student.get("requestCode").toString()));
+                    temp.setRequestID(Math.toIntExact(Math.round(Double.parseDouble(student.get("requestID").toString()))));
+                    temp.setTargetID(student.get("targetID").toString());
+                    temp.setRequestCode( Math.toIntExact(Math.round(Double.parseDouble(student.get("requestCode").toString()))));
                     listRequest.add(temp);
                 }
-//                                Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserRequest.this, Integer.toString(listRequest.size()), Toast.LENGTH_LONG).show();
             }
 
             @Override
