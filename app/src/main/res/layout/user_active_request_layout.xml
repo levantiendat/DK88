@@ -1,6 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="15"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:text="ACCOUNT STATUS"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="34dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_weight="1"
+        android:text="Your account is not active. Please provide student id picture to verify your identity. "
+        android:textColor="@color/black"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tw2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:text="Upload image of Student ID: "
+        android:textColor="@color/black"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_height="35dp">
+        <TextView
+            android:textStyle="bold"
+            android:text="*  Front side:"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_weight="1"
+            android:background="@drawable/upload"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+
+        <ImageView
+            android:id="@+id/eye1"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/eye"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_height="35dp">
+        <TextView
+            android:textStyle="bold"
+            android:text="*  Back side:"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/upload"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+
+        <ImageView
+            android:id="@+id/eye2"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/eye"
+            android:layout_width="25dp"
+            android:layout_height="35dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="200dp"
+        android:layout_marginTop="300dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textColor="#F8F8F6"
+        android:background="@drawable/button2"
+
+        android:text="OKAY" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        android:layout_height="25dp">
+        <TextView
+
+            android:text="Need contact admin?"
+
+            android:layout_weight="2"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/back"
+            android:textColor="@color/black"
+            android:text="Get Admin info"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>
