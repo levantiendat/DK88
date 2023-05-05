@@ -1,5 +1,8 @@
 package com.example.dk88;
 
+import static com.example.dk88.Student.STATUS_BAN_USER;
+import static com.example.dk88.Student.STATUS_NEW_USER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -75,10 +78,23 @@ public class SignInActivity extends AppCompatActivity {
                             student.setStatus(Math.toIntExact(Math.round(Double.parseDouble(data.get("status").toString()))));
                             student.setStudentID(data.get("studentID").toString());
 
-                            Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
-                            intent.putExtra("token",token);
-                            intent.putExtra("student",student);
-                            startActivity(intent);
+                            if(student.getStatus()==STATUS_NEW_USER){
+                                Intent intent = new Intent(SignInActivity.this, StudentIdentity.class);
+                                intent.putExtra("token",token);
+                                intent.putExtra("student",student);
+                                startActivity(intent);
+                            }
+                            else if(student.getStatus()==STATUS_BAN_USER){
+                                Intent intent=new Intent(SignInActivity.this,StudentBanStatus.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
+                                intent.putExtra("token",token);
+                                intent.putExtra("student",student);
+                                startActivity(intent);
+                            }
+
                         }
                         Toast.makeText(SignInActivity.this, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
 
