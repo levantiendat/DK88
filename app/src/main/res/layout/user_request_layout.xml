@@ -15,12 +15,13 @@
         android:layout_marginLeft="00dp"
         android:layout_marginRight="00dp"
         android:layout_height="50dp">
-        <ImageView
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/back"
 
-            android:background="@drawable/back"/>
+            android:background="@drawable/back"
+            android:contentDescription="TODO" />
         <TextView
             android:textColor="@color/black"
             android:id="@+id/tv001"

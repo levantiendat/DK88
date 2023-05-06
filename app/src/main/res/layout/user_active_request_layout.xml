@@ -51,7 +51,7 @@
         android:layout_marginRight="40dp"
         android:weightSum="8"
         android:orientation="horizontal"
-        android:layout_height="35dp">
+        android:layout_height="50dp">
         <TextView
             android:textStyle="bold"
             android:text="*  Front side:"
@@ -60,20 +60,21 @@
             android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
-        <ImageView
+        <ImageButton
             android:layout_weight="1"
             android:id="@+id/imgFront"
             android:background="@drawable/upload"
-            android:layout_width="25dp"
-            android:layout_height="35dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@+id/eye1"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@drawable/eye"
-            android:layout_width="25dp"
-            android:layout_height="35dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,7 +83,7 @@
         android:layout_marginRight="40dp"
         android:weightSum="8"
         android:orientation="horizontal"
-        android:layout_height="35dp">
+        android:layout_height="50dp">
         <TextView
             android:textStyle="bold"
             android:text="*  Back side:"
@@ -91,26 +92,35 @@
             android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
-        <ImageView
+        <ImageButton
             android:layout_weight="1"
             android:id="@+id/imgBack"
             android:layout_marginLeft="2dp"
             android:background="@drawable/upload"
-            android:layout_width="25dp"
-            android:layout_height="35dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@+id/eye2"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@drawable/eye"
-            android:layout_width="25dp"
-            android:layout_height="35dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
     </LinearLayout>
+    <ImageView
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="100dp"
+        android:id="@+id/picture"
+        android:layout_width="wrap_content"/>
+
+
     <Button
         android:id="@+id/ok"
         android:layout_width="200dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="200dp"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:layout_gravity="center"
@@ -145,4 +155,5 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
 </LinearLayout>
