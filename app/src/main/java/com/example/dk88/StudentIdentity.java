@@ -20,38 +20,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class StudentIdentity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 1000;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     ImageButton imgFront,imgBack;
     ImageView image;
     private static final String TAG=StudentIdentity.class.getName();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_active_request_layout);
-
-        String token=getIntent().getStringExtra("token");
-        Student student=(Student) getIntent().getSerializableExtra("student");
-
-        imgFront= findViewById(R.id.imgFront);
-        imgBack=(ImageButton) findViewById(R.id.imgBack);
-        image=(ImageView) findViewById(R.id.picture);
-
-        imgFront.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRequestPermission();
-            }
-        });
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRequestPermission();
-            }
-        });
-    }
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -74,16 +50,41 @@ public class StudentIdentity extends AppCompatActivity {
                 }
             }
     );
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_active_request_layout);
+
+        String token=getIntent().getStringExtra("token");
+        Student student=(Student) getIntent().getSerializableExtra("student");
+
+        imgFront=(ImageButton) findViewById(R.id.imgFront);
+        imgBack=(ImageButton) findViewById(R.id.imgBack);
+        image=(ImageView) findViewById(R.id.picture);
+
+
+        imgFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRequestPermission();
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRequestPermission();
+            }
+        });
+    }
+
     private void onClickRequestPermission() {
 
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
             openGallery();
         }
         else{
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_REQUEST_CODE);
+            String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
+            requestPermissions(permission,MY_REQUEST_CODE);
         }
     }
 
