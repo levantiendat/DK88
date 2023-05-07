@@ -104,8 +104,12 @@ public class StudentIdentity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPicture(mUri1,"Front");
-                uploadPicture(mUri2,"Back");
+                if(mUri1!=null){
+                    uploadPicture(mUri1,"Front");
+                }
+                if(mUri2!=null){
+                    uploadPicture(mUri2,"Back");
+                }
                 if(strFront.length()>0&&strBack.length()>0){
                     sendActive();
                 }
