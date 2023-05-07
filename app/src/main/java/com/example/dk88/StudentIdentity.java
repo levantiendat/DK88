@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -22,11 +24,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class StudentIdentity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 1000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     ImageButton imgFront,imgBack;
-    ImageView image;
+    ImageView imageFront,imageBack;
+    private int imageCode=0;
+    String token;
+    private Uri mUri1,mUri2;
+    Button btnOK;
+    String strFront="",strBack="";
+    Student student;
     private static final String TAG=StudentIdentity.class.getName();
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -42,7 +58,14 @@ public class StudentIdentity extends AppCompatActivity {
                         Uri uri=data.getData();
                         try{
                             Bitmap bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            image.setImageBitmap(bitmap);
+                            if(imageCode==1) {
+                                mUri1=uri;
+                                imageFront.setImageBitmap(bitmap);
+                            }
+                            else if(imageCode==2){
+                                mUri2=uri;
+                                imageBack.setImageBitmap(bitmap);
+                            }
                         } catch(Exception e){
                             e.printStackTrace();
                         }
@@ -55,28 +78,128 @@ public class StudentIdentity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_active_request_layout);
 
-        String token=getIntent().getStringExtra("token");
-        Student student=(Student) getIntent().getSerializableExtra("student");
+        token=getIntent().getStringExtra("token");
+        student=(Student) getIntent().getSerializableExtra("student");
 
         imgFront=(ImageButton) findViewById(R.id.imgFront);
         imgBack=(ImageButton) findViewById(R.id.imgBack);
-        image=(ImageView) findViewById(R.id.picture);
-
+        imageFront=(ImageView) findViewById(R.id.picture);
+        imageBack=(ImageView) findViewById(R.id.picture1);
+        btnOK=(Button) findViewById(R.id.ok);
 
         imgFront.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageCode=1;
                 onClickRequestPermission();
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageCode=2;
                 onClickRequestPermission();
             }
         });
-    }
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadPicture(mUri1,"Front");
+                uploadPicture(mUri2,"Back");
+                if(strFront.length()>0&&strBack.length()>0){
+                    sendActive();
+                }
 
+            }
+        });
+
+    }
+    private void uploadPicture(Uri uri,String text){
+        Map<String,Object> headers=new HashMap<>();
+        headers.put("token",token);
+        Map<String, Object> uploadInfo = new HashMap<>();
+        String strRealPath=RealPathUtil.getRealPath(this,uri);
+        File file =new File(strRealPath);
+        uploadInfo.put("file",file);
+
+        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,uploadInfo);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(StudentIdentity.this, "Error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                token = response.headers().get("token");
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(StudentIdentity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
+                if(text.compareTo("Front")==0){
+                    strFront=tmp.getData().toString();
+                }
+                else{
+                    strBack=tmp.getData().toString();
+                }
+                Toast.makeText(StudentIdentity.this, "Upload success in " + text +" picture", Toast.LENGTH_LONG).show();
+
+            }
+
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
+
+    }
+    private void sendActive(){
+        Map<String,Object> headers=new HashMap<>();
+        headers.put("token",token);
+        Map<String, Object> activeInfo = new HashMap<>();
+        activeInfo.put("requestID",1);
+        activeInfo.put("targetID",student.getStudentID());
+        activeInfo.put("requestCode",0);
+        activeInfo.put("imageFront",strFront);
+        activeInfo.put("imageBack",strBack);
+
+        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().sendActiveRequest(headers,activeInfo);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(StudentIdentity.this, "Error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                token = response.headers().get("token");
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(StudentIdentity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
+
+                Toast.makeText(StudentIdentity.this, "Your request to activation account is successfully, please wait for admin to active ", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(StudentIdentity.this,SignInActivity.class);
+                startActivity(intent);
+
+            }
+
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
+
+
+    }
     private void onClickRequestPermission() {
 
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){

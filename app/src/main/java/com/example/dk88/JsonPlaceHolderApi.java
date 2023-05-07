@@ -31,10 +31,10 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> changeProfile(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
     @POST("Request/Active")
-    Call<ResponseObject> sendActiveRequest(@Body Map<String,Object> body);
+    Call<ResponseObject> sendActiveRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @POST("Request/Ban")
-    Call<ResponseObject> sendBanRequest(@Body Map<String,Object> body);
+    Call<ResponseObject> sendBanRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @GET ("Request/Page/{page}")
     Call<ResponseObject> readRequestPage(@HeaderMap Map<String,Object> header,@Path("page") int pageID);
@@ -44,6 +44,9 @@ public interface JsonPlaceHolderApi {
 
     @POST("Request/Handle")
     Call<ResponseObject> handleRequest(@Body Map<String,Object> body);
+
+    @POST("File/UploadImage")
+    Call<ResponseObject> uploadPicture(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
 
 
 }
