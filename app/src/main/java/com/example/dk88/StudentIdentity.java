@@ -131,11 +131,11 @@ public class StudentIdentity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentIdentity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentIdentity.this, "Error picture1", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
-                token = response.headers().get("token");
+
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(StudentIdentity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
@@ -156,7 +156,7 @@ public class StudentIdentity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-
+                Toast.makeText(StudentIdentity.this, "Error_picture", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -176,7 +176,7 @@ public class StudentIdentity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentIdentity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentIdentity.this, "Error_upload1", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
@@ -198,7 +198,7 @@ public class StudentIdentity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-
+                Toast.makeText(StudentIdentity.this, "Error_UPLOAD", Toast.LENGTH_LONG).show();
             }
         });
 
