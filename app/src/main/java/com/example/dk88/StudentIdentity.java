@@ -28,6 +28,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,13 +46,14 @@ public class StudentIdentity extends AppCompatActivity {
     Button btnOK;
     String strFront="",strBack="";
     Student student;
+    int check;
     private static final String TAG=StudentIdentity.class.getName();
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.e(TAG,"onActivityResult");
+
                     if(result.getResultCode()== Activity.RESULT_OK){
                         Intent data=result.getData();
                         if(data==null){
@@ -60,10 +64,12 @@ public class StudentIdentity extends AppCompatActivity {
                             Bitmap bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                             if(imageCode==1) {
                                 mUri1=uri;
+                                Log.e(TAG, mUri1.toString());
                                 imageFront.setImageBitmap(bitmap);
                             }
                             else if(imageCode==2){
                                 mUri2=uri;
+                                Log.e(TAG, mUri2.toString());
                                 imageBack.setImageBitmap(bitmap);
                             }
                         } catch(Exception e){
@@ -104,15 +110,14 @@ public class StudentIdentity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                check=0;
                 if(mUri1!=null){
                     uploadPicture(mUri1,"Front");
                 }
                 if(mUri2!=null){
                     uploadPicture(mUri2,"Back");
                 }
-                if(strFront.length()>0&&strBack.length()>0){
-                    sendActive();
-                }
+
 
             }
         });
@@ -121,12 +126,18 @@ public class StudentIdentity extends AppCompatActivity {
     private void uploadPicture(Uri uri,String text){
         Map<String,Object> headers=new HashMap<>();
         headers.put("token",token);
-        Map<String, Object> uploadInfo = new HashMap<>();
+        //Map<String, Object> uploadInfo = new HashMap<>();
+        Log.e(TAG,uri.toString());
         String strRealPath=RealPathUtil.getRealPath(this,uri);
         File file =new File(strRealPath);
-        uploadInfo.put("file",file);
+        Log.e(TAG,file.toString());
+        Log.e(TAG,token.toString());
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        Log.e(TAG,"FileBody: "+fileBody.toString());
+        MultipartBody.Part picture =MultipartBody.Part.createFormData("file",file.getName(),fileBody);
+       // uploadInfo.put("file",file);
 
-        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,uploadInfo);
+        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -149,8 +160,11 @@ public class StudentIdentity extends AppCompatActivity {
                 else{
                     strBack=tmp.getData().toString();
                 }
+                check++;
                 Toast.makeText(StudentIdentity.this, "Upload success in " + text +" picture", Toast.LENGTH_LONG).show();
-
+                if(check==2){
+                    sendActive();
+                }
             }
 
 

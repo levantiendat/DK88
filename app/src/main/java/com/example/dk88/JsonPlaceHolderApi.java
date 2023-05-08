@@ -3,13 +3,17 @@ package com.example.dk88;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
@@ -45,8 +49,9 @@ public interface JsonPlaceHolderApi {
     @POST("Request/Handle")
     Call<ResponseObject> handleRequest(@Body Map<String,Object> body);
 
+    @Multipart
     @POST("File/UploadImage")
-    Call<ResponseObject> uploadPicture(@HeaderMap Map<String,Object> header, @Body Map<String,Object> body);
+    Call<ResponseObject> uploadPicture(@HeaderMap Map<String,Object> header, @Part MultipartBody.Part picture);
 
 
 }
