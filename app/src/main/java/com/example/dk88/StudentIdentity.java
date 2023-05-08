@@ -46,7 +46,7 @@ public class StudentIdentity extends AppCompatActivity {
     Button btnOK;
     String strFront="",strBack="";
     Student student;
-    int check;
+    int check=0;
     private static final String TAG=StudentIdentity.class.getName();
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
