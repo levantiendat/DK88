@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,11 +21,18 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,16 +70,36 @@ public class StudentIdentity extends AppCompatActivity {
                         Uri uri=data.getData();
                         try{
                             Bitmap bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            if(imageCode==1) {
-                                mUri1=uri;
-                                Log.e(TAG, mUri1.toString());
-                                imageFront.setImageBitmap(bitmap);
-                            }
-                            else if(imageCode==2){
-                                mUri2=uri;
-                                Log.e(TAG, mUri2.toString());
-                                imageBack.setImageBitmap(bitmap);
-                            }
+                            Glide.with(StudentIdentity.this)
+                                    .asBitmap()
+                                    .load(uri) // hoặc load(url)
+                                    .apply(new RequestOptions()
+                                            .override(1024, 1024)) // kích thước tối đa của ảnh sau khi nén
+                                    .into(new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                                            // bitmap đã được nén và load thành công, tiếp tục xử lý ở đây
+                                            String path=MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"Title",null);
+
+                                            if(imageCode==1) {
+                                                mUri1=Uri.parse(path);
+                                                Log.e(TAG, mUri1.toString());
+                                                imageFront.setImageBitmap(bitmap);
+                                            }
+                                            else if(imageCode==2){
+                                                mUri2=Uri.parse(path);
+                                                Log.e(TAG, mUri2.toString());
+                                                imageBack.setImageBitmap(bitmap);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                            Log.e(TAG, "Error transform");
+                                        }
+                                    });
+
+
                         } catch(Exception e){
                             e.printStackTrace();
                         }
@@ -79,6 +107,7 @@ public class StudentIdentity extends AppCompatActivity {
                 }
             }
     );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,7 +250,14 @@ public class StudentIdentity extends AppCompatActivity {
     private void onClickRequestPermission() {
 
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
-            openGallery();
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                openGallery();
+            }
+            else{
+                String[] permission={Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                requestPermissions(permission,MY_REQUEST_CODE);
+            }
+
         }
         else{
             String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
