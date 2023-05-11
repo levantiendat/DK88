@@ -44,7 +44,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> readRequestPage(@HeaderMap Map<String,Object> header,@Path("page") int pageID);
 
     @POST("Request/Detail")
-    Call<ResponseObject> readDetailRequest(@Body Map<String,Object> body);
+    Call<ResponseObject> readDetailRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @POST("Request/Handle")
     Call<ResponseObject> handleRequest(@Body Map<String,Object> body);
