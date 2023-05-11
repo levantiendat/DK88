@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="20dp"
+    android:weightSum="20"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tv001"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:text="ACTIVE REQUEST"
+
+        android:layout_weight="2"
+
+        android:layout_width="280dp"
+        android:layout_height="50dp"/>
+    <TextView
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="Full name: "
+        android:id="@+id/fullname"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_width="280dp"
+        android:layout_height="20dp"/>
+    <TextView
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="Phone number: "
+        android:id="@+id/phoneNumber"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_width="280dp"
+        android:layout_height="20dp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="Student id: "
+        android:id="@+id/studentId"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_width="280dp"
+        android:layout_height="20dp"/>
+    <TextView
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="Student id front side: "
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_width="280dp"
+        android:layout_height="20dp"/>
+    <ImageView
+        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_weight="4"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="Student id back side: "
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_width="280dp"
+        android:layout_height="20dp"/>
+    <ImageView
+        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_weight="4"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <Button
+            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button3"
+            android:text="DECLINE"
+            android:id="@+id/decline"/>
+        <Button
+            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button4"
+            android:textColor="@color/white"
+            android:text="ACCEPT"
+            android:id="@+id/accept"/>
+    </LinearLayout>
+
+
+</LinearLayout>

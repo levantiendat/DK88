@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:weightSum="20"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tv001"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:text="BAN REQUEST"
+
+        android:layout_weight="2"
+
+        android:layout_width="280dp"
+        android:layout_height="50dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="Content..."
+        android:inputType="textMultiLine"
+        android:layout_weight="6"
+        android:enabled="false"
+        android:gravity="top|start"
+        android:background="@drawable/button5"/>
+    <ListView
+        android:id="@+id/listviewPicture"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:dividerHeight="10.0sp"
+        android:divider="@android:color/transparent"
+        android:layout_height="200dp"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <Button
+            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button3"
+            android:text="DECLINE"
+            android:id="@+id/decline"/>
+        <Button
+            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button4"
+            android:textColor="@color/white"
+            android:text="ACCEPT"
+            android:id="@+id/accept"/>
+    </LinearLayout>
+
+
+</LinearLayout>
