@@ -1,6 +1,7 @@
 package com.example.dk88;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +83,17 @@ public class UserRequest extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         // Xử lý khi chọn Yes
+                        if(request.getRequestCode()==0){
 
+                        }
+                        else{
+
+                            Intent intent=new Intent(UserRequest.this,BanRequestDetail.class);
+                            intent.putExtra("token",token);
+                            intent.putExtra("request", request);
+                            startActivity(intent);
+
+                        }
                         if (mToast != null) {
                             mToast.cancel();
                         }

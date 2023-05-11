@@ -1,6 +1,8 @@
 package com.example.dk88;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable {
 
     private Integer requestID;
     private String targetID;
