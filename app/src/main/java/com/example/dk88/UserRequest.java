@@ -81,6 +81,7 @@ public class UserRequest extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         // Xử lý khi chọn Yes
+
                         if (mToast != null) {
                             mToast.cancel();
                         }
