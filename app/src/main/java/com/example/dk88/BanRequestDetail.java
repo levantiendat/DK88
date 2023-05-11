@@ -7,10 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +28,9 @@ public class BanRequestDetail extends AppCompatActivity {
     EditText edtTarget,edtDetail;
     String token;
     Request request;
+    ListView listview;
+    ArrayList<Bitmap> listBitmap=new ArrayList<Bitmap>();
+    ImageAdapter imageAdapter;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,7 @@ public class BanRequestDetail extends AppCompatActivity {
         edtTarget=(EditText) findViewById(R.id.target);
         edtDetail=(EditText) findViewById(R.id.content);
         edtTarget.setText(edtTarget.getText()+request.getTargetID());
+        listview=(ListView) findViewById(R.id.listviewPicture);
 
         getData();
 
@@ -53,7 +62,7 @@ public class BanRequestDetail extends AppCompatActivity {
                     return;
                 }
                 ResponseObject tmp = response.body();
-                String token = response.headers().get("token");
+                token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
@@ -65,6 +74,11 @@ public class BanRequestDetail extends AppCompatActivity {
                 edtDetail.setText(moreDetail);
                 List<String> listUrl= (List<String>) data.get("imageProof");
 
+                for(String url:listUrl){
+                    loadImage(url);
+                }
+                showPicture();
+
             }
 
             @Override
@@ -72,5 +86,39 @@ public class BanRequestDetail extends AppCompatActivity {
                 Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void loadImage(String url){
+        Map<String,Object> header=new HashMap<>();
+        header.put("token",token);
+        Call<CustomResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
+        call.enqueue(new Callback<CustomResponseObject>() {
+            @Override
+            public void onResponse(Call<CustomResponseObject> call, Response<CustomResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                CustomResponseObject tmp = response.body();
+                token = response.headers().get("token");
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                InputStream inputStream = tmp.byteStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                listBitmap.add(bitmap);
+            }
+
+            @Override
+            public void onFailure(Call<CustomResponseObject> call, Throwable t) {
+                Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    private void showPicture(){
+        ImageAdapter adapter = new ImageAdapter(this, listBitmap);
+        listview.setAdapter(adapter);
     }
 }

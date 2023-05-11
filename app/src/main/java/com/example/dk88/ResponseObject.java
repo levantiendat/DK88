@@ -1,5 +1,7 @@
 package com.example.dk88;
 
+import java.io.InputStream;
+
 public class ResponseObject {
     private int respCode;
     private String message;
@@ -45,5 +47,7 @@ public class ResponseObject {
     public void setData(Object data) {
         this.data = data;
     }
+
+
 
 }

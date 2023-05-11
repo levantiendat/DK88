@@ -36,7 +36,7 @@ public class UserRequestAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-    private class ViewHolder{
+    class ViewHolder{
         TextView txtstudentid;
         TextView txtstatus;
     }
