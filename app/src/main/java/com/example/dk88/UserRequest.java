@@ -1,11 +1,15 @@
 package com.example.dk88;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRequest extends AppCompatActivity {
-
+    private Toast mToast;
     Button btnPrevious, btnNext;
 
     String token="";
@@ -59,6 +63,46 @@ public class UserRequest extends AppCompatActivity {
 
             }
         });
+        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Request request = listRequest.get(position);
+                if (mToast != null) {
+                    mToast.cancel();
+                }
+                mToast = Toast.makeText(UserRequest.this,"MSSV: " +request.getTargetID(),Toast.LENGTH_LONG);
+                mToast.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserRequest.this);
+
+
+                builder.setMessage(String.format("Bạn có chắc muốn xem chi tiết request sinh viên có MSSV: %s",request.getTargetID()));
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // Xử lý khi chọn Yes
+                        if (mToast != null) {
+                            mToast.cancel();
+                        }
+                        mToast = Toast.makeText(UserRequest.this,"Detail Request MSSV: "+request.getTargetID(),Toast.LENGTH_LONG);
+                        mToast.show();
+                    }
+                });
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Xử lý khi chọn No
+                        if (mToast != null) {
+                            mToast.cancel();
+                        }
+                        mToast = Toast.makeText(UserRequest.this,"Detail Request MSSV: "+request.getTargetID(),Toast.LENGTH_LONG);
+                        mToast.show();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
     private void fillData(ArrayList<Request> listRequest){
         arrayclass.clear();
@@ -75,11 +119,15 @@ public class UserRequest extends AppCompatActivity {
                 std.setState("BAN");
             }
             arrayclass.add(std);
-            Toast.makeText(UserRequest.this, std.getStudentID(), Toast.LENGTH_LONG).show();
+
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            mToast = Toast.makeText(UserRequest.this,"Page: "+ String.valueOf(page), Toast.LENGTH_SHORT);
+            mToast.show();
         }
         adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
-        System.out.println(token);
     }
 
     private void getData(int page)

@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class UserRequestAdapter extends BaseAdapter {
+    private Toast mToast;
     private Context context;
     private int layout;
     private List<StudentStateInfo> namelist;
