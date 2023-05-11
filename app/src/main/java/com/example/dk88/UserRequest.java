@@ -74,46 +74,20 @@ public class UserRequest extends AppCompatActivity {
                 }
                 mToast = Toast.makeText(UserRequest.this,"MSSV: " +request.getTargetID(),Toast.LENGTH_LONG);
                 mToast.show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(UserRequest.this);
 
+                if (request.getRequestCode()==0){
+                    Intent intent=new Intent(UserRequest.this,ActiveRequestDetail.class);
+                    intent.putExtra("token",token);
+                    intent.putExtra("request", request);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(UserRequest.this,BanRequestDetail.class);
+                    intent.putExtra("token",token);
+                    intent.putExtra("request",request);
+                    startActivity(intent);
+                }
 
-                builder.setMessage(String.format("Bạn có chắc muốn xem chi tiết request sinh viên có MSSV: %s",request.getTargetID()));
-                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        // Xử lý khi chọn Yes
-                        if(request.getRequestCode()==0){
-
-                        }
-                        else{
-
-                            Intent intent=new Intent(UserRequest.this,BanRequestDetail.class);
-                            intent.putExtra("token",token);
-                            intent.putExtra("request", request);
-                            startActivity(intent);
-
-                        }
-                        if (mToast != null) {
-                            mToast.cancel();
-                        }
-                        mToast = Toast.makeText(UserRequest.this,"Detail Request MSSV: "+request.getTargetID(),Toast.LENGTH_LONG);
-                        mToast.show();
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // Xử lý khi chọn No
-                        if (mToast != null) {
-                            mToast.cancel();
-                        }
-                        mToast = Toast.makeText(UserRequest.this,"Detail Request MSSV: "+request.getTargetID(),Toast.LENGTH_LONG);
-                        mToast.show();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
             }
         });
     }
