@@ -41,15 +41,13 @@
         android:enabled="false"
         android:gravity="top|start"
         android:background="@drawable/button5"/>
-    <ListView
-        android:id="@+id/listviewPicture"
+    <ImageView
+        android:id="@+id/image"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:layout_weight="8"
         android:layout_width="match_parent"
-        android:dividerHeight="10.0sp"
-        android:divider="@android:color/transparent"
         android:layout_height="200dp"/>
     <LinearLayout
         android:layout_width="300dp"

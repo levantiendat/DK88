@@ -1,5 +1,6 @@
 package com.example.dk88;
 
+import static android.content.ContentValues.TAG;
 import static com.example.dk88.Student.STATUS_BAN_USER;
 import static com.example.dk88.Student.STATUS_NEW_USER;
 
@@ -10,9 +11,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,9 +34,10 @@ public class BanRequestDetail extends AppCompatActivity {
     EditText edtTarget,edtDetail;
     String token;
     Request request;
-    ListView listview;
+
+    ImageView image;
     ArrayList<Bitmap> listBitmap=new ArrayList<Bitmap>();
-    ImageAdapter imageAdapter;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class BanRequestDetail extends AppCompatActivity {
         edtTarget=(EditText) findViewById(R.id.target);
         edtDetail=(EditText) findViewById(R.id.content);
         edtTarget.setText(edtTarget.getText()+request.getTargetID());
-        listview=(ListView) findViewById(R.id.listviewPicture);
+        image=(ImageView) findViewById(R.id.image);
 
         getData();
 
@@ -75,9 +82,10 @@ public class BanRequestDetail extends AppCompatActivity {
                 List<String> listUrl= (List<String>) data.get("imageProof");
 
                 for(String url:listUrl){
+                    Log.e(TAG,url);
                     loadImage(url);
                 }
-                showPicture();
+
 
             }
 
@@ -90,35 +98,27 @@ public class BanRequestDetail extends AppCompatActivity {
     private void loadImage(String url){
         Map<String,Object> header=new HashMap<>();
         header.put("token",token);
-        Call<CustomResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
-        call.enqueue(new Callback<CustomResponseObject>() {
+        Call<ResponseBody> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<CustomResponseObject> call, Response<CustomResponseObject> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
-                CustomResponseObject tmp = response.body();
+
                 token = response.headers().get("token");
+                Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
 
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                InputStream inputStream = tmp.byteStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                listBitmap.add(bitmap);
+                // Sử dụng thư viện Picasso để hiển thị ảnh trên ImageView
+                Picasso.get().load(bitmap.toString()).into(image);
             }
 
             @Override
-            public void onFailure(Call<CustomResponseObject> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }
-    private void showPicture(){
-        ImageAdapter adapter = new ImageAdapter(this, listBitmap);
-        listview.setAdapter(adapter);
-    }
+
 }

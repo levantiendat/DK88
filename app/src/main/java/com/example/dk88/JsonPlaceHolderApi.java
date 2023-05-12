@@ -5,6 +5,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,7 +42,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> sendBanRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @GET ("Request/Page/{page}")
-    Call<ResponseObject> readRequestPage(@HeaderMap Map<String,Object> header,@Path("page") int pageID);
+    Call<ResponseObject> readRequestPage(@HeaderMap Map<String,Object> header, @Path("page") int pageID);
 
     @POST("Request/Detail")
     Call<ResponseObject> readDetailRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
@@ -54,6 +55,6 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> uploadPicture(@HeaderMap Map<String,Object> header, @Part MultipartBody.Part picture);
 
     @GET("File/GetImage/{url}")
-    Call<CustomResponseObject> readImage(@HeaderMap Map<String,Object> header,@Path("url") String url);
+    Call<ResponseBody> readImage(@HeaderMap Map<String,Object> header,@Path("url") String url);
 
 }
