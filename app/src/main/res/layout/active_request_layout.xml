@@ -6,7 +6,7 @@
     android:layout_marginTop="15dp"
     android:layout_marginBottom="15dp"
     android:layout_marginLeft="20dp"
-    android:weightSum="20"
+    android:weightSum="18"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -21,26 +21,7 @@
 
         android:layout_width="280dp"
         android:layout_height="50dp"/>
-    <TextView
-        android:textColor="@color/black"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:text="Full name: "
-        android:id="@+id/fullname"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_width="280dp"
-        android:layout_height="20dp"/>
-    <TextView
-        android:textColor="@color/black"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:text="Phone number: "
-        android:id="@+id/phoneNumber"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_width="280dp"
-        android:layout_height="20dp"/>
+
 
     <TextView
         android:textColor="@color/black"
