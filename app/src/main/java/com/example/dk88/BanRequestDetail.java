@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,7 +36,6 @@ public class BanRequestDetail extends AppCompatActivity {
     Request request;
 
     ImageView image;
-    ArrayList<Bitmap> listBitmap=new ArrayList<Bitmap>();
 
     @SuppressLint("MissingInflatedId")
     @Override
