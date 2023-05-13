@@ -5,7 +5,10 @@ import static com.example.dk88.Student.STATUS_NEW_USER;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,7 +44,10 @@ public class SignInActivity extends AppCompatActivity {
         edtPass = (EditText) findViewById(R.id.Password);
         btnSignup=(Button) findViewById(R.id.signup);
         cbRemember = (CheckBox) findViewById(R.id.checkBox);
-
+        boolean passwordVisible = false;
+        final Drawable eyeDrawable = getResources().getDrawable(R.drawable.eye);
+        eyeDrawable.setBounds(0, 0, eyeDrawable.getIntrinsicWidth(), eyeDrawable.getIntrinsicHeight());
+        edtPass.setCompoundDrawables(null, null, eyeDrawable, null);
         getPreferencesData();
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +153,23 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(SignInActivity.this,SignUpActivity.class);
                 startActivity(intent);
+            }
+        });
+        edtPass.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (edtPass.getRight() - edtPass.getCompoundDrawables()[2].getBounds().width())) {
+                        // Xử lý sự kiện bấm vào biểu tượng con mắt ở đây
+                        if (edtPass.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                            edtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        } else {
+                            edtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }
