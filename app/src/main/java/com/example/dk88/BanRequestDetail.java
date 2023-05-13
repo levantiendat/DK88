@@ -1,11 +1,11 @@
 package com.example.dk88;
-
+import org.apache.commons.codec.binary.Base64;
 import static android.content.ContentValues.TAG;
 import static com.example.dk88.Student.STATUS_BAN_USER;
 import static com.example.dk88.Student.STATUS_NEW_USER;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.Base64;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,7 @@ public class BanRequestDetail extends AppCompatActivity {
 
                 for(String url:listUrl){
                     Log.e(TAG,url);
-                    //loadImage(url);
+                    loadImage(url);
                     Toast.makeText(BanRequestDetail.this,url,Toast.LENGTH_LONG).show();
                 }
 
@@ -115,11 +116,13 @@ public class BanRequestDetail extends AppCompatActivity {
                     Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                byte[] imageBytes = (byte[]) tmp.getData();
-                // Chuyển đổi byte array thành Bitmap
-                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                // Hiển thị ảnh lên ImageView
-                image.setImageBitmap(bitmap);
+//                Log.d("MyApp", "The data type of tmp is: " + tmp.getClass().getSimpleName());
+                String base64 = tmp.getData().toString();
+
+                String base64EncodedString = Base64.getEncoder().encodeToString(base64.getBytes());
+                byte[] decodedString = Base64.decode(base64EncodedString, Base64.DEFAULT); // Giải mã chuỗi Base64 thành mảng byte
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // Tạo đối tượng Bitmap từ mảng byte đã giải mã
+                image.setImageBitmap(decodedByte); // Hiển thị đối tượng Bitmap trong ImageView
             }
 
             @Override
