@@ -84,6 +84,7 @@ public class BanRequestDetail extends AppCompatActivity {
                 for(String url:listUrl){
                     Log.e(TAG,url);
                     loadImage(url);
+                    Toast.makeText(BanRequestDetail.this,url,Toast.LENGTH_LONG).show();
                 }
 
 
@@ -98,24 +99,32 @@ public class BanRequestDetail extends AppCompatActivity {
     private void loadImage(String url){
         Map<String,Object> header=new HashMap<>();
         header.put("token",token);
-        Call<ResponseBody> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
+        call.enqueue(new Callback<ResponseObject>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 token = response.headers().get("token");
-                Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
 
-                // Sử dụng thư viện Picasso để hiển thị ảnh trên ImageView
-                Picasso.get().load(bitmap.toString()).into(image);
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                byte[] imageBytes = (byte[]) tmp.getData();
+                // Chuyển đổi byte array thành Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                // Hiển thị ảnh lên ImageView
+                image.setImageBitmap(bitmap);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
                 Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
