@@ -53,6 +53,7 @@ public class BanRequestDetail extends AppCompatActivity {
 
         getData();
 
+
     }
     private void getData(){
         Map<String,Object> header=new HashMap<>();
