@@ -175,10 +175,10 @@ public class BanRequestDetail extends AppCompatActivity {
                     return;
                 }
                 if(accept){
-                    Toast.makeText(BanRequestDetail.this,"Your ban request is accepted",Toast.LENGTH_LONG).show();
+                    Toast.makeText(BanRequestDetail.this,"BAN SUCCESSFULLY",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(BanRequestDetail.this,"Your ban request is decline",Toast.LENGTH_LONG).show();
+                    Toast.makeText(BanRequestDetail.this,"DECLINED SUCCESSFULLY",Toast.LENGTH_LONG).show();
                 }
                 Intent intent=new Intent(BanRequestDetail.this,UserRequest.class);
                 intent.putExtra("token",token);

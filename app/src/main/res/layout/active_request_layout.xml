@@ -43,6 +43,7 @@
         android:layout_width="280dp"
         android:layout_height="20dp"/>
     <ImageView
+        android:id="@+id/imgFront"
         android:layout_height="100dp"
         android:layout_width="300dp"
         android:layout_gravity="center"
@@ -58,6 +59,7 @@
         android:layout_width="280dp"
         android:layout_height="20dp"/>
     <ImageView
+        android:id="@+id/imgBack"
         android:layout_height="100dp"
         android:layout_width="300dp"
         android:layout_gravity="center"
