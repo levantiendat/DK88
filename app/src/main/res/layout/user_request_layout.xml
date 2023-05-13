@@ -35,12 +35,6 @@
             android:layout_width="280dp"
             android:layout_height="50dp"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/set002"
-            android:layout_marginLeft="3dp"
-            android:background="@drawable/search"/>
     </LinearLayout>
     <ListView
         android:id="@+id/lwclass"
