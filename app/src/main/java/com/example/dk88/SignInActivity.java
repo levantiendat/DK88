@@ -28,6 +28,7 @@ public class SignInActivity extends AppCompatActivity {
     Button btnSignin,btnSignup;
     EditText edtUser, edtPass;
     CheckBox cbRemember;
+    boolean passwordVisible = false;
     SharedPreferences mPrefs;
     static final String PREFS_NAME="PrefsFile";
 
@@ -44,7 +45,7 @@ public class SignInActivity extends AppCompatActivity {
         edtPass = (EditText) findViewById(R.id.Password);
         btnSignup=(Button) findViewById(R.id.signup);
         cbRemember = (CheckBox) findViewById(R.id.checkBox);
-        boolean passwordVisible = false;
+
         final Drawable eyeDrawable = getResources().getDrawable(R.drawable.eye);
         eyeDrawable.setBounds(0, 0, eyeDrawable.getIntrinsicWidth(), eyeDrawable.getIntrinsicHeight());
         edtPass.setCompoundDrawables(null, null, eyeDrawable, null);
@@ -161,10 +162,12 @@ public class SignInActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (edtPass.getRight() - edtPass.getCompoundDrawables()[2].getBounds().width())) {
                         // Xử lý sự kiện bấm vào biểu tượng con mắt ở đây
-                        if (edtPass.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                            edtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        } else {
+                        passwordVisible = !passwordVisible;
+
+                        if (passwordVisible) {
                             edtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        } else {
+                            edtPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                         }
                         return true;
                     }
