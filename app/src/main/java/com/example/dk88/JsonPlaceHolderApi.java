@@ -48,7 +48,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> readDetailRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @POST("Request/Handle")
-    Call<ResponseObject> handleRequest(@Body Map<String,Object> body);
+    Call<ResponseObject> handleRequest(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
     @Multipart
     @POST("File/UploadImage")

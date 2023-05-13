@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,6 +41,8 @@ public class BanRequestDetail extends AppCompatActivity {
 
     ImageView image;
 
+    Button btnAccept,btnDecline;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +55,22 @@ public class BanRequestDetail extends AppCompatActivity {
         edtDetail=(EditText) findViewById(R.id.content);
         edtTarget.setText(edtTarget.getText()+request.getTargetID());
         image=(ImageView) findViewById(R.id.image);
+        btnAccept=(Button) findViewById(R.id.accept);
+        btnDecline=(Button) findViewById(R.id.decline);
 
         getData();
-
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAccept(true);
+            }
+        });
+        btnDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAccept(false);
+            }
+        });
 
     }
     private void getData(){
@@ -125,6 +142,47 @@ public class BanRequestDetail extends AppCompatActivity {
                 byte[] decodedString = Base64.decode(base64, Base64.DEFAULT); // Giải mã chuỗi Base64 thành mảng byte
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // Tạo đối tượng Bitmap từ mảng byte đã giải mã
                 image.setImageBitmap(decodedByte); // Hiển thị đối tượng Bitmap trong ImageView
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    private void isAccept(Boolean accept){
+        Map<String,Object> header=new HashMap<>();
+        header.put("token",token);
+        Map<String,Object> handle =new HashMap<>();
+        handle.put("requestID",request.getRequestID());
+        handle.put("targetID",request.getTargetID());
+        handle.put("requestCode",request.getRequestCode());
+        handle.put("isAccepted",accept);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().handleRequest(header,handle);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(BanRequestDetail.this, "Error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                token=response.headers().get("token");
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(BanRequestDetail.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(accept){
+                    Toast.makeText(BanRequestDetail.this,"Your ban request is accepted",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(BanRequestDetail.this,"Your ban request is decline",Toast.LENGTH_LONG).show();
+                }
+                Intent intent=new Intent(BanRequestDetail.this,UserRequest.class);
+                intent.putExtra("token",token);
+                startActivity(intent);
             }
 
             @Override
