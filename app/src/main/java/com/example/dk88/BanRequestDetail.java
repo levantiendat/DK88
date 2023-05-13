@@ -82,7 +82,7 @@ public class BanRequestDetail extends AppCompatActivity {
 
                 for(String url:listUrl){
                     Log.e(TAG,url);
-                    loadImage(url);
+                    //loadImage(url);
                     Toast.makeText(BanRequestDetail.this,url,Toast.LENGTH_LONG).show();
                 }
 
