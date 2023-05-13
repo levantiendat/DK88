@@ -4,9 +4,11 @@ import static com.example.dk88.Student.STATUS_BAN_USER;
 import static com.example.dk88.Student.STATUS_NEW_USER;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,15 +24,25 @@ import retrofit2.Response;
 public class SignInActivity extends AppCompatActivity {
     Button btnSignin,btnSignup;
     EditText edtUser, edtPass;
+    CheckBox cbRemember;
+    SharedPreferences mPrefs;
+    static final String PREFS_NAME="PrefsFile";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_layout);
+
+        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
         btnSignin = (Button) findViewById(R.id.signin1);
         edtUser = (EditText) findViewById(R.id.Username);
         edtPass = (EditText) findViewById(R.id.Password);
         btnSignup=(Button) findViewById(R.id.signup);
+        cbRemember = (CheckBox) findViewById(R.id.checkBox);
+
+        getPreferencesData();
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +64,21 @@ public class SignInActivity extends AppCompatActivity {
                             Toast.makeText(SignInActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
+
+                        if (cbRemember.isChecked()){
+                            Boolean boolIsChecked = cbRemember.isChecked();
+                            SharedPreferences.Editor editor = mPrefs.edit();
+                            editor.putString("pref_name",edtUser.getText().toString());
+                            editor.putString("pref_pass",edtPass.getText().toString());
+                            editor.putBoolean("pref_check",boolIsChecked);
+                            editor.apply();
+                            Toast.makeText(SignInActivity.this, "Settings have been saved",Toast.LENGTH_LONG).show();
+                        }else{
+                            mPrefs.edit().clear().apply();
+                        }
+
+
+
                         Map<String, Object> data = (Map<String, Object>) tmp.getData();
 
                         Integer userRole = Math.toIntExact(Math.round(Double.parseDouble(data.get("roleCode").toString())));
@@ -67,7 +94,8 @@ public class SignInActivity extends AppCompatActivity {
                             intent.putExtra("token",token);
                             intent.putExtra("admin",admin);
                             startActivity(intent);
-
+                            edtUser.getText().clear();
+                            edtPass.getText().clear();
                         }
                         else{
                             Student student=new Student();
@@ -83,16 +111,22 @@ public class SignInActivity extends AppCompatActivity {
                                 intent.putExtra("token",token);
                                 intent.putExtra("student",student);
                                 startActivity(intent);
+                                edtUser.getText().clear();
+                                edtPass.getText().clear();
                             }
                             else if(student.getStatus()==STATUS_BAN_USER){
                                 Intent intent=new Intent(SignInActivity.this,StudentBanStatus.class);
                                 startActivity(intent);
+                                edtUser.getText().clear();
+                                edtPass.getText().clear();
                             }
                             else{
                                 Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
                                 intent.putExtra("token",token);
                                 intent.putExtra("student",student);
                                 startActivity(intent);
+                                edtUser.getText().clear();
+                                edtPass.getText().clear();
                             }
 
                         }
@@ -115,7 +149,21 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
+    private void getPreferencesData(){
+        SharedPreferences sp = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        if (sp.contains("pref_name")){
+            String u = sp.getString("pref_name","not found");
+            edtUser.setText(u.toString());
+        }
+        if (sp.contains("pref_pass")){
+            String p = sp.getString("pref_pass","not found");
+            edtPass.setText(p.toString());
+        }
+        if (sp.contains("pref_check")){
+            Boolean b = sp.getBoolean("pref_check",false);
+            cbRemember.setChecked(b);
+        }
     }
 }
