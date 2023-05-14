@@ -30,7 +30,7 @@ public class SignInActivity extends AppCompatActivity {
     CheckBox cbRemember;
     boolean passwordVisible = false;
     SharedPreferences mPrefs;
-    static final String PREFS_NAME="PrefsFile";
+    static final String PREFS_NAME="PASSWORD_PREFS_NAME";
 
 
     @Override
