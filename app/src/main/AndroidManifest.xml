@@ -25,9 +25,6 @@
             android:name=".ActiveRequestDetail"
             android:exported="false" />
         <activity
-            android:name=".TradeProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".AvailableClassActivity"
             android:exported="false" />
         <activity

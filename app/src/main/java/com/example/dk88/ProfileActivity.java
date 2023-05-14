@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -41,6 +43,27 @@ public class ProfileActivity extends AppCompatActivity {
 
         edtName.setText(student.getName());
         edtPhone.setText(student.getPhoneNumber());
+
+
+//        StudentClass temp1 = new StudentClass("102210096","1",1);
+//        StudentClass temp2 = new StudentClass("102210096","2",1);
+//        StudentClass temp3 = new StudentClass("102210096","3",1);
+//        StudentClass temp4 = new StudentClass("102210096","4",0);
+//
+//        DatabaseHandler db = new DatabaseHandler(ProfileActivity.this);
+//        db.addStudentClass(temp1);
+//        db.addStudentClass(temp2);
+//        db.addStudentClass(temp3);
+//        db.addStudentClass(temp4);
+//
+//        ArrayList<StudentClass> listStudent = new ArrayList<StudentClass>();
+//        listStudent = (ArrayList<StudentClass>) db.getAllStudentClass();
+//        for (int i=0; i<listStudent.size();i++){
+//            Toast.makeText(ProfileActivity.this,listStudent.get(i).getClassId().toString(),Toast.LENGTH_LONG).show();
+//        }
+
+
+
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +135,9 @@ public class ProfileActivity extends AppCompatActivity {
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(ProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
 
+                            Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
+                            intent.putExtra("token",token);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -122,6 +148,9 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(ProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
+                    intent.putExtra("token",token);
+                    startActivity(intent);
                 }
 
             }

@@ -1,6 +1,12 @@
 package com.example.dk88;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +21,8 @@ public class AvailableClassActivity extends AppCompatActivity {
     ListView listview1;
     ArrayList<GroupInfo> arrayclass;
 
+    ImageView imgSetting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +30,22 @@ public class AvailableClassActivity extends AppCompatActivity {
         function();
         adddata();
         listview1.setAdapter(adapter);
+        imgSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this);
+
+                Window window = dialog.getWindow();
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                window.setGravity(Gravity.CENTER);
+
+                dialog.show();
+
+            }
+        });
     }
     private void function(){
+        imgSetting = (ImageView) findViewById(R.id.set001);
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
         adapter=new ListGroupAdapter(this, R.layout.list_group_item_layout, arrayclass);
@@ -37,4 +59,5 @@ public class AvailableClassActivity extends AppCompatActivity {
         arrayclass.add(new GroupInfo("1022654.2220.21.13A",1,3));
         listview1.setAdapter(adapter);
     }
+
 }
