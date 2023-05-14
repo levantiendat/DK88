@@ -21,6 +21,11 @@ public class Student extends User {
         this.studentID = studentID;
         this.status = status;
     }
+    public Student(Student x) {
+        super(x.getUserName(), x.getName(), x.getPhoneNumber(), User.ROLE_CODE_STUDENT);
+        this.studentID = x.getStudentID();
+        this.status = x.getStatus();
+    }
 
     public Student(String userName, String name, String phoneNumber, String studentID) {
         super(userName, name, phoneNumber, User.ROLE_CODE_STUDENT);

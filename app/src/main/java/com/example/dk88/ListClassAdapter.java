@@ -1,10 +1,14 @@
 package com.example.dk88;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,6 +17,7 @@ public class ListClassAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<GroupInfo> namelist;
+    private View.OnClickListener deleteClickListener;
 
     public ListClassAdapter(Context context, int layout, List<GroupInfo> namelist) {
         this.context = context;
@@ -38,6 +43,9 @@ public class ListClassAdapter extends BaseAdapter {
         TextView txtclass;
 
     }
+    public void setOnDeleteClickListener(View.OnClickListener listener) {
+        deleteClickListener = listener;
+    }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder holder;
@@ -57,7 +65,10 @@ public class ListClassAdapter extends BaseAdapter {
         }
         GroupInfo classname = namelist.get(position);
         holder.txtclass.setText(classname.getLophp());
-
+        ImageButton deleteButton = view.findViewById(R.id.image_delete);
+        if (deleteClickListener != null) {
+            deleteButton.setOnClickListener(deleteClickListener);
+        }
 
 
 

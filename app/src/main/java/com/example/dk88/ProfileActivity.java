@@ -136,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
+                            intent.putExtra("student",student);
                             intent.putExtra("token",token);
                             startActivity(intent);
                         }
@@ -150,6 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
                     intent.putExtra("token",token);
+                    intent.putExtra("student",student);
                     startActivity(intent);
                 }
 

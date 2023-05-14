@@ -57,4 +57,6 @@ public interface JsonPlaceHolderApi {
     @GET("File/GetImage/{url}")
     Call<ResponseObject> readImage(@HeaderMap Map<String,Object> header,@Path("url") String url);
 
+    @POST("Class/ChangeClass")
+    Call<ResponseObject> changeClass(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 }

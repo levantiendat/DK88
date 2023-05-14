@@ -22,18 +22,22 @@ public class AvailableClassActivity extends AppCompatActivity {
     ArrayList<GroupInfo> arrayclass;
 
     ImageView imgSetting;
+    String token="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_available_layout);
+        token=getIntent().getStringExtra("token");
+        Student student=(Student) getIntent().getSerializableExtra("student");
         function();
         adddata();
         listview1.setAdapter(adapter);
         imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this);
+                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this,token, student.getStudentID());
 
                 Window window = dialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
