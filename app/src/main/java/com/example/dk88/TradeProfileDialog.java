@@ -42,6 +42,7 @@ public class TradeProfileDialog extends Dialog implements
         this.context = context;
         this.token=token;
         //this.student=new Student(student);
+
         this.studentID=studentID;
 
     }
@@ -57,6 +58,7 @@ public class TradeProfileDialog extends Dialog implements
         edtNeed=(EditText) findViewById(R.id.classNeed);
         edtNotNeed=(EditText) findViewById(R.id.classNo);
         function();
+        getFromSQL();
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +89,7 @@ public class TradeProfileDialog extends Dialog implements
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addToSQL();
                 Map<String,Object> headers=new HashMap<>();
                 headers.put("token",token);
                 Map<String,Object> detail=new HashMap<>();
@@ -135,5 +138,29 @@ public class TradeProfileDialog extends Dialog implements
     @Override
     public void onClick(View view) {
 
+    }
+    private void addToSQL(){
+        DatabaseHandler db=new DatabaseHandler(context);
+        ArrayList<StudentClass> list=new ArrayList<>();
+        for(GroupInfo info:arrayclass){
+            list.add(new StudentClass(studentID, info.getLophp(), 1));
+        }
+        list.add(new StudentClass(studentID,edtNeed.getText().toString(),0));
+        for(StudentClass studentClass:list){
+            db.addStudentClass(studentClass);
+        }
+    }
+    private void getFromSQL(){
+        DatabaseHandler db=new DatabaseHandler(context);
+        ArrayList<StudentClass> list= (ArrayList<StudentClass>) db.getAllStudentClass();
+        for(StudentClass info:list){
+            if(info.getHave()==1){
+                arrayclass.add(new GroupInfo(info.getClassId(), 0,0));
+            }
+            else{
+                edtNeed.setText(info.getClassId());
+            }
+        }
+        listview1.setAdapter(adapter);
     }
 }
