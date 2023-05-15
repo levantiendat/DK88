@@ -59,4 +59,10 @@ public interface JsonPlaceHolderApi {
 
     @POST("Class/ChangeClass")
     Call<ResponseObject> changeClass(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
+
+    @GET ("Class/QueryClass/{id}")
+    Call<ResponseObject> getNewQueryClass(@HeaderMap Map<String,Object> header, @Path("id") int id);
+
+
+
 }

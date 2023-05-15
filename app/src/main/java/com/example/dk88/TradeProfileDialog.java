@@ -58,7 +58,7 @@ public class TradeProfileDialog extends Dialog implements
         edtNeed=(EditText) findViewById(R.id.classNeed);
         edtNotNeed=(EditText) findViewById(R.id.classNo);
         function();
-        getFromSQL();
+        getFromSQL(studentID);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,9 +150,9 @@ public class TradeProfileDialog extends Dialog implements
             db.addStudentClass(studentClass);
         }
     }
-    private void getFromSQL(){
+    private void getFromSQL(String id){
         DatabaseHandler db=new DatabaseHandler(context);
-        ArrayList<StudentClass> list= (ArrayList<StudentClass>) db.getAllStudentClass();
+        ArrayList<StudentClass> list= (ArrayList<StudentClass>) db.getStudentClass(id);
         for(StudentClass info:list){
             if(info.getHave()==1){
                 arrayclass.add(new GroupInfo(info.getClassId(), 0,0));

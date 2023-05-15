@@ -1,19 +1,29 @@
 package com.example.dk88;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Tag;
 
 
 public class AvailableClassActivity extends AppCompatActivity {
@@ -23,6 +33,17 @@ public class AvailableClassActivity extends AppCompatActivity {
 
     ImageView imgSetting;
     String token="";
+    SharedPreferences mPrefs;
+    static final String PREFS_NAME="idQUERY_PREFS_NAME";
+
+    Map<String, List<String>> haveClass = new HashMap<>();
+    Map<String, String> needClass = new HashMap<>();
+    Map<String, StudentRequest> studentRequestMap = new HashMap<>();
+    Graph g = new Graph();
+
+    Student student;
+
+
 
 
     @Override
@@ -30,10 +51,17 @@ public class AvailableClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_available_layout);
         token=getIntent().getStringExtra("token");
-        Student student=(Student) getIntent().getSerializableExtra("student");
+        student=(Student) getIntent().getSerializableExtra("student");
         function();
         adddata();
         listview1.setAdapter(adapter);
+
+        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int latestId = mPrefs.getInt("latest_id", 0);
+        getData(latestId);
+
+
+
         imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,12 +84,128 @@ public class AvailableClassActivity extends AppCompatActivity {
 
     }
     private void adddata(){
-        arrayclass.add(new GroupInfo("1020252.2220.21.14",2,5));
-        arrayclass.add(new GroupInfo("1023713.2220.21.14",1,3));
-        arrayclass.add(new GroupInfo("1022853.2220.21.14A",1,3));
-        arrayclass.add(new GroupInfo("1023453.2220.21.13A",0,2));
-        arrayclass.add(new GroupInfo("1022654.2220.21.13A",1,3));
+
         listview1.setAdapter(adapter);
+    }
+
+
+    private void getData(int id){
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getNewQueryClass(headers,id);
+
+        call.enqueue(new Callback<ResponseObject>() {
+
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                List<Map<String, Object>> data = (List<Map<String, Object>>) tmp.getData();
+
+                DatabaseHandler db = new DatabaseHandler(AvailableClassActivity.this);
+                for (Map<String, Object> query: data)
+                {
+                    int latestId = mPrefs.getInt("latest_id", 0);
+
+                    Integer id = Integer.valueOf("" + Math.round(Double.parseDouble(query.get("idQuery").toString())));
+                    latestId = Math.max(latestId, id);
+                    SharedPreferences.Editor editor = mPrefs.edit();
+                    editor.putInt("latest_id", latestId);
+                    editor.apply();
+
+
+                    String targetID = query.get("targetID").toString();
+                    String wantClass = query.get("wantClass").toString();
+                    ArrayList<String> haveClass = (ArrayList<String>) query.get("haveClass");
+
+                    if (db.isStudentClassExists(targetID)){
+                        db.deleteStudentClass(targetID);
+                        StudentClass temp = new StudentClass(targetID,wantClass,0);
+                        db.addStudentClass(temp);
+
+                        for (String have: haveClass){
+                            StudentClass tp = new StudentClass(targetID,have, 1);
+                            db.addStudentClass(tp);
+                        }
+
+
+                    }else{
+                        StudentClass temp = new StudentClass(targetID,wantClass,0);
+                        db.addStudentClass(temp);
+
+                        for (String have: haveClass){
+                            StudentClass tp = new StudentClass(targetID,have, 1);
+                            db.addStudentClass(tp);
+                        }
+                    }
+                }
+                ArrayList<StudentClass> rows= (ArrayList<StudentClass>) db.getAllStudentClass();
+                for (StudentClass row: rows){
+                    String targetID = row.getStudentId();
+                    String classID = row.getClassId();
+                    Integer have = row.getHave();
+                    if (studentRequestMap.containsKey(targetID)==false){
+                        studentRequestMap.put(targetID, new StudentRequest(targetID, "", new ArrayList<>()));
+                    }
+
+                    if (have==0){
+                        studentRequestMap.get(targetID).setWant(row.getClassId());
+
+                    }else{
+                        studentRequestMap.get(targetID).getHave().add(classID);
+                    }
+                }
+
+                for (Map.Entry<String, StudentRequest> entry : studentRequestMap.entrySet()) {
+                    String key = entry.getKey();
+                    StudentRequest value = entry.getValue();
+                    needClass.put(key,value.getWant());
+                    for (String classID: value.getHave()){
+                        haveClass.putIfAbsent(classID, new ArrayList<>());
+                        haveClass.get(classID).add(key);
+                    }
+                }
+
+                Graph g = new Graph();
+                for (Map.Entry<String, StudentRequest> entry : studentRequestMap.entrySet()) {
+                    String key = entry.getKey();
+                    StudentRequest value = entry.getValue();
+                    g.addVertex(key);
+                    List<String> listAvailable = haveClass.get(value.getWant());
+                    if (listAvailable!=null){
+                        for (String availableStudent : haveClass.get(value.getWant())) {
+                            g.addEdge(key, availableStudent);
+                        }
+                    }
+                }
+
+
+                ArrayList<String> res = new ArrayList<>();
+                res=g.printAllCycles(student.getStudentID());
+
+                Toast.makeText(AvailableClassActivity.this,res.get(1).toString(),Toast.LENGTH_LONG).show();
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
     }
 
 }

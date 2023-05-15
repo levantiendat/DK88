@@ -73,6 +73,38 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return studentClassList;
     }
 
+    public List<StudentClass> getStudentClass(String ID) {
+        List<StudentClass>  studentClassList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME+" WHERE studentId="+ID;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        while(cursor.isAfterLast() == false) {
+            StudentClass studentClass = new StudentClass(cursor.getString(0), cursor.getString(1), cursor.getInt(2));
+            studentClassList.add(studentClass);
+            cursor.moveToNext();
+        }
+        return studentClassList;
+    }
+
+    public void deleteStudentClass(String studentId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "studentId=?", new String[]{studentId});
+        db.close();
+    }
+    public boolean isStudentClassExists(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE studentId = ?", new String[]{studentId});
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
+
+
+
 
 
 }
