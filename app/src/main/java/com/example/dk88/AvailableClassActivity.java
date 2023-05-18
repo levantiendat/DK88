@@ -189,13 +189,14 @@ public class AvailableClassActivity extends AppCompatActivity {
                 }
 
 
-                ArrayList<String> res = new ArrayList<>();
+                ArrayList<ArrayList<String>> res = new ArrayList<>();
                 res=g.printAllCycles(student.getStudentID());
 
-                Toast.makeText(AvailableClassActivity.this,res.get(1).toString(),Toast.LENGTH_LONG).show();
-
-
-
+//                Toast.makeText(AvailableClassActivity.this,res.get(1).toString(),Toast.LENGTH_LONG).show();
+                for (ArrayList<String> availableClass: res){
+                    Log.d("CYCLE", needClass.get(availableClass.get(availableClass.size()-1)));
+//                    Toast.makeText(AvailableClassActivity.this,availableClass.toString(),Toast.LENGTH_LONG).show();
+                }
 
 
 
