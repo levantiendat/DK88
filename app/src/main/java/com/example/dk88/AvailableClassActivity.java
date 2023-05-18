@@ -191,9 +191,14 @@ public class AvailableClassActivity extends AppCompatActivity {
 
 
                 ArrayList<ArrayList<String>> res = new ArrayList<>();
-                res=g.printAllCycles(student.getStudentID());
 
-                fillData(res);
+                try {
+                    res = g.printAllCycles(student.getStudentID());
+
+                    fillData(res);
+                }catch (Exception e){
+
+                }
             }
 
             @Override
