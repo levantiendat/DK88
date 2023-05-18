@@ -1,10 +1,7 @@
 package com.example.dk88;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -23,7 +20,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Tag;
 
 
 public class AvailableClassActivity extends AppCompatActivity {
@@ -52,9 +48,10 @@ public class AvailableClassActivity extends AppCompatActivity {
         setContentView(R.layout.group_available_layout);
         token=getIntent().getStringExtra("token");
         student=(Student) getIntent().getSerializableExtra("student");
-        function();
-        adddata();
-        listview1.setAdapter(adapter);
+        imgSetting = (ImageView) findViewById(R.id.set001);
+        listview1=(ListView) findViewById(R.id.lwclass);
+        arrayclass =new ArrayList<>();
+
 
         mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int latestId = mPrefs.getInt("latest_id", 0);
@@ -76,18 +73,22 @@ public class AvailableClassActivity extends AppCompatActivity {
             }
         });
     }
-    private void function(){
-        imgSetting = (ImageView) findViewById(R.id.set001);
-        listview1=(ListView) findViewById(R.id.lwclass);
-        arrayclass =new ArrayList<>();
-        adapter=new ListGroupAdapter(this, R.layout.list_group_item_layout, arrayclass);
 
-    }
-    private void adddata(){
 
+
+    private void fillData(ArrayList<ArrayList<String>> listClass){
+        arrayclass.clear();
+        for (ArrayList<String> group: listClass){
+            GroupInfo temp= new GroupInfo();
+            temp.setLophp(needClass.get(group.get(group.size()-1)));
+            temp.setCurrent(0);
+            temp.setMax(group.size()-1);
+            arrayclass.add(temp);
+        }
+        adapter = new ListGroupAdapter(this, R.layout.list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
-    }
 
+    }
 
     private void getData(int id){
         Map<String, Object> headers = new HashMap<>();
@@ -192,14 +193,7 @@ public class AvailableClassActivity extends AppCompatActivity {
                 ArrayList<ArrayList<String>> res = new ArrayList<>();
                 res=g.printAllCycles(student.getStudentID());
 
-//                Toast.makeText(AvailableClassActivity.this,res.get(1).toString(),Toast.LENGTH_LONG).show();
-                for (ArrayList<String> availableClass: res){
-                    Log.d("CYCLE", needClass.get(availableClass.get(availableClass.size()-1)));
-//                    Toast.makeText(AvailableClassActivity.this,availableClass.toString(),Toast.LENGTH_LONG).show();
-                }
-
-
-
+                fillData(res);
             }
 
             @Override
