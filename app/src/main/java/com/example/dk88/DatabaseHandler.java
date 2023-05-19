@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     public List<StudentClass> getStudentClass(String ID) {
         List<StudentClass>  studentClassList = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_NAME+" WHERE studentId="+ID;
+        String query = "SELECT * FROM " + TABLE_NAME+" WHERE studentId="+ "'" +ID+"'" ;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -86,6 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             studentClassList.add(studentClass);
             cursor.moveToNext();
         }
+        Log.d("ERROR DB", String.valueOf(studentClassList.size()));
         return studentClassList;
     }
 

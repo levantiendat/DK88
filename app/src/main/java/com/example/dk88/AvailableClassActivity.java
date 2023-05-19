@@ -80,7 +80,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         arrayclass.clear();
         for (ArrayList<String> group: listClass){
             GroupInfo temp= new GroupInfo();
-            temp.setLophp(needClass.get(group.get(group.size()-1)));
+            temp.setLophp(needClass.get(group.get(group.size()-2)));
             temp.setCurrent(0);
             temp.setMax(group.size()-1);
             arrayclass.add(temp);
@@ -124,8 +124,11 @@ public class AvailableClassActivity extends AppCompatActivity {
                     editor.apply();
 
 
+                    String wantClass="";
                     String targetID = query.get("targetID").toString();
-                    String wantClass = query.get("wantClass").toString();
+                    if (query.get("wantClass")!=null){
+                        wantClass = query.get("wantClass").toString();
+                    }
                     ArrayList<String> haveClass = (ArrayList<String>) query.get("haveClass");
 
                     if (db.isStudentClassExists(targetID)){
