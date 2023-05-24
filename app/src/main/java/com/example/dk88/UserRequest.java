@@ -1,19 +1,15 @@
 package com.example.dk88;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +34,7 @@ public class UserRequest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_request_layout);
+        setContentView(R.layout.admin_list_request_item_layout);
         token=getIntent().getStringExtra("token");
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
@@ -113,7 +109,7 @@ public class UserRequest extends AppCompatActivity {
             mToast = Toast.makeText(UserRequest.this,"Page: "+ String.valueOf(page), Toast.LENGTH_SHORT);
             mToast.show();
         }
-        adapter=new UserRequestAdapter(this, R.layout.list_group_item_layout, arrayclass);
+        adapter=new UserRequestAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
     }
 

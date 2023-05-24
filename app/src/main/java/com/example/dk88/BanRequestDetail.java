@@ -1,8 +1,6 @@
 package com.example.dk88;
 
 import static android.content.ContentValues.TAG;
-import static com.example.dk88.Student.STATUS_BAN_USER;
-import static com.example.dk88.Student.STATUS_NEW_USER;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
@@ -16,20 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +38,7 @@ public class BanRequestDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ban_request_layout);
+        setContentView(R.layout.admin_ban_request_layout);
         token=getIntent().getStringExtra("token");
         request= (Request) getIntent().getSerializableExtra("request");
 

@@ -2,19 +2,15 @@ package com.example.dk88;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +47,7 @@ public class TradeProfileDialog extends Dialog implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.trade_profile_dialog_layout);
+        setContentView(R.layout.student_trade_profile_dialog_layout);
         btnAdd=(Button) findViewById(R.id.add);
         btnSave=(Button) findViewById(R.id.save);
         btnCancel=(Button) findViewById(R.id.cancel);
@@ -127,7 +123,7 @@ public class TradeProfileDialog extends Dialog implements
     private void function(){
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
-        adapter=new ListClassAdapter(context, R.layout.list_class_item_layout, arrayclass);
+        adapter=new ListClassAdapter(context, R.layout.student_list_class_item_layout, arrayclass);
 
     }
     private void adddata(String classNo){

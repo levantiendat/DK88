@@ -45,7 +45,7 @@ public class AvailableClassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.group_available_layout);
+        setContentView(R.layout.student_list_group_layout);
         token=getIntent().getStringExtra("token");
         student=(Student) getIntent().getSerializableExtra("student");
         imgSetting = (ImageView) findViewById(R.id.set001);
@@ -85,7 +85,7 @@ public class AvailableClassActivity extends AppCompatActivity {
             temp.setMax(group.size()-1);
             arrayclass.add(temp);
         }
-        adapter = new ListGroupAdapter(this, R.layout.list_group_item_layout, arrayclass);
+        adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
 
     }

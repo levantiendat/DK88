@@ -9,6 +9,6 @@ public class ReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.report_layout);
+        setContentView(R.layout.student_report_layout);
     }
 }
