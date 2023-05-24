@@ -9,7 +9,7 @@ public class StudentBanStatus extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ban_status_layout);
+        setContentView(R.layout.banned_status_layout);
 
     }
 }

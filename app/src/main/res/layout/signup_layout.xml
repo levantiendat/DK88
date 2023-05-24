@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Full name"/>
     <EditText
         android:layout_weight="1"
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Phone number"/>
     <EditText
 
@@ -51,7 +51,7 @@
 
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Student ID"/>
     <EditText
 
@@ -64,7 +64,7 @@
 
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="FaceBook Link"/>
     <EditText
         android:layout_marginTop="15dp"
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Username"/>
     <EditText
         android:drawableRight="@drawable/eye"
@@ -88,7 +88,7 @@
         android:inputType="textPassword"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Password"/>
     <EditText
         android:drawableRight="@drawable/eye"
@@ -101,7 +101,7 @@
         android:inputType="textPassword"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/edt1"
+        android:background="@drawable/black_bordered_frame"
         android:hint="Confirm Password"/>
 
     <Button
@@ -113,7 +113,7 @@
         android:layout_gravity="center"
         android:textSize="20dp"
         android:textColor="#F8F8F6"
-        android:background="@drawable/button2"
+        android:background="@drawable/black_bordered_button"
 
         android:text="Register" />
     <LinearLayout

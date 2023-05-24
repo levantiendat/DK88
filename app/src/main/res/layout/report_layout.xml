@@ -30,7 +30,7 @@
 
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/khungvuong"
+        android:background="@drawable/black_frame"
         android:hint="Target id..."/>
     <EditText
         android:gravity="top"
@@ -42,7 +42,7 @@
 
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/khungvuong"
+        android:background="@drawable/black_frame"
         android:hint="Report problem..."/>
 
     <CheckBox
@@ -66,7 +66,7 @@
         android:layout_height="60dp"
         >
         <Button
-            android:background="@drawable/button3"
+            android:background="@drawable/mini_white_bordered_button"
 
 
             android:text="CANCEL"
@@ -80,7 +80,7 @@
 
             android:layout_alignParentRight="true"
 
-            android:background="@drawable/button4"
+            android:background="@drawable/mini_black_bordered_button"
             android:text="SAVE"
             android:textColor="@color/white" />
     </RelativeLayout>

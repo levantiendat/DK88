@@ -76,7 +76,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/button3"
+            android:background="@drawable/mini_white_bordered_button"
             android:text="DECLINE"
             android:id="@+id/decline"/>
         <Button
@@ -84,7 +84,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/button4"
+            android:background="@drawable/mini_black_bordered_button"
             android:textColor="@color/white"
             android:text="ACCEPT"
             android:id="@+id/accept"/>

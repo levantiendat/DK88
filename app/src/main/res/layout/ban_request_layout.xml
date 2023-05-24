@@ -25,7 +25,7 @@
     <EditText
         android:layout_weight="1"
         android:text="Student ID need to ban: "
-        android:background="@drawable/button5"
+        android:background="@drawable/white_button"
         android:layout_width="match_parent"
         android:id="@+id/target"
         android:enabled="false"
@@ -40,7 +40,7 @@
         android:layout_weight="6"
         android:enabled="false"
         android:gravity="top|start"
-        android:background="@drawable/button5"/>
+        android:background="@drawable/white_button"/>
     <ImageView
         android:id="@+id/image"
         android:layout_marginLeft="20dp"
@@ -61,7 +61,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/button3"
+            android:background="@drawable/mini_white_bordered_button"
             android:text="DECLINE"
             android:id="@+id/decline"/>
         <Button
@@ -69,7 +69,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/button4"
+            android:background="@drawable/mini_black_bordered_button"
             android:textColor="@color/white"
             android:text="ACCEPT"
             android:id="@+id/accept"/>

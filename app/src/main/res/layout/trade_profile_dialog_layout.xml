@@ -39,7 +39,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/khungvuong"
+        android:background="@drawable/black_frame"
         android:hint="Class id..."
         />
     <TextView
@@ -68,7 +68,7 @@
             android:layout_weight="7"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/khungvuong"
+            android:background="@drawable/black_frame"
             android:hint="Add class..."
             />
         <Button
@@ -79,7 +79,7 @@
             android:text="ADD"
             android:textColor="#FBFBFB"
             android:layout_marginRight="20dp"
-            android:background="@drawable/button6"
+            android:background="@drawable/black_button"
             />
     </LinearLayout>
     <ListView
@@ -108,7 +108,7 @@
             android:text="CANCEL"
             android:id="@+id/cancel"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/button3"
+            android:background="@drawable/mini_white_bordered_button"
             />
         <Button
             android:layout_width="50dp"
@@ -118,7 +118,7 @@
             android:layout_marginLeft="70dp"
             android:text="SAVE"
             android:textColor="#FBFBFB"
-            android:background="@drawable/button4"
+            android:background="@drawable/mini_black_bordered_button"
             />
     </LinearLayout>
 

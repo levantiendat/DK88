@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 
-    android:background="@drawable/khungvuong"
+    android:background="@drawable/black_frame"
 
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
