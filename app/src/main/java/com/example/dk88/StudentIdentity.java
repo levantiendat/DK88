@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -246,19 +248,31 @@ public class StudentIdentity extends AppCompatActivity {
     }
     private void onClickRequestPermission() {
 
-        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
-            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
+            } else {
+                String[] permission = {Manifest.permission.READ_MEDIA_IMAGES};
+                requestPermissions(permission, MY_REQUEST_CODE);
+            }
+        } else {
+            if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
+                if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                    openGallery();
+                }
+                else{
+                    String[] permission={Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permission,MY_REQUEST_CODE);
+                }
+
             }
             else{
-                String[] permission={Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
                 requestPermissions(permission,MY_REQUEST_CODE);
             }
-
-        }
-        else{
-            String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
-            requestPermissions(permission,MY_REQUEST_CODE);
         }
     }
 
@@ -270,6 +284,7 @@ public class StudentIdentity extends AppCompatActivity {
                 openGallery();
             }
         }
+
     }
 
     private void openGallery() {
