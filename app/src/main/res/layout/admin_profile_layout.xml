@@ -19,49 +19,12 @@
 
         android:textSize="30dp"
         android:textStyle="bold" />
-    <TextView
-        android:id="@+id/tw2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="60dp"
-        android:layout_weight="1"
-        android:text="Leave it empty means keep the old password"
-        android:textColor="@color/black"
 
-        android:textSize="20dp"
-        android:textStyle="bold" />
-    <EditText
-        android:drawableRight="@drawable/eye"
-        android:drawableLeft="@drawable/key"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"
-        android:id="@+id/Password"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/black_bordered_frame"
-        android:hint="Old password"/>
-    <EditText
-        android:drawableRight="@drawable/eye"
-        android:drawableLeft="@drawable/key"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:id="@+id/Password1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/black_bordered_frame"
-        android:hint="New password"/>
     <TextView
         android:id="@+id/tw3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+
         android:layout_marginLeft="40dp"
         android:layout_marginRight="60dp"
         android:layout_weight="1"
@@ -105,7 +68,46 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/black_bordered_frame"
         android:hint="Email"/>
+    <TextView
+        android:id="@+id/tw2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        android:text="Leave it empty means keep the old password"
+        android:textColor="@color/black"
 
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <EditText
+
+        android:drawableLeft="@drawable/key"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/Password"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:inputType="textPassword"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/black_bordered_frame"
+        android:hint="Old password"/>
+    <EditText
+
+        android:drawableLeft="@drawable/key"
+        android:inputType="textPassword"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:id="@+id/Password1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/black_bordered_frame"
+        android:hint="New password"/>
 
 
     <Button

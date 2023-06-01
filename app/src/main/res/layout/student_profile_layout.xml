@@ -80,7 +80,7 @@
         android:textSize="20dp"
         android:textStyle="bold" />
     <EditText
-        android:drawableRight="@drawable/eye"
+
         android:drawableLeft="@drawable/key"
         android:layout_weight="1"
         android:layout_marginTop="20dp"
@@ -91,9 +91,10 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/black_bordered_frame"
+        android:inputType="textPassword"
         android:hint="Old password"/>
     <EditText
-        android:drawableRight="@drawable/eye"
+
         android:drawableLeft="@drawable/key"
         android:layout_weight="1"
         android:layout_marginTop="10dp"
@@ -104,6 +105,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/black_bordered_frame"
+        android:inputType="textPassword"
         android:hint="New password"/>
 
 

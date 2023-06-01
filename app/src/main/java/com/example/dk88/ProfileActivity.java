@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText edtOld,edtNew,edtName,edtPhone;
+    EditText edtOld,edtNew,edtName,edtPhone,edtFacebook;
     Button btnOK;
     TextView txtGetAdmin;
     @SuppressLint("MissingInflatedId")
@@ -37,10 +37,11 @@ public class ProfileActivity extends AppCompatActivity {
         edtPhone=(EditText) findViewById(R.id.phone);
         btnOK=(Button) findViewById(R.id.ok);
         txtGetAdmin=(TextView) findViewById(R.id.getAdmin1);
-
+        edtFacebook=(EditText) findViewById(R.id.facebookLink);
 
         edtName.setText(student.getName());
         edtPhone.setText(student.getPhoneNumber());
+        edtFacebook.setText(student.getFacebook());
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
                     changeInfo.put("userName", student.getUserName());
                     changeInfo.put("name", edtName.getText().toString());
                     changeInfo.put("phoneNumber", edtPhone.getText().toString());
+                    changeInfo.put("facebook",edtFacebook.getText().toString());
                     changeInfo.put("roleCode", student.getRoleCode());
 
                     Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers,changeInfo);
