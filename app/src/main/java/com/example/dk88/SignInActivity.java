@@ -3,19 +3,29 @@ package com.example.dk88;
 import static com.example.dk88.Student.STATUS_BAN_USER;
 import static com.example.dk88.Student.STATUS_NEW_USER;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
@@ -30,6 +40,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText edtUser, edtPass;
     ImageView btnEye;
     CheckBox cbRemember;
+    TextView showAdmin;
     boolean passwordVisible = false;
     SharedPreferences mPrefs;
     static final String PREFS_NAME="PASSWORD_PREFS_NAME";
@@ -48,9 +59,15 @@ public class SignInActivity extends AppCompatActivity {
         btnSignup=(Button) findViewById(R.id.signup);
         cbRemember = (CheckBox) findViewById(R.id.checkBox);
         btnEye=(ImageView) findViewById(R.id.eyeIcon);
-
+        showAdmin=(TextView) findViewById(R.id.show) ;
 
         getPreferencesData();
+        showAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAdminInformationPopup();
+            }
+        });
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,5 +204,28 @@ public class SignInActivity extends AppCompatActivity {
             Boolean b = sp.getBoolean("pref_check",false);
             cbRemember.setChecked(b);
         }
+    }
+    private void showAdminInformationPopup() {
+        Context context = SignInActivity.this;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
+
+        // Xây dựng AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialogView);
+        builder.setCancelable(true);
+
+        AlertDialog dialog = builder.create();
+        // Thiết lập kích thước cho dialog
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.9);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.9);
+        layoutParams.width = width;
+        layoutParams.height = height;
+        dialog.getWindow().setAttributes(layoutParams);
+
+        // Hiển thị dialog dưới dạng dialog
+        dialog.show();
     }
 }

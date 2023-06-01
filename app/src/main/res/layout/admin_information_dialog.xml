@@ -17,7 +17,7 @@
         android:text="ADMIN INFORMATION"
         android:textColor="@color/black"
 
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/tw3"
@@ -27,7 +27,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_weight="1"
-        android:text="Nguyễn Vũ Khánh Uy\n\nnguyenvukhanhuy@gmail.com\n\n0385307441"
+        android:text="Nguyễn Vũ Khánh Uy\nnguyenvukhanhuy@gmail.com\n0385307441\n\n"
         android:textColor="@color/black"
 
         android:textSize="20dp"
@@ -40,9 +40,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_weight="3"
-        android:text="Send email to admin with format:\n\n
-        *  Title: student id, summary the problem. Ex: 102210240 – Forgot password\n\n
-        *  Content: Detail about the problem, image"
+        android:text="Send email to admin with format:\n*  Title: student id, summary the problem. Ex: 102210240 – Forgot password\n*  Content: Detail about the problem, image\n\n\n\n\n"
         android:textColor="@color/black"
 
         android:textSize="20dp"
