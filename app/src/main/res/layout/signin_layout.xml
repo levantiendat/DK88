@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+
         android:background="@drawable/black_bordered_frame"
         android:hint="Username"/>
     <FrameLayout
@@ -40,33 +41,45 @@
         android:layout_marginTop="35dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginBottom="0dp"
         android:layout_weight="1"
-        android:background="@drawable/black_bordered_frame"
-        >
-        <ImageView
-            android:id="@+id/keyIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:src="@drawable/key" />
-        <EditText
+        android:background="@drawable/black_bordered_frame">
 
-
-            android:id="@+id/Password"
-            android:layout_height="wrap_content"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:inputType="textPassword"
-            android:hint="Password"/>
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/eyeIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:src="@drawable/eye" />
+            <ImageView
+                android:id="@+id/keyIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/key" />
+
+            <ImageView
+                android:id="@+id/eyeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/eye" />
+
+            <EditText
+                android:id="@+id/Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/eyeIcon"
+                android:layout_toEndOf="@id/keyIcon"
+                android:inputType="textPassword"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:hint="Password" />
+
+        </RelativeLayout>
+
     </FrameLayout>
+
 
     <CheckBox
         android:id="@+id/checkBox"
