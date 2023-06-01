@@ -22,6 +22,12 @@
             android:name=".StudentDashboard"
             android:exported="false" />
         <activity
+            android:name=".AdminDashboard"
+            android:exported="false"
+            android:windowContentTransitions="true">
+
+        </activity>
+        <activity
             android:name=".BanRequestDetail"
             android:exported="false" />
         <activity

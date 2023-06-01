@@ -59,7 +59,6 @@ public class AdminDashboard extends AppCompatActivity {
             public void onClick(View view) {
             }
         });
-
-
     }
+
 }

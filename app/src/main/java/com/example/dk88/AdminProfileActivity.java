@@ -1,8 +1,10 @@
 package com.example.dk88;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.transition.Slide;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +24,8 @@ import retrofit2.Response;
 public class AdminProfileActivity extends AppCompatActivity {
     EditText edtOld,edtNew,edtName,edtPhone,edtEmail;
     Button btnOK;
+    String token;
+    Admin admin;
 
 
     @SuppressLint("MissingInflatedId")
@@ -28,8 +33,8 @@ public class AdminProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_profile_layout);
-        String token=getIntent().getStringExtra("token");
-        Admin admin=(Admin) getIntent().getSerializableExtra("admin");
+        token=getIntent().getStringExtra("token");
+        admin=(Admin) getIntent().getSerializableExtra("admin");
 
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
@@ -131,5 +136,15 @@ public class AdminProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+        intent.putExtra("token", token);
+        intent.putExtra("admin", admin);
+
+        // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
     }
 }

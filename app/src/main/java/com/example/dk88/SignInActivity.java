@@ -130,6 +130,7 @@ public class SignInActivity extends AppCompatActivity {
                             student.setPhoneNumber(data.get("phoneNumber").toString());
                             student.setStatus(Math.toIntExact(Math.round(Double.parseDouble(data.get("status").toString()))));
                             student.setStudentID(data.get("studentID").toString());
+                            student.setFacebook(data.get("facebook").toString());
 
                             if(student.getStatus()==STATUS_NEW_USER){
                                 Intent intent = new Intent(SignInActivity.this, StudentIdentity.class);
