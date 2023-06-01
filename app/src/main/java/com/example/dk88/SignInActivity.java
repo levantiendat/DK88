@@ -146,7 +146,7 @@ public class SignInActivity extends AppCompatActivity {
                                 edtPass.getText().clear();
                             }
                             else{
-                                Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
+                                Intent intent = new Intent(SignInActivity.this, StudentDashboard.class);
                                 intent.putExtra("token",token);
                                 intent.putExtra("student",student);
                                 startActivity(intent);
