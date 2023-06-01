@@ -35,8 +35,8 @@
         android:background="@drawable/black_bordered_frame"
         android:hint="Username"/>
     <EditText
-        android:drawableRight="@drawable/eye"
-        android:drawableLeft="@drawable/key"
+        android:drawableEnd="@drawable/eye"
+        android:drawableStart="@drawable/key"
         android:layout_weight="1"
         android:layout_marginTop="35dp"
         android:id="@+id/Password"
@@ -48,6 +48,7 @@
         android:background="@drawable/black_bordered_frame"
         android:inputType="textPassword"
         android:hint="Password"/>
+
 
     <CheckBox
         android:id="@+id/checkBox"
