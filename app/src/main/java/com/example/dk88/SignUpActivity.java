@@ -23,6 +23,7 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     Button btnOk;
     TextView back;
+
     boolean passwordVisible = false;
     EditText edtFullName, edtPhone, edtID,edtUser,edtPass,edtFacebook,edtPass1;
     @Override

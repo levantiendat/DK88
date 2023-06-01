@@ -34,21 +34,39 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/black_bordered_frame"
         android:hint="Username"/>
-    <EditText
-        android:drawableEnd="@drawable/eye"
-        android:drawableStart="@drawable/key"
-        android:layout_weight="1"
-        android:layout_marginTop="35dp"
-        android:id="@+id/Password"
-        android:layout_height="wrap_content"
+    <FrameLayout
         android:layout_width="match_parent"
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_weight="1"
         android:background="@drawable/black_bordered_frame"
-        android:inputType="textPassword"
-        android:hint="Password"/>
+        >
+        <ImageView
+            android:id="@+id/keyIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/key" />
+        <EditText
 
+
+            android:id="@+id/Password"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:inputType="textPassword"
+            android:hint="Password"/>
+
+        <ImageView
+            android:id="@+id/eyeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/eye" />
+    </FrameLayout>
 
     <CheckBox
         android:id="@+id/checkBox"
