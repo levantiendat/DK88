@@ -3,7 +3,7 @@ package com.example.dk88;
 public class ActiveRequest extends Request {
 
     private String imageFront;
-    private String imageBack;
+    private String imageBack    ;
 
 
     public ActiveRequest() {

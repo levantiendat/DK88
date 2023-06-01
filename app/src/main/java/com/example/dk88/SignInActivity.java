@@ -98,9 +98,9 @@ public class SignInActivity extends AppCompatActivity {
                             admin.setPhoneNumber(data.get("phoneNumber").toString());
                             admin.setRoleCode(userRole);
 
-                            Intent intent = new Intent(SignInActivity.this, AdminProfileActivity.class);
-                            intent.putExtra("token",token);
-                            intent.putExtra("admin",admin);
+                            Intent intent = new Intent(SignInActivity.this, AdminDashboard.class);
+//                            intent.putExtra("token",token);
+//                            intent.putExtra("admin",admin);
                             startActivity(intent);
                             edtUser.getText().clear();
                             edtPass.getText().clear();
