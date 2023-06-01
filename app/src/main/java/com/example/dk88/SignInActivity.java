@@ -99,8 +99,8 @@ public class SignInActivity extends AppCompatActivity {
                             admin.setRoleCode(userRole);
 
                             Intent intent = new Intent(SignInActivity.this, AdminDashboard.class);
-//                            intent.putExtra("token",token);
-//                            intent.putExtra("admin",admin);
+                            intent.putExtra("token",token);
+                            intent.putExtra("admin",admin);
                             startActivity(intent);
                             edtUser.getText().clear();
                             edtPass.getText().clear();
