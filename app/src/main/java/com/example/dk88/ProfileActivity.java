@@ -2,15 +2,19 @@ package com.example.dk88;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
@@ -26,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtGetAdmin;
     String token;
     Student student;
+    TextView getAdmin;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +49,19 @@ public class ProfileActivity extends AppCompatActivity {
         btnBack=(Button) findViewById(R.id.back);
         txtGetAdmin=(TextView) findViewById(R.id.getAdmin1);
         edtFacebook=(EditText) findViewById(R.id.facebookLink);
+        getAdmin=(TextView) findViewById(R.id.getAdmin1);
 
         edtName.setText(student.getName());
         edtPhone.setText(student.getPhoneNumber());
         edtFacebook.setText(student.getFacebook());
 
 
-
+        getAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAdminInformationPopup();
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,5 +179,28 @@ public class ProfileActivity extends AppCompatActivity {
         // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 
+    }
+    private void showAdminInformationPopup() {
+        Context context = ProfileActivity.this;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
+
+        // Xây dựng AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialogView);
+        builder.setCancelable(true);
+
+        AlertDialog dialog = builder.create();
+        // Thiết lập kích thước cho dialog
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.9);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.9);
+        layoutParams.width = width;
+        layoutParams.height = height;
+        dialog.getWindow().setAttributes(layoutParams);
+
+        // Hiển thị dialog dưới dạng dialog
+        dialog.show();
     }
 }
