@@ -62,9 +62,8 @@ public class AdminProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if((edtOld.getText().toString().compareTo("")==0&&edtName.getText().toString().compareTo(admin.getName())==0)
                         &&(edtEmail.getText().toString().compareTo(admin.getEmail())==0 &&edtPhone.getText().toString().compareTo(admin.getPhoneNumber())==0)){
-                    Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
-                    intent.putExtra("token",token);
-                    startActivity(intent);
+                    Toast.makeText(AdminProfileActivity.this,"Nothing change information",Toast.LENGTH_LONG).show();
+
                 }
                 if(edtOld.getText().toString().compareTo("")!=0){
                     if(edtOld.getText().toString().compareTo(edtNew.getText().toString())==0){
@@ -94,6 +93,10 @@ public class AdminProfileActivity extends AppCompatActivity {
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                                 String userRole = response.headers().get("UserRole");
                                 Toast.makeText(AdminProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                                intent.putExtra("admin",admin);
+                                intent.putExtra("token",token);
+                                startActivity(intent);
                             }
 
                             @Override
@@ -129,7 +132,8 @@ public class AdminProfileActivity extends AppCompatActivity {
                             Map<String, Object> data = (Map<String, Object>) tmp.getData();
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(AdminProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                            Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                            intent.putExtra("admin",admin);
                             intent.putExtra("token",token);
                             startActivity(intent);
                         }
@@ -141,10 +145,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
-                    intent.putExtra("admin",admin);
-                    intent.putExtra("token",token);
-                    startActivity(intent);
+                    Toast.makeText(AdminProfileActivity.this,"Nothing change information",Toast.LENGTH_LONG).show();
                 }
 
             }
