@@ -60,6 +60,7 @@ public class AvailableClassActivity extends AppCompatActivity {
 
         mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int latestId = mPrefs.getInt("latest_id", 0);
+        Toast.makeText(AvailableClassActivity.this,String.valueOf(latestId),Toast.LENGTH_LONG).show();
         getData(latestId);
 
 
@@ -214,7 +215,20 @@ public class AvailableClassActivity extends AppCompatActivity {
                 try {
                     res = g.printAllCycles(studentID);
 
+                    for (ArrayList<String> cycle: res){
+                        String groupId=cycle.get(0);
+                        for (int i=1;i<cycle.size();i++){
+                            groupId+="-"+cycle.get(i);
+                        }
+                        Toast.makeText(AvailableClassActivity.this,groupId,Toast.LENGTH_LONG).show();
+                    }
+
                     fillData(res);
+
+
+
+
+
                 }catch (Exception e){
 
                 }
