@@ -3,10 +3,12 @@ package com.example.dk88;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,6 +41,7 @@ public class AvailableClassActivity extends AppCompatActivity {
     Button btnPrevious, btnNext;
 
     ImageView imgSetting;
+    ImageView imgReload;
     String token="";
     SharedPreferences mPrefs;
     static final String PREFS_NAME="idQUERY_PREFS_NAME";
@@ -53,9 +56,9 @@ public class AvailableClassActivity extends AppCompatActivity {
 
     Map<Integer, ArrayList<GroupInfo>> pageContent;
     Map<String, Integer> isPage;
-    volatile int maxPage=0;
-    volatile int currentPage=1;
-    volatile int maxElementPerPage=2;
+    int maxPage=0;
+    int currentPage=1;
+    int maxElementPerPage=2;
 
 
 
@@ -70,10 +73,15 @@ public class AvailableClassActivity extends AppCompatActivity {
         btnPrevious=(Button) findViewById(R.id.previous);
         ivBack = (ImageView) findViewById(R.id.back);
         imgSetting = (ImageView) findViewById(R.id.set001);
+        imgReload = (ImageView) findViewById(R.id.reload);
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
         pageContent = new HashMap<>();
         isPage = new HashMap<>();
+
+//
+//        int latestId = mPrefs.getInt("latest_id", 0);
+//        getData(latestId);
 
 //        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 //        int latestId = mPrefs.getInt("latest_id", 0);
@@ -82,27 +90,44 @@ public class AvailableClassActivity extends AppCompatActivity {
 
 //        QueryThread queryThread = new QueryThread();
 //        queryThread.start();
-
+//
 //        GroupInfoThread groupInfoThread = new GroupInfoThread();
 //        groupInfoThread.start();
+
+        imgReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                int latestId = mPrefs.getInt("latest_id", 0);
+                arrayclass.clear();
+                pageContent.clear();
+                isPage.clear();
+                studentRequestMap.clear();
+                haveClass.clear();
+                needClass.clear();
+                getData(latestId);
+            }
+
+        });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(AvailableClassActivity.this,"NEXT",Toast.LENGTH_LONG).show();
+                Toast.makeText(AvailableClassActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
                     fillPage(currentPage);
+                    updateGroupInfo();
                 }
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(AvailableClassActivity.this,"PREVIOUS",Toast.LENGTH_LONG).show();
+                Toast.makeText(AvailableClassActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
                     fillPage(currentPage);
+                    updateGroupInfo();
                 }
 
             }
@@ -132,10 +157,61 @@ public class AvailableClassActivity extends AppCompatActivity {
 
             }
         });
+
+        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 
+    private void updateGroupInfo(){
+        ArrayList<String> groupIds = new ArrayList<>();
+        Log.e("ERROR FUCK FUCK", String.valueOf(currentPage));
+        for (GroupInfo temp: pageContent.get(currentPage)){
+            groupIds.add(temp.getGroupID());
+        }
 
+        for (int i=0;i<groupIds.size();i++){
+            Map<String,Object> headers=new HashMap<>();
+            headers.put("token",token);
+
+            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers,groupIds.get(i));
+            int finalI = i;
+            call.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (!response.isSuccessful())
+                    {
+                        Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ResponseObject tmp = response.body();
+                    if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                    {
+                        Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                    ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
+
+                    arrayclass.get(finalI).setCurrent(voteYes.size());
+                }
+
+
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+                }
+            });
+
+        }
+        adapter.notifyDataSetChanged();
+    }
     private void fillPage(int pageNumber){
+//        Log.e("ERRROR FUCK", String.valueOf(pageNumber));
+//        Log.e("ERRROR FUCK", String.valueOf(pageContent.get(pageNumber).size()));
         arrayclass.clear();
         if (pageContent.get(pageNumber)!=null) {
             for (GroupInfo temp : pageContent.get(pageNumber)) {
@@ -169,9 +245,6 @@ public class AvailableClassActivity extends AppCompatActivity {
 
             i+=1;
         }
-
-//        fillPage(currentPage);
-
     }
     private String findGroupId (ArrayList<String> cycle){
         cycle.remove(cycle.size()-1);
@@ -207,13 +280,13 @@ public class AvailableClassActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()){
-                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Map<String, Object>> data = (List<Map<String, Object>>) tmp.getData();
@@ -304,6 +377,8 @@ public class AvailableClassActivity extends AppCompatActivity {
                 try {
                     res = g.printAllCycles(studentID);
                     prepareAllData(res);
+                    fillPage(currentPage);
+                    updateGroupInfo();
                 }catch (Exception e){
 
                 }
@@ -311,7 +386,7 @@ public class AvailableClassActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(AvailableClassActivity.this,"Error load class available",Toast.LENGTH_LONG).show();
+                Toast.makeText(AvailableClassActivity.this,"Error load class available",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -334,7 +409,7 @@ public class AvailableClassActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(AvailableClassActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_LONG).show();
+                            Toast.makeText(AvailableClassActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_SHORT).show();
                         }
                     });
                     Thread.sleep(time);
@@ -369,22 +444,19 @@ public class AvailableClassActivity extends AppCompatActivity {
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                                 if (!response.isSuccessful())
                                 {
-                                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 ResponseObject tmp = response.body();
                                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                                 {
-                                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                                 ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
 
                                 arrayclass.get(finalI).setCurrent(voteYes.size());
-
-
-
 
                             }
 
@@ -395,7 +467,12 @@ public class AvailableClassActivity extends AppCompatActivity {
                         });
 
                     }
-                    adapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
 
                     Thread.sleep(time);
                 } catch (InterruptedException ex) {
