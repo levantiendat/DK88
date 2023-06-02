@@ -128,7 +128,7 @@ public class TradeProfileDialog extends Dialog implements
     }
     private void adddata(String classNo){
 
-        arrayclass.add(new GroupInfo(classNo,0,0));
+        arrayclass.add(new GroupInfo(classNo,0,0,""));
         listview1.setAdapter(adapter);
     }
     @Override
@@ -151,7 +151,7 @@ public class TradeProfileDialog extends Dialog implements
         ArrayList<StudentClass> list= (ArrayList<StudentClass>) db.getStudentClass(id);
         for(StudentClass info:list){
             if(info.getHave()==1){
-                arrayclass.add(new GroupInfo(info.getClassId(), 0,0));
+                arrayclass.add(new GroupInfo(info.getClassId(), 0,0,""));
             }
             else{
                 edtNeed.setText(info.getClassId());

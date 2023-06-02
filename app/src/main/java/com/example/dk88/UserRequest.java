@@ -48,13 +48,6 @@ public class UserRequest extends AppCompatActivity {
         getData(page);
 
         listview1.setAdapter(adapter);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                page+=1;
-                getData(page);
-            }
-        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +55,13 @@ public class UserRequest extends AppCompatActivity {
                 intent.putExtra("admin",admin);
                 intent.putExtra("token",token);
                 startActivity(intent);
+            }
+        });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page+=1;
+                getData(page);
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener() {

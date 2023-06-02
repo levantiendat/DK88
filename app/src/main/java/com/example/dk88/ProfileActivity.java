@@ -157,10 +157,6 @@ public class ProfileActivity extends AppCompatActivity {
                         });
                     } else {
                         Toast.makeText(ProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
-                        intent.putExtra("studentID", studentID);
-                        intent.putExtra("token", token);
-                        startActivity(intent);
                     }
                 }
 

@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,13 +16,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+
 
 
 public class AvailableClassActivity extends AppCompatActivity {
@@ -29,6 +35,7 @@ public class AvailableClassActivity extends AppCompatActivity {
     ListGroupAdapter adapter;
     ListView listview1;
     ArrayList<GroupInfo> arrayclass;
+    Button btnPrevious, btnNext;
 
     ImageView imgSetting;
     String token="";
@@ -43,6 +50,12 @@ public class AvailableClassActivity extends AppCompatActivity {
     String studentID;
     String userName;
 
+    Map<Integer, ArrayList<GroupInfo>> pageContent;
+    Map<String, Integer> isPage;
+    int maxPage=0;
+    int currentPage=1;
+    int maxElementPerPage=2;
+
 
 
     @Override
@@ -52,18 +65,35 @@ public class AvailableClassActivity extends AppCompatActivity {
         token=getIntent().getStringExtra("token");
         studentID=getIntent().getStringExtra("studentID");
         userName=getIntent().getStringExtra("userName");
+        btnNext=(Button) findViewById(R.id.next);
+        btnPrevious=(Button) findViewById(R.id.previous);
         ivBack = (ImageView) findViewById(R.id.back);
         imgSetting = (ImageView) findViewById(R.id.set001);
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
+        pageContent = new HashMap<>();
+        isPage = new HashMap<>();
 
 
-        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        int latestId = mPrefs.getInt("latest_id", 0);
-        Toast.makeText(AvailableClassActivity.this,String.valueOf(latestId),Toast.LENGTH_LONG).show();
-        getData(latestId);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPage+1<=maxPage) {
+                    currentPage += 1;
+                    fillPage(currentPage);
+                }
+            }
+        });
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentPage>1){
+                    currentPage-=1;
+                    fillPage(currentPage);
+                }
 
-
+            }
+        });
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,19 +122,65 @@ public class AvailableClassActivity extends AppCompatActivity {
     }
 
 
-
-    private void fillData(ArrayList<ArrayList<String>> listClass){
+    private void fillPage(int pageNumber){
         arrayclass.clear();
+        if (pageContent.get(pageNumber)!=null) {
+            for (GroupInfo temp : pageContent.get(pageNumber)) {
+                arrayclass.add(temp);
+            }
+            adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
+            listview1.setAdapter(adapter);
+        }
+
+    }
+    private void prepareAllData(ArrayList<ArrayList<String>> listClass){
+        arrayclass.clear();
+
+        int i=0;
+        int page=1;
         for (ArrayList<String> group: listClass){
             GroupInfo temp= new GroupInfo();
             temp.setLophp(needClass.get(group.get(group.size()-2)));
             temp.setCurrent(0);
             temp.setMax(group.size()-1);
-            arrayclass.add(temp);
-        }
-        adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
-        listview1.setAdapter(adapter);
+            temp.setGroupID(findGroupId(group));
 
+            if (i==maxElementPerPage){
+                page+=1;
+                i=0;
+            }
+            isPage.put(temp.getGroupID(),page);
+            pageContent.putIfAbsent(page, new ArrayList<>());
+            pageContent.get(page).add(temp);
+            maxPage = Math.max(maxPage,page);
+
+            i+=1;
+        }
+
+//        fillPage(currentPage);
+
+    }
+    private String findGroupId (ArrayList<String> cycle){
+        cycle.remove(cycle.size()-1);
+        ArrayList<String> mergedCycle = new ArrayList<>(cycle);
+        mergedCycle.addAll(cycle);
+
+        String smallestElement = Collections.min(mergedCycle);
+        String groupID = "";
+        int startPosition = mergedCycle.indexOf(smallestElement);
+
+        ArrayList<String> res= new ArrayList<>();
+        res.add(cycle.get(startPosition));
+        for (int i=startPosition+1;i<mergedCycle.size();i++){
+            if (mergedCycle.get(i)==smallestElement){
+                break;
+            }
+            res.add(mergedCycle.get(i));
+        }
+
+        String delimiter = "-";
+        groupID=String.join(delimiter,res);
+        return  groupID;
     }
 
     private void getData(int id){
@@ -214,21 +290,7 @@ public class AvailableClassActivity extends AppCompatActivity {
 
                 try {
                     res = g.printAllCycles(studentID);
-
-                    for (ArrayList<String> cycle: res){
-                        String groupId=cycle.get(0);
-                        for (int i=1;i<cycle.size();i++){
-                            groupId+="-"+cycle.get(i);
-                        }
-                        Toast.makeText(AvailableClassActivity.this,groupId,Toast.LENGTH_LONG).show();
-                    }
-
-                    fillData(res);
-
-
-
-
-
+                    prepareAllData(res);
                 }catch (Exception e){
 
                 }
@@ -240,12 +302,21 @@ public class AvailableClassActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
-        intent.putExtra("studentID",studentID);
-        intent.putExtra("token",token);
-        intent.putExtra("userName",userName);
-        startActivity(intent);
+
+    class QueryThread implements Runnable{
+        @Override
+        public void run() {
+            while (true){
+                try {
+                    Thread.sleep(1000);
+                    mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                    int latestId = mPrefs.getInt("latest_id", 0);
+                    getData(latestId);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
     }
 }
