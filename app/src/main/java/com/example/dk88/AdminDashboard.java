@@ -9,7 +9,7 @@ import android.view.View;
 
 public class AdminDashboard extends AppCompatActivity {
     CardView cvUsers, cvRequest, cvProfile, cvLogout;
-
+    int swipe=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,5 +60,6 @@ public class AdminDashboard extends AppCompatActivity {
             }
         });
     }
+
 
 }

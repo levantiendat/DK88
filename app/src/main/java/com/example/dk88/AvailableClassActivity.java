@@ -40,8 +40,8 @@ public class AvailableClassActivity extends AppCompatActivity {
     Map<String, StudentRequest> studentRequestMap = new HashMap<>();
     Graph g = new Graph();
 
-    Student student;
-
+    String studentID;
+    String userName;
 
 
 
@@ -50,8 +50,8 @@ public class AvailableClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_list_group_layout);
         token=getIntent().getStringExtra("token");
-        student=(Student) getIntent().getSerializableExtra("student");
-
+        studentID=getIntent().getStringExtra("studentID");
+        userName=getIntent().getStringExtra("userName");
         ivBack = (ImageView) findViewById(R.id.back);
         imgSetting = (ImageView) findViewById(R.id.set001);
         listview1=(ListView) findViewById(R.id.lwclass);
@@ -68,8 +68,9 @@ public class AvailableClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
-                intent.putExtra("student",student);
+                intent.putExtra("studentID",studentID);
                 intent.putExtra("token",token);
+                intent.putExtra("userName",userName);
                 startActivity(intent);
             }
         });
@@ -77,7 +78,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this,token, student.getStudentID());
+                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this,token, studentID);
 
                 Window window = dialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
@@ -211,7 +212,7 @@ public class AvailableClassActivity extends AppCompatActivity {
                 ArrayList<ArrayList<String>> res = new ArrayList<>();
 
                 try {
-                    res = g.printAllCycles(student.getStudentID());
+                    res = g.printAllCycles(studentID);
 
                     fillData(res);
                 }catch (Exception e){
@@ -221,13 +222,16 @@ public class AvailableClassActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-
+                Toast.makeText(AvailableClassActivity.this,"Error load class available",Toast.LENGTH_LONG).show();
             }
         });
     }
     @Override
     public void onBackPressed() {
-
-
+        Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
+        intent.putExtra("studentID",studentID);
+        intent.putExtra("token",token);
+        intent.putExtra("userName",userName);
+        startActivity(intent);
     }
 }
