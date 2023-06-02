@@ -1,6 +1,7 @@
 package com.example.dk88;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,14 +23,16 @@ public class ProfileActivity extends AppCompatActivity {
     EditText edtOld,edtNew,edtName,edtPhone,edtFacebook;
     Button btnOK;
     TextView txtGetAdmin;
+    String token;
+    Student student;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_profile_layout);
 
-        String token=getIntent().getStringExtra("token");
-        Student student=(Student) getIntent().getSerializableExtra("student");
+        token=getIntent().getStringExtra("token");
+        student=(Student) getIntent().getSerializableExtra("student");
 
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
@@ -139,5 +142,14 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ProfileActivity.this, AdminDashboard.class);
+        intent.putExtra("token", token);
+        intent.putExtra("student", student);
 
+        // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+    }
 }
