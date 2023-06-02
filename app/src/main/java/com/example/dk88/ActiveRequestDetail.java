@@ -80,7 +80,9 @@ public class ActiveRequestDetail extends AppCompatActivity {
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK){
                     Toast.makeText(ActiveRequestDetail.this,tmp.getMessage(),Toast.LENGTH_LONG).show();
                     return;
+
                 }
+
                 Map<String , Object> data = (Map<String, Object>) tmp.getData();
                 String requestId = data.get("requestID").toString();
                 String targetId = data.get("targetID").toString();
