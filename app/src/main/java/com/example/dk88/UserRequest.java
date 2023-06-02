@@ -25,6 +25,7 @@ public class UserRequest extends AppCompatActivity {
     Button btnPrevious, btnNext;
     ImageView btnBack;
     String token="";
+    Admin admin;
     UserRequestAdapter adapter;
     ListView listview1;
     ArrayList<StudentStateInfo> arrayclass;
@@ -37,6 +38,8 @@ public class UserRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_list_request_item_layout);
         token=getIntent().getStringExtra("token");
+        admin=(Admin) getIntent().getSerializableExtra("admin");
+
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
         btnNext=(Button) findViewById(R.id.next);
@@ -54,8 +57,10 @@ public class UserRequest extends AppCompatActivity {
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(UserRequest.this,SignInActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(UserRequest.this, AdminDashboard.class);
+                intent.putExtra("admin",admin);
+                intent.putExtra("token",token);
                 startActivity(intent);
             }
         });

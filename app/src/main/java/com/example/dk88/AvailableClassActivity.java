@@ -1,5 +1,6 @@
 package com.example.dk88;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -23,6 +24,8 @@ import retrofit2.Response;
 
 
 public class AvailableClassActivity extends AppCompatActivity {
+
+    ImageView ivBack;
     ListGroupAdapter adapter;
     ListView listview1;
     ArrayList<GroupInfo> arrayclass;
@@ -48,6 +51,8 @@ public class AvailableClassActivity extends AppCompatActivity {
         setContentView(R.layout.student_list_group_layout);
         token=getIntent().getStringExtra("token");
         student=(Student) getIntent().getSerializableExtra("student");
+
+        ivBack = (ImageView) findViewById(R.id.back);
         imgSetting = (ImageView) findViewById(R.id.set001);
         listview1=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
@@ -58,6 +63,16 @@ public class AvailableClassActivity extends AppCompatActivity {
         getData(latestId);
 
 
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
+                intent.putExtra("student",student);
+                intent.putExtra("token",token);
+                startActivity(intent);
+            }
+        });
 
         imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override

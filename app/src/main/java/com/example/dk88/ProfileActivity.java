@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,7 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText edtOld,edtNew,edtName,edtPhone,edtFacebook;
-    Button btnOK;
+    Button btnOK, btnBack;
     TextView txtGetAdmin;
     String token;
     Student student;
@@ -34,17 +35,33 @@ public class ProfileActivity extends AppCompatActivity {
         token=getIntent().getStringExtra("token");
         student=(Student) getIntent().getSerializableExtra("student");
 
+//        ivBack=(ImageView) findViewById(R.id.back);
         edtOld=(EditText) findViewById(R.id.Password);
         edtNew=(EditText) findViewById(R.id.Password1);
         edtName=(EditText) findViewById(R.id.fullname);
         edtPhone=(EditText) findViewById(R.id.phone);
         btnOK=(Button) findViewById(R.id.ok);
+        btnBack=(Button) findViewById(R.id.back);
         txtGetAdmin=(TextView) findViewById(R.id.getAdmin1);
         edtFacebook=(EditText) findViewById(R.id.facebookLink);
 
         edtName.setText(student.getName());
         edtPhone.setText(student.getPhoneNumber());
         edtFacebook.setText(student.getFacebook());
+
+
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
+                intent.putExtra("student",student);
+                intent.putExtra("token",token);
+                startActivity(intent);
+            }
+        });
+
+
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +98,10 @@ public class ProfileActivity extends AppCompatActivity {
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                                 String userRole = response.headers().get("UserRole");
                                 Toast.makeText(ProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
+                                intent.putExtra("student",student);
+                                intent.putExtra("token",token);
+                                startActivity(intent);
                             }
 
                             @Override
@@ -118,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(ProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
+                            Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
                             intent.putExtra("student",student);
                             intent.putExtra("token",token);
                             startActivity(intent);
@@ -132,10 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(ProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(ProfileActivity.this, AvailableClassActivity.class);
-                    intent.putExtra("token",token);
-                    intent.putExtra("student",student);
-                    startActivity(intent);
                 }
 
             }

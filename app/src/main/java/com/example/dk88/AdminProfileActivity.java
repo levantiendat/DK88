@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class AdminProfileActivity extends AppCompatActivity {
     EditText edtOld,edtNew,edtName,edtPhone,edtEmail;
-    Button btnOK;
+    Button btnOK, btnBack;
     String token;
     Admin admin;
 
@@ -42,9 +42,21 @@ public class AdminProfileActivity extends AppCompatActivity {
         edtPhone=(EditText) findViewById(R.id.phone);
         edtEmail=(EditText) findViewById(R.id.email);
         btnOK=(Button) findViewById(R.id.ok);
+        btnBack=(Button) findViewById(R.id.back);
         edtName.setText(admin.getName());
         edtPhone.setText(admin.getPhoneNumber());
         edtEmail.setText(admin.getEmail());
+
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                intent.putExtra("admin",admin);
+                intent.putExtra("token",token);
+                startActivity(intent);
+            }
+        });
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +141,8 @@ public class AdminProfileActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    Intent intent=new Intent(AdminProfileActivity.this,UserRequest.class);
+                    Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                    intent.putExtra("admin",admin);
                     intent.putExtra("token",token);
                     startActivity(intent);
                 }
