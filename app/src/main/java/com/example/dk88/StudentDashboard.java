@@ -15,8 +15,8 @@ public class StudentDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_dashboard_layout);
         String token=getIntent().getStringExtra("token");
-        Student student=(Student) getIntent().getSerializableExtra("student");
-
+        String studentID=getIntent().getStringExtra("studentID");
+        String userName=getIntent().getStringExtra("userName");
         cvTrade=(CardView) findViewById(R.id.tradeCourse);
         cvProfile=(CardView) findViewById(R.id.userProfile);
         cvLogout=(CardView) findViewById(R.id.logout);
@@ -36,7 +36,8 @@ public class StudentDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StudentDashboard.this, ProfileActivity.class);
                 intent.putExtra("token",token);
-                intent.putExtra("student",student);
+                intent.putExtra("studentID",studentID);
+                intent.putExtra("userName",userName);
                 startActivity(intent);
                 finish();
             }
@@ -47,7 +48,8 @@ public class StudentDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StudentDashboard.this, AvailableClassActivity.class);
                 intent.putExtra("token",token);
-                intent.putExtra("student",student);
+                intent.putExtra("studentID",studentID);
+                intent.putExtra("userName",userName);
                 startActivity(intent);
                 finish();
             }

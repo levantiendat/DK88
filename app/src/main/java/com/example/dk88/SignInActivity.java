@@ -135,7 +135,7 @@ public class SignInActivity extends AppCompatActivity {
                             if(student.getStatus()==STATUS_NEW_USER){
                                 Intent intent = new Intent(SignInActivity.this, StudentIdentity.class);
                                 intent.putExtra("token",token);
-                                intent.putExtra("student",student);
+                                intent.putExtra("studentID",student.getStudentID());
                                 startActivity(intent);
                                 edtUser.getText().clear();
                                 edtPass.getText().clear();
@@ -149,7 +149,8 @@ public class SignInActivity extends AppCompatActivity {
                             else{
                                 Intent intent = new Intent(SignInActivity.this, StudentDashboard.class);
                                 intent.putExtra("token",token);
-                                intent.putExtra("student",student);
+                                intent.putExtra("studentID",student.getStudentID());
+                                intent.putExtra("userName",student.getUserName());
                                 startActivity(intent);
                                 edtUser.getText().clear();
                                 edtPass.getText().clear();

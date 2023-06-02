@@ -63,6 +63,7 @@ public interface JsonPlaceHolderApi {
     @GET ("Class/QueryClass/{id}")
     Call<ResponseObject> getNewQueryClass(@HeaderMap Map<String,Object> header, @Path("id") int id);
 
-
+    @GET("User/ReadPublicInfo/{id}")
+    Call<ResponseObject> getStudentInfo(@HeaderMap Map<String,Object> header,@Path("id") String studentID);
 
 }

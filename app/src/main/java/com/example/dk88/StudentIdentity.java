@@ -52,7 +52,7 @@ public class StudentIdentity extends AppCompatActivity {
     private Uri mUri1,mUri2;
     Button btnOK;
     String strFront="",strBack="";
-    Student student;
+    String studentID;
     int check=0;
     private static final String TAG=StudentIdentity.class.getName();
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
@@ -113,7 +113,7 @@ public class StudentIdentity extends AppCompatActivity {
         setContentView(R.layout.student_active_request_layout);
 
         token=getIntent().getStringExtra("token");
-        student=(Student) getIntent().getSerializableExtra("student");
+        studentID=getIntent().getStringExtra("studentID");
 
         imgFront=(ImageButton) findViewById(R.id.imgFront);
         imgBack=(ImageButton) findViewById(R.id.imgBack);
@@ -208,7 +208,7 @@ public class StudentIdentity extends AppCompatActivity {
         headers.put("token",token);
         Map<String, Object> activeInfo = new HashMap<>();
         activeInfo.put("requestID",1);
-        activeInfo.put("targetID",student.getStudentID());
+        activeInfo.put("targetID",studentID);
         activeInfo.put("requestCode",0);
         activeInfo.put("imageFront",strFront);
         activeInfo.put("imageBack",strBack);
