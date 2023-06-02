@@ -159,5 +159,9 @@ public class TradeProfileDialog extends Dialog implements
         }
         listview1.setAdapter(adapter);
     }
+    @Override
+    public void onBackPressed() {
 
+
+    }
 }
