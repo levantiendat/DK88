@@ -30,6 +30,7 @@ import retrofit2.Response;
 
 
 public class AvailableClassActivity extends AppCompatActivity {
+    int time =10000;
 
     ImageView ivBack;
     ListGroupAdapter adapter;
@@ -52,9 +53,9 @@ public class AvailableClassActivity extends AppCompatActivity {
 
     Map<Integer, ArrayList<GroupInfo>> pageContent;
     Map<String, Integer> isPage;
-    int maxPage=0;
-    int currentPage=1;
-    int maxElementPerPage=2;
+    volatile int maxPage=0;
+    volatile int currentPage=1;
+    volatile int maxElementPerPage=2;
 
 
 
@@ -74,10 +75,21 @@ public class AvailableClassActivity extends AppCompatActivity {
         pageContent = new HashMap<>();
         isPage = new HashMap<>();
 
+//        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//        int latestId = mPrefs.getInt("latest_id", 0);
+//        getData(latestId);
+
+
+//        QueryThread queryThread = new QueryThread();
+//        queryThread.start();
+
+//        GroupInfoThread groupInfoThread = new GroupInfoThread();
+//        groupInfoThread.start();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(AvailableClassActivity.this,"NEXT",Toast.LENGTH_LONG).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
                     fillPage(currentPage);
@@ -87,6 +99,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(AvailableClassActivity.this,"PREVIOUS",Toast.LENGTH_LONG).show();
                 if(currentPage>1){
                     currentPage-=1;
                     fillPage(currentPage);
@@ -303,20 +316,93 @@ public class AvailableClassActivity extends AppCompatActivity {
         });
     }
 
-    class QueryThread implements Runnable{
+    class QueryThread extends Thread{
         @Override
         public void run() {
             while (true){
                 try {
-                    Thread.sleep(1000);
                     mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                     int latestId = mPrefs.getInt("latest_id", 0);
+                    arrayclass.clear();
+                    pageContent.clear();
+                    isPage.clear();
+                    studentRequestMap.clear();
+                    haveClass.clear();
+                    needClass.clear();
                     getData(latestId);
+                    fillPage(currentPage);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(AvailableClassActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    Thread.sleep(time);
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
             }
+        }
+    }
+
+    class GroupInfoThread extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                try {
+                    ArrayList<String> groupIds = new ArrayList<>();
+                    for (GroupInfo temp: pageContent.get(currentPage)){
+                        groupIds.add(temp.getGroupID());
+                    }
+
+                    for (int i=0;i<groupIds.size();i++){
+                        Map<String,Object> headers=new HashMap<>();
+                        headers.put("token",token);
+
+                        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers,groupIds.get(i));
+                        int finalI = i;
+                        call.enqueue(new Callback<ResponseObject>() {
+                            @Override
+                            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                                if (!response.isSuccessful())
+                                {
+                                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                ResponseObject tmp = response.body();
+                                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                                {
+                                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                                ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
+
+                                arrayclass.get(finalI).setCurrent(voteYes.size());
+
+
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+                            }
+                        });
+
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    Thread.sleep(time);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
         }
     }
 }

@@ -66,4 +66,9 @@ public interface JsonPlaceHolderApi {
     @GET("User/ReadPublicInfo/{id}")
     Call<ResponseObject> getStudentInfo(@HeaderMap Map<String,Object> header,@Path("id") String studentID);
 
+    @GET ("Group/Info/{group_id}")
+    Call<ResponseObject> getGroupInfo(@HeaderMap Map<String,Object> header, @Path("group_id") String group_id);
+
+
+
 }
