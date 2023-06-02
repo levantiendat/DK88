@@ -160,8 +160,9 @@ public class AvailableClassActivity extends AppCompatActivity {
 
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                GroupInfo groupInfo = arrayclass.get(position);
+                Toast.makeText(AvailableClassActivity.this,groupInfo.getGroupID(),Toast.LENGTH_SHORT).show();
             }
         });
     }
