@@ -1,6 +1,8 @@
 package com.example.dk88;
 
-public class GroupInfo {
+import java.io.Serializable;
+
+public class GroupInfo implements Serializable {
     private String lophp;
     private int current;
     private int max;

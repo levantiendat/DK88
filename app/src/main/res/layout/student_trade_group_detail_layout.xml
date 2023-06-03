@@ -11,9 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+
+        android:layout_marginLeft="00dp"
+        android:layout_marginRight="00dp"
         android:layout_height="50dp">
         <ImageView
             android:layout_width="50dp"
@@ -22,16 +22,28 @@
 
             android:background="@drawable/back"/>
         <TextView
-
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="GROUP DETAIL"
-            android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:textSize="25dp"
             android:textColor="@color/black"
+            android:id="@+id/tv001"
+            android:gravity="center"
             android:textStyle="bold"
-            />
+            android:textSize="20dp"
+            android:text="TRADE GROUP"
+
+
+
+            android:layout_width="220dp"
+            android:layout_height="50dp"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/set001"
+            android:background="@drawable/report"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/reload"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/contact_member"/>
     </LinearLayout>
 
     <TextView
@@ -44,11 +56,11 @@
         android:layout_weight="2"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:text="Summary: To get class you want, you will have to give class "
+        android:text="Wellcome to trade group. To get class you want, you will have to give class xxxxxx "
 
         />
     <TextView
-        android:id="@+id/detail"
+        android:id="@+id/tw1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -57,11 +69,11 @@
         android:layout_weight="3"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:text="Detail: xxxxxxxxx have class xxxxxxx.xxxx.xx.xx, yyyyyyyyy have class xxxxxxx.xxxx.xx.xx, yyyyyyyyy have class xxxxxxx.xxxx.xx.xx"
+        android:text="Choose contact button on the toolbar to get all public info of student in this trade group. After that, you should contact them to trade class."
 
         />
     <TextView
-        android:id="@+id/waitingList"
+        android:id="@+id/tw2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -70,11 +82,11 @@
         android:layout_weight="2"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:text="Joined: xxxxxxxxx \n Waiting: xxxxxxxxx, yyyyyyyyy"
+        android:text="If someone is scam, please let us know by report them at the button on the toolbar."
 
         />
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/tw3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -83,17 +95,17 @@
         android:layout_weight="3"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:text="Phone number: \n xxxxxxxxx: 0900000000\n xxxxxxxxx: 0900000000\n xxxxxxxxx: 0900000000"
+        android:text="After finish trade class, you can confirm finish trade and wait for other to all confirm to exit group."
 
         />
     <Button
-        android:id="@+id/join_button"
-        android:layout_width="250dp"
+        android:id="@+id/finish"
+        android:layout_width="300dp"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:text="Join"
+        android:text="Finish Trade"
         android:layout_marginTop="50dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:background="@drawable/black_bordered_button"
         android:textColor="@color/white"
         android:textSize="30dp"

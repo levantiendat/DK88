@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -163,14 +164,20 @@ public class AvailableClassActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 GroupInfo groupInfo = arrayclass.get(position);
-                Toast.makeText(AvailableClassActivity.this,groupInfo.getGroupID(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AvailableClassActivity.this, StudentGroupDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("studentID", studentID);
+                bundle.putSerializable("needClass", (Serializable) needClass);
+                bundle.putString("token",token);
+                bundle.putSerializable("groupInfo", groupInfo);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
 
     private void updateGroupInfo(){
         ArrayList<String> groupIds = new ArrayList<>();
-        Log.e("ERROR FUCK FUCK", String.valueOf(currentPage));
         for (GroupInfo temp: pageContent.get(currentPage)){
             groupIds.add(temp.getGroupID());
         }
