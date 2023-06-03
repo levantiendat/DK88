@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".StudentTradeFinishActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudentGroupDetailActivity"
             android:exported="false" />
         <activity
@@ -28,7 +31,7 @@
         <activity
             android:name=".AdminDashboardActivity"
             android:exported="false"
-            android:windowContentTransitions="true"></activity>
+            android:windowContentTransitions="true" />
         <activity
             android:name=".AdminBanRequestDetailActivity"
             android:exported="false" />

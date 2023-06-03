@@ -344,7 +344,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     if (oldGroup==null){
                         Toast.makeText(StudentAvailableGroupActivity.this, "You lost group "+ beforeUpdate, Toast.LENGTH_SHORT).show();
                     }else{
-//                        if ()
+                        checkStatusGroup(oldGroup);
                     }
                 }
             }
@@ -354,6 +354,48 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+
+    private void checkStatusGroup(String groupID){
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                Integer status = Math.toIntExact(Math.round(Double.parseDouble(data.get("status").toString())));
+                if (status==1){
+                    Toast.makeText(StudentAvailableGroupActivity.this, "Your group is ready!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentTradeFinishActivity.class);
+                    intent.putExtra("token",token);
+                    intent.putExtra("studentID",studentID);
+                    intent.putExtra("userName",userName);
+                    startActivity(intent);
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     private void getData(int id){
