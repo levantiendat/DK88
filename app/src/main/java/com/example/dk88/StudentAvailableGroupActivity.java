@@ -129,7 +129,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
-                    fillPage(currentPage);
+//                    fillPage(currentPage);
                     updateGroupInfo();
                 }
             }
@@ -140,7 +140,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
-                    fillPage(currentPage);
+//                    fillPage(currentPage);
                     updateGroupInfo();
                 }
 
@@ -223,6 +223,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         }
 
         for (int i=0;i<groupIds.size();i++){
+            fillPage(currentPage);
             Map<String,Object> headers=new HashMap<>();
             headers.put("token",token);
 
@@ -246,6 +247,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
 
                     arrayclass.get(finalI).setCurrent(voteYes.size());
+//                    fillPage(currentPage);
+                    adapter.notifyDataSetChanged();
                 }
 
 
@@ -256,11 +259,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
             });
 
         }
-        adapter.notifyDataSetChanged();
     }
     private void fillPage(int pageNumber){
-//        Log.e("ERRROR FUCK", String.valueOf(pageNumber));
-//        Log.e("ERRROR FUCK", String.valueOf(pageContent.get(pageNumber).size()));
         arrayclass.clear();
         if (pageContent.get(pageNumber)!=null) {
             for (GroupInfo temp : pageContent.get(pageNumber)) {
@@ -269,7 +269,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
             adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
             listview1.setAdapter(adapter);
         }
-
     }
     private void prepareAllData(ArrayList<ArrayList<String>> listClass){
         arrayclass.clear();
@@ -520,7 +519,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 try {
                     res = g.printAllCycles(studentID);
                     prepareAllData(res);
-                    fillPage(currentPage);
+//                    fillPage(currentPage);
                     updateGroupInfo();
                 }catch (Exception e){
 
