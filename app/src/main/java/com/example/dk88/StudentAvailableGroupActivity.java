@@ -317,6 +317,12 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         return  groupID;
     }
 
+    private String findLostCourse (String groupID, String studentID){
+        String[] members = groupID.split("-");
+
+        return "a";
+    }
+
     private void checkMyGroup(){
         String beforeUpdate = oldGroup;
         Map<String, Object> headers = new HashMap<>();
@@ -383,6 +389,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     intent.putExtra("token",token);
                     intent.putExtra("studentID",studentID);
                     intent.putExtra("userName",userName);
+//                    intent.putExtra("lostCourse",gr)
                     startActivity(intent);
                 }
 
@@ -618,6 +625,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         intent.putExtra("userName",userName);
         // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
 
     }
 }
