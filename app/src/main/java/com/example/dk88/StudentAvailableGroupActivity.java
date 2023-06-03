@@ -89,7 +89,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         pageContent = new HashMap<>();
         isPage = new HashMap<>();
 
-        getOldGroup();
+        getMyGroup();
 
 //
 //        int latestId = mPrefs.getInt("latest_id", 0);
@@ -187,7 +187,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         });
     }
 
-    private void getOldGroup(){
+    private void getMyGroup(){
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
@@ -213,12 +213,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
-    private void checkMyGroup(){
 
-    }
     private void updateGroupInfo(){
         ArrayList<String> groupIds = new ArrayList<>();
         for (GroupInfo temp: pageContent.get(currentPage)){
@@ -321,6 +317,45 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         return  groupID;
     }
 
+    private void checkMyGroup(){
+        String beforeUpdate = oldGroup;
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                oldGroup = ((String) tmp.getData());
+                if (beforeUpdate==null){
+                    return;
+                }else{
+                    if (oldGroup==null){
+                        Toast.makeText(StudentAvailableGroupActivity.this, "You lost group "+ beforeUpdate, Toast.LENGTH_SHORT).show();
+                    }else{
+//                        if ()
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+
+        });
+    }
+
     private void getData(int id){
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
@@ -394,7 +429,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
 
                     if (have==0){
                         studentRequestMap.get(targetID).setWant(row.getClassId());
-
                     }else{
                         studentRequestMap.get(targetID).getHave().add(classID);
                     }
