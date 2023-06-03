@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class StudentDashboard extends AppCompatActivity {
+public class StudentDashboardActivity extends AppCompatActivity {
     CardView cvTrade, cvProfile, cvLogout;
 
     @Override
@@ -25,7 +25,7 @@ public class StudentDashboard extends AppCompatActivity {
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudentDashboard.this, SignInActivity.class);
+                Intent intent = new Intent(StudentDashboardActivity.this, SignInActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -34,7 +34,7 @@ public class StudentDashboard extends AppCompatActivity {
         cvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudentDashboard.this, ProfileActivity.class);
+                Intent intent = new Intent(StudentDashboardActivity.this, StudentProfileActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("studentID",studentID);
                 intent.putExtra("userName",userName);
@@ -46,7 +46,7 @@ public class StudentDashboard extends AppCompatActivity {
         cvTrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudentDashboard.this, AvailableClassActivity.class);
+                Intent intent = new Intent(StudentDashboardActivity.this, StudentAvailableGroupActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("studentID",studentID);
                 intent.putExtra("userName",userName);

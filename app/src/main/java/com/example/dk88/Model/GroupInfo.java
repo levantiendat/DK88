@@ -1,33 +1,33 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 import java.io.Serializable;
 
 public class GroupInfo implements Serializable {
-    private String lophp;
+    private String lostCourse;
     private int current;
     private int max;
     private String groupID;
 
     public GroupInfo(String lophp, int current, int max, String groupID) {
-        this.lophp = lophp;
+        this.lostCourse = lophp;
         this.current = current;
         this.max = max;
         this.groupID = groupID;
     }
 
     public GroupInfo() {
-        this.lophp = "";
+        this.lostCourse = "";
         this.current = 0;
         this.max = 0;
         this.groupID="";
     }
 
     public String getLophp() {
-        return lophp;
+        return lostCourse;
     }
 
     public void setLophp(String lophp) {
-        this.lophp = lophp;
+        this.lostCourse = lophp;
     }
 
     public int getCurrent() {

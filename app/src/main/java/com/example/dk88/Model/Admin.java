@@ -1,4 +1,6 @@
-package com.example.dk88;
+package com.example.dk88.Model;
+
+import com.example.dk88.Model.User;
 
 public class Admin extends User {
     private String email;

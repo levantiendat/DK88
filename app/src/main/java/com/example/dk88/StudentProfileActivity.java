@@ -4,19 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.Model.Student;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity {
+public class StudentProfileActivity extends AppCompatActivity {
     EditText edtOld,edtNew,edtName,edtPhone,edtFacebook;
     Button btnOK, btnBack;
     TextView txtGetAdmin;
@@ -66,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
+                Intent intent = new Intent(StudentProfileActivity.this, StudentDashboardActivity.class);
                 intent.putExtra("studentID",studentID);
                 intent.putExtra("token",token);
                 intent.putExtra("userName",userName);
@@ -81,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (edtOld.getText().toString().compareTo("") != 0) {
                     if (edtOld.getText().toString().compareTo(edtNew.getText().toString()) == 0) {
-                        Toast.makeText(ProfileActivity.this, "The new password is duplicated than old password", Toast.LENGTH_LONG).show();
+                        Toast.makeText(StudentProfileActivity.this, "The new password is duplicated than old password", Toast.LENGTH_LONG).show();
                     } else {
                             Map<String, Object> headers = new HashMap<>();
                             headers.put("token", token);
@@ -95,22 +97,22 @@ public class ProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                                     if (!response.isSuccessful()) {
-                                        Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                                         return;
                                     }
                                     ResponseObject tmp = response.body();
                                     if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                                        Toast.makeText(ProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                                         return;
                                     }
 
-                                    Toast.makeText(ProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(StudentProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
 
                                 }
 
                                 @Override
                                 public void onFailure(Call<ResponseObject> call, Throwable t) {
-                                    Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -121,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                         headers.put("token", token);
                         Map<String, Object> changeInfo = new HashMap<>();
                         changeInfo.put("userName", userName);
-                        Toast.makeText(ProfileActivity.this,edtName.getText().toString()+"--"+edtPhone.getText().toString()+"--"+edtFacebook.getText().toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(StudentProfileActivity.this,edtName.getText().toString()+"--"+edtPhone.getText().toString()+"--"+edtFacebook.getText().toString(),Toast.LENGTH_LONG).show();
                         changeInfo.put("name", edtName.getText().toString());
                         changeInfo.put("phoneNumber", edtPhone.getText().toString());
                         changeInfo.put("facebook", edtFacebook.getText().toString());
@@ -132,19 +134,19 @@ public class ProfileActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                                 if (!response.isSuccessful()) {
-                                    Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 ResponseObject tmp = response.body();
                                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                                    Toast.makeText(ProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
 
-                                Toast.makeText(ProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(StudentProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
+                                Intent intent = new Intent(StudentProfileActivity.this, StudentDashboardActivity.class);
                                 intent.putExtra("studentID", studentID);
                                 intent.putExtra("token", token);
                                 startActivity(intent);
@@ -152,11 +154,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                                Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                                Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                             }
                         });
                     } else {
-                        Toast.makeText(ProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
+                        Toast.makeText(StudentProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -166,7 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ProfileActivity.this, StudentDashboard.class);
+        Intent intent = new Intent(StudentProfileActivity.this, StudentDashboardActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", studentID);
         intent.putExtra("userName",userName);
@@ -175,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
     private void showAdminInformationPopup() {
-        Context context = ProfileActivity.this;
+        Context context = StudentProfileActivity.this;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
 
@@ -206,14 +208,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(ProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -234,7 +236,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this,"Error load data",Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentProfileActivity.this,"Error load data",Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -11,6 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.Model.Admin;
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.Request;
+import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.Model.StudentStateInfo;
+import com.example.dk88.Model.ListUserRequestAdapter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,13 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserRequest extends AppCompatActivity {
+public class AdminRequestActivity extends AppCompatActivity {
     private Toast mToast;
     Button btnPrevious, btnNext;
     ImageView btnBack;
     String token="";
     Admin admin;
-    UserRequestAdapter adapter;
+    ListUserRequestAdapter adapter;
     ListView listview1;
     ArrayList<StudentStateInfo> arrayclass;
 
@@ -51,7 +58,7 @@ public class UserRequest extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserRequest.this, AdminDashboard.class);
+                Intent intent = new Intent(AdminRequestActivity.this, AdminDashboardActivity.class);
                 intent.putExtra("admin",admin);
                 intent.putExtra("token",token);
                 startActivity(intent);
@@ -81,17 +88,17 @@ public class UserRequest extends AppCompatActivity {
                 if (mToast != null) {
                     mToast.cancel();
                 }
-                mToast = Toast.makeText(UserRequest.this,"MSSV: " +request.getTargetID(),Toast.LENGTH_LONG);
+                mToast = Toast.makeText(AdminRequestActivity.this,"MSSV: " +request.getTargetID(),Toast.LENGTH_LONG);
                 mToast.show();
 
                 if (request.getRequestCode()==0){
-                    Intent intent=new Intent(UserRequest.this,ActiveRequestDetail.class);
+                    Intent intent=new Intent(AdminRequestActivity.this, AdminActiveRequestDetailActivity.class);
                     intent.putExtra("token",token);
                     intent.putExtra("request", request);
                     startActivity(intent);
                 }
                 else{
-                    Intent intent = new Intent(UserRequest.this,BanRequestDetail.class);
+                    Intent intent = new Intent(AdminRequestActivity.this, AdminBanRequestDetailActivity.class);
                     intent.putExtra("token",token);
                     intent.putExtra("request",request);
                     startActivity(intent);
@@ -119,10 +126,10 @@ public class UserRequest extends AppCompatActivity {
             if (mToast != null) {
                 mToast.cancel();
             }
-            mToast = Toast.makeText(UserRequest.this,"Page: "+ String.valueOf(page), Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(AdminRequestActivity.this,"Page: "+ String.valueOf(page), Toast.LENGTH_SHORT);
             mToast.show();
         }
-        adapter=new UserRequestAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
+        adapter=new ListUserRequestAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
         listview1.setAdapter(adapter);
     }
 
@@ -139,14 +146,14 @@ public class UserRequest extends AppCompatActivity {
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful())
                 {
-                    Toast.makeText(UserRequest.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminRequestActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(UserRequest.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminRequestActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 listRequest.clear();

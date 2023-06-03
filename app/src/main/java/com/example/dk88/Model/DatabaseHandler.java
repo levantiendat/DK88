@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 
 
@@ -6,10 +6,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         onCreate(db);
     }
-    public void addStudentClass(StudentClass studentClass) {
+    public void addStudentClass(StudentClassRelation studentClass) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -58,8 +56,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public List<StudentClass> getAllStudentClass() {
-        List<StudentClass>  studentClassList = new ArrayList<>();
+    public List<StudentClassRelation> getAllStudentClass() {
+        List<StudentClassRelation>  studentClassList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -67,15 +65,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         cursor.moveToFirst();
 
         while(cursor.isAfterLast() == false) {
-            StudentClass studentClass = new StudentClass(cursor.getString(0), cursor.getString(1), cursor.getInt(2));
+            StudentClassRelation studentClass = new StudentClassRelation(cursor.getString(0), cursor.getString(1), cursor.getInt(2));
             studentClassList.add(studentClass);
             cursor.moveToNext();
         }
         return studentClassList;
     }
 
-    public List<StudentClass> getStudentClass(String ID) {
-        List<StudentClass>  studentClassList = new ArrayList<>();
+    public List<StudentClassRelation> getStudentClass(String ID) {
+        List<StudentClassRelation>  studentClassList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME+" WHERE studentId="+ "'" +ID+"'" ;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -83,7 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         cursor.moveToFirst();
 
         while(cursor.isAfterLast() == false) {
-            StudentClass studentClass = new StudentClass(cursor.getString(0), cursor.getString(1), cursor.getInt(2));
+            StudentClassRelation studentClass = new StudentClassRelation(cursor.getString(0), cursor.getString(1), cursor.getInt(2));
             studentClassList.add(studentClass);
             cursor.moveToNext();
         }

@@ -23,41 +23,41 @@
             android:name=".StudentGroupDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentDashboard"
+            android:name=".StudentDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminDashboard"
+            android:name=".AdminDashboardActivity"
             android:exported="false"
             android:windowContentTransitions="true"></activity>
         <activity
-            android:name=".BanRequestDetail"
+            android:name=".AdminBanRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ActiveRequestDetail"
+            android:name=".AdminActiveRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AvailableClassActivity"
+            android:name=".StudentAvailableGroupActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ReportActivity"
+            android:name=".StudentReportActivity"
             android:exported="false" />
         <activity
             android:name=".AdminProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".UserRequest"
+            android:name=".AdminRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentIdentity"
+            android:name=".StudentActiveActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentBanStatus"
+            android:name=".StudentBanStatusActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".StudentProfileActivity"
             android:exported="false" />
         <activity
             android:name=".SignInActivity"

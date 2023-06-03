@@ -1,7 +1,6 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.dk88.Model.User;
 
 public class Student extends User {
 

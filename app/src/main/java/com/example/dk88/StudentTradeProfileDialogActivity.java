@@ -12,6 +12,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.DatabaseHandler;
+import com.example.dk88.Model.GroupInfo;
+import com.example.dk88.Model.ListClassAdapter;
+import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.Model.StudentClassRelation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TradeProfileDialog extends Dialog implements
+public class StudentTradeProfileDialogActivity extends Dialog implements
         android.view.View.OnClickListener {
     ListClassAdapter adapter;
     ListView listview1;
@@ -33,7 +40,7 @@ public class TradeProfileDialog extends Dialog implements
 
     String studentID;
 
-    public TradeProfileDialog(@NonNull Context context,String token,String studentID) {
+    public StudentTradeProfileDialogActivity(@NonNull Context context, String token, String studentID) {
         super(context);
         this.context = context;
         this.token=token;
@@ -97,7 +104,7 @@ public class TradeProfileDialog extends Dialog implements
                 }
                 detail.put("haveClass",arrayList);
                 detail.put("wantClass",edtNeed.getText().toString());
-                Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().changeClass(headers,detail);
+                Call<ResponseObject> call= ApiUserRequester.getJsonPlaceHolderApi().changeClass(headers,detail);
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -137,19 +144,19 @@ public class TradeProfileDialog extends Dialog implements
     }
     private void addToSQL(){
         DatabaseHandler db=new DatabaseHandler(context);
-        ArrayList<StudentClass> list=new ArrayList<>();
+        ArrayList<StudentClassRelation> list=new ArrayList<>();
         for(GroupInfo info:arrayclass){
-            list.add(new StudentClass(studentID, info.getLophp(), 1));
+            list.add(new StudentClassRelation(studentID, info.getLophp(), 1));
         }
-        list.add(new StudentClass(studentID,edtNeed.getText().toString(),0));
-        for(StudentClass studentClass:list){
+        list.add(new StudentClassRelation(studentID,edtNeed.getText().toString(),0));
+        for(StudentClassRelation studentClass:list){
             db.addStudentClass(studentClass);
         }
     }
     private void getFromSQL(String id){
         DatabaseHandler db=new DatabaseHandler(context);
-        ArrayList<StudentClass> list= (ArrayList<StudentClass>) db.getStudentClass(id);
-        for(StudentClass info:list){
+        ArrayList<StudentClassRelation> list= (ArrayList<StudentClassRelation>) db.getStudentClass(id);
+        for(StudentClassRelation info:list){
             if(info.getHave()==1){
                 arrayclass.add(new GroupInfo(info.getClassId(), 0,0,""));
             }

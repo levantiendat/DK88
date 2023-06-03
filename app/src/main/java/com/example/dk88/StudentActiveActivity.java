@@ -24,12 +24,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.RealPathUtil;
+import com.example.dk88.Model.ResponseObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -42,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentIdentity extends AppCompatActivity {
+public class StudentActiveActivity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 1000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     ImageButton imgFront,imgBack;
@@ -54,7 +56,7 @@ public class StudentIdentity extends AppCompatActivity {
     String strFront="",strBack="";
     String studentID;
     int check=0;
-    private static final String TAG=StudentIdentity.class.getName();
+    private static final String TAG= StudentActiveActivity.class.getName();
     private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -69,7 +71,7 @@ public class StudentIdentity extends AppCompatActivity {
                         Uri uri=data.getData();
                         try{
                             Bitmap bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            Glide.with(StudentIdentity.this)
+                            Glide.with(StudentActiveActivity.this)
                                     .asBitmap()
                                     .load(uri) // hoặc load(url)
                                     .apply(new RequestOptions()
@@ -156,7 +158,7 @@ public class StudentIdentity extends AppCompatActivity {
         headers.put("token",token);
         //Map<String, Object> uploadInfo = new HashMap<>();
         Log.e(TAG,uri.toString());
-        String strRealPath=RealPathUtil.getRealPath(this,uri);
+        String strRealPath= RealPathUtil.getRealPath(this,uri);
         File file =new File(strRealPath);
         Log.e(TAG,file.toString());
         Log.e(TAG,token.toString());
@@ -165,19 +167,19 @@ public class StudentIdentity extends AppCompatActivity {
         MultipartBody.Part picture =MultipartBody.Part.createFormData("file",file.getName(),fileBody);
        // uploadInfo.put("file",file);
 
-        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,picture);
+        Call<ResponseObject> call= ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentIdentity.this, "Error picture1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentActiveActivity.this, "Error picture1", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentIdentity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentActiveActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -189,7 +191,7 @@ public class StudentIdentity extends AppCompatActivity {
                     strBack=tmp.getData().toString();
                 }
                 check++;
-                Toast.makeText(StudentIdentity.this, "Upload success in " + text +" picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentActiveActivity.this, "Upload success in " + text +" picture", Toast.LENGTH_LONG).show();
                 if(check==2){
                     sendActive();
                 }
@@ -198,7 +200,7 @@ public class StudentIdentity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentIdentity.this, "Error_picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentActiveActivity.this, "Error_picture", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -218,21 +220,21 @@ public class StudentIdentity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentIdentity.this, "Error_upload1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentActiveActivity.this, "Error_upload1", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentIdentity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentActiveActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
 
 
-                Toast.makeText(StudentIdentity.this, "Your request to activation account is successfully, please wait for admin to active ", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(StudentIdentity.this,SignInActivity.class);
+                Toast.makeText(StudentActiveActivity.this, "Your request to activation account is successfully, please wait for admin to active ", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(StudentActiveActivity.this,SignInActivity.class);
                 startActivity(intent);
 
             }
@@ -240,7 +242,7 @@ public class StudentIdentity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentIdentity.this, "Error_UPLOAD", Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentActiveActivity.this, "Error_UPLOAD", Toast.LENGTH_LONG).show();
             }
         });
 

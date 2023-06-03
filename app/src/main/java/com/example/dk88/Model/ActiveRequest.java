@@ -1,4 +1,6 @@
-package com.example.dk88;
+package com.example.dk88.Model;
+
+import com.example.dk88.Model.Request;
 
 public class ActiveRequest extends Request {
 

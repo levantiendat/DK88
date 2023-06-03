@@ -1,15 +1,14 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.dk88.R;
 
 import java.util.List;
 

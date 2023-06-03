@@ -1,32 +1,31 @@
 package com.example.dk88;
 
-import static com.example.dk88.Student.STATUS_BAN_USER;
-import static com.example.dk88.Student.STATUS_NEW_USER;
+import static com.example.dk88.Model.Student.STATUS_BAN_USER;
+import static com.example.dk88.Model.Student.STATUS_NEW_USER;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.dk88.Model.Admin;
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.Model.Student;
+import com.example.dk88.Model.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -115,7 +114,7 @@ public class SignInActivity extends AppCompatActivity {
                             admin.setPhoneNumber(data.get("phoneNumber").toString());
                             admin.setRoleCode(userRole);
 
-                            Intent intent = new Intent(SignInActivity.this, AdminDashboard.class);
+                            Intent intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
                             intent.putExtra("token",token);
                             intent.putExtra("admin",admin);
                             startActivity(intent);
@@ -133,7 +132,7 @@ public class SignInActivity extends AppCompatActivity {
                             student.setFacebook(data.get("facebook").toString());
 
                             if(student.getStatus()==STATUS_NEW_USER){
-                                Intent intent = new Intent(SignInActivity.this, StudentIdentity.class);
+                                Intent intent = new Intent(SignInActivity.this, StudentActiveActivity.class);
                                 intent.putExtra("token",token);
                                 intent.putExtra("studentID",student.getStudentID());
                                 startActivity(intent);
@@ -141,13 +140,13 @@ public class SignInActivity extends AppCompatActivity {
                                 edtPass.getText().clear();
                             }
                             else if(student.getStatus()==STATUS_BAN_USER){
-                                Intent intent=new Intent(SignInActivity.this,StudentBanStatus.class);
+                                Intent intent=new Intent(SignInActivity.this, StudentBanStatusActivity.class);
                                 startActivity(intent);
                                 edtUser.getText().clear();
                                 edtPass.getText().clear();
                             }
                             else{
-                                Intent intent = new Intent(SignInActivity.this, StudentDashboard.class);
+                                Intent intent = new Intent(SignInActivity.this, StudentDashboardActivity.class);
                                 intent.putExtra("token",token);
                                 intent.putExtra("studentID",student.getStudentID());
                                 intent.putExtra("userName",student.getUserName());

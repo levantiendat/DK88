@@ -4,11 +4,12 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ReportActivity extends AppCompatActivity {
+public class StudentBanStatusActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_report_layout);
+        setContentView(R.layout.student_banned_status_layout);
+
     }
 }

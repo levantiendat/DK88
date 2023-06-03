@@ -4,13 +4,11 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,13 +16,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.DatabaseHandler;
+import com.example.dk88.Model.Graph;
+import com.example.dk88.Model.GroupInfo;
+import com.example.dk88.Model.ListGroupAdapter;
+import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.Model.StudentClassRelation;
+import com.example.dk88.Model.StudentDemand;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +39,7 @@ import retrofit2.Response;
 
 
 
-public class AvailableClassActivity extends AppCompatActivity {
+public class StudentAvailableGroupActivity extends AppCompatActivity {
     int time =10000;
 
     ImageView ivBack;
@@ -50,7 +56,7 @@ public class AvailableClassActivity extends AppCompatActivity {
 
     Map<String, List<String>> haveClass = new HashMap<>();
     Map<String, String> needClass = new HashMap<>();
-    Map<String, StudentRequest> studentRequestMap = new HashMap<>();
+    Map<String, StudentDemand> studentRequestMap = new HashMap<>();
     Graph g = new Graph();
 
     String studentID;
@@ -114,7 +120,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AvailableClassActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
                     fillPage(currentPage);
@@ -125,7 +131,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AvailableClassActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
                     fillPage(currentPage);
@@ -138,7 +144,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
+                Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentDashboardActivity.class);
                 intent.putExtra("studentID",studentID);
                 intent.putExtra("token",token);
                 intent.putExtra("userName",userName);
@@ -149,7 +155,7 @@ public class AvailableClassActivity extends AppCompatActivity {
         imgSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TradeProfileDialog dialog = new TradeProfileDialog(AvailableClassActivity.this,token, studentID);
+                StudentTradeProfileDialogActivity dialog = new StudentTradeProfileDialogActivity(StudentAvailableGroupActivity.this,token, studentID);
 
                 Window window = dialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
@@ -164,7 +170,7 @@ public class AvailableClassActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 GroupInfo groupInfo = arrayclass.get(position);
-                Intent intent = new Intent(AvailableClassActivity.this, StudentGroupDetailActivity.class);
+                Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentGroupDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("studentID", studentID);
                 bundle.putSerializable("needClass", (Serializable) needClass);
@@ -193,13 +199,13 @@ public class AvailableClassActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                     if (!response.isSuccessful())
                     {
-                        Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ResponseObject tmp = response.body();
                     if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                     {
-                        Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Map<String, Object> data = (Map<String, Object>) tmp.getData();
@@ -289,18 +295,18 @@ public class AvailableClassActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()){
-                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Map<String, Object>> data = (List<Map<String, Object>>) tmp.getData();
 
-                DatabaseHandler db = new DatabaseHandler(AvailableClassActivity.this);
+                DatabaseHandler db = new DatabaseHandler(StudentAvailableGroupActivity.this);
                 for (Map<String, Object> query: data)
                 {
                     int latestId = mPrefs.getInt("latest_id", 0);
@@ -321,32 +327,32 @@ public class AvailableClassActivity extends AppCompatActivity {
 
                     if (db.isStudentClassExists(targetID)){
                         db.deleteStudentClass(targetID);
-                        StudentClass temp = new StudentClass(targetID,wantClass,0);
+                        StudentClassRelation temp = new StudentClassRelation(targetID,wantClass,0);
                         db.addStudentClass(temp);
 
                         for (String have: haveClass){
-                            StudentClass tp = new StudentClass(targetID,have, 1);
+                            StudentClassRelation tp = new StudentClassRelation(targetID,have, 1);
                             db.addStudentClass(tp);
                         }
 
 
                     }else{
-                        StudentClass temp = new StudentClass(targetID,wantClass,0);
+                        StudentClassRelation temp = new StudentClassRelation(targetID,wantClass,0);
                         db.addStudentClass(temp);
 
                         for (String have: haveClass){
-                            StudentClass tp = new StudentClass(targetID,have, 1);
+                            StudentClassRelation tp = new StudentClassRelation(targetID,have, 1);
                             db.addStudentClass(tp);
                         }
                     }
                 }
-                ArrayList<StudentClass> rows= (ArrayList<StudentClass>) db.getAllStudentClass();
-                for (StudentClass row: rows){
+                ArrayList<StudentClassRelation> rows= (ArrayList<StudentClassRelation>) db.getAllStudentClass();
+                for (StudentClassRelation row: rows){
                     String targetID = row.getStudentId();
                     String classID = row.getClassId();
                     Integer have = row.getHave();
                     if (studentRequestMap.containsKey(targetID)==false){
-                        studentRequestMap.put(targetID, new StudentRequest(targetID, "", new ArrayList<>()));
+                        studentRequestMap.put(targetID, new StudentDemand(targetID, "", new ArrayList<>()));
                     }
 
                     if (have==0){
@@ -357,9 +363,9 @@ public class AvailableClassActivity extends AppCompatActivity {
                     }
                 }
 
-                for (Map.Entry<String, StudentRequest> entry : studentRequestMap.entrySet()) {
+                for (Map.Entry<String, StudentDemand> entry : studentRequestMap.entrySet()) {
                     String key = entry.getKey();
-                    StudentRequest value = entry.getValue();
+                    StudentDemand value = entry.getValue();
                     needClass.put(key,value.getWant());
                     for (String classID: value.getHave()){
                         haveClass.putIfAbsent(classID, new ArrayList<>());
@@ -368,9 +374,9 @@ public class AvailableClassActivity extends AppCompatActivity {
                 }
 
                 Graph g = new Graph();
-                for (Map.Entry<String, StudentRequest> entry : studentRequestMap.entrySet()) {
+                for (Map.Entry<String, StudentDemand> entry : studentRequestMap.entrySet()) {
                     String key = entry.getKey();
-                    StudentRequest value = entry.getValue();
+                    StudentDemand value = entry.getValue();
                     g.addVertex(key);
                     List<String> listAvailable = haveClass.get(value.getWant());
                     if (listAvailable!=null){
@@ -395,7 +401,7 @@ public class AvailableClassActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(AvailableClassActivity.this,"Error load class available",Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudentAvailableGroupActivity.this,"Error load class available",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -418,7 +424,7 @@ public class AvailableClassActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(AvailableClassActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StudentAvailableGroupActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_SHORT).show();
                         }
                     });
                     Thread.sleep(time);
@@ -453,13 +459,13 @@ public class AvailableClassActivity extends AppCompatActivity {
                             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                                 if (!response.isSuccessful())
                                 {
-                                    Toast.makeText(AvailableClassActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 ResponseObject tmp = response.body();
                                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                                 {
-                                    Toast.makeText(AvailableClassActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
@@ -493,7 +499,7 @@ public class AvailableClassActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
+        Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentDashboardActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", studentID);
         intent.putExtra("userName",userName);

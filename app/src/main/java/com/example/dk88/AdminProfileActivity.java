@@ -4,15 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Slide;
+
+import com.example.dk88.Model.Admin;
+import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ResponseObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class AdminProfileActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboardActivity.class);
                 intent.putExtra("admin",admin);
                 intent.putExtra("token",token);
                 startActivity(intent);
@@ -93,7 +94,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                                 String userRole = response.headers().get("UserRole");
                                 Toast.makeText(AdminProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                                Intent intent = new Intent(AdminProfileActivity.this, AdminDashboardActivity.class);
                                 intent.putExtra("admin",admin);
                                 intent.putExtra("token",token);
                                 startActivity(intent);
@@ -132,7 +133,7 @@ public class AdminProfileActivity extends AppCompatActivity {
                             Map<String, Object> data = (Map<String, Object>) tmp.getData();
                             String userRole = response.headers().get("UserRole");
                             Toast.makeText(AdminProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+                            Intent intent = new Intent(AdminProfileActivity.this, AdminDashboardActivity.class);
                             intent.putExtra("admin",admin);
                             intent.putExtra("token",token);
                             startActivity(intent);
@@ -153,7 +154,7 @@ public class AdminProfileActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(AdminProfileActivity.this, AdminDashboard.class);
+        Intent intent = new Intent(AdminProfileActivity.this, AdminDashboardActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("admin", admin);
 

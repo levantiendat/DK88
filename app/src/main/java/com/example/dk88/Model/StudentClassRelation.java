@@ -1,11 +1,11 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
-public class StudentClass {
+public class StudentClassRelation {
     String studentId;
     String classId;
     Integer have;
 
-    public StudentClass(String studentId, String classId, Integer have){
+    public StudentClassRelation(String studentId, String classId, Integer have){
         this.studentId = studentId;
         this.classId = classId;
         this.have = have;

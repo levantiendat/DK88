@@ -1,13 +1,13 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 import java.util.List;
 
-public class StudentRequest {
+public class StudentDemand {
     String studentID;
     String want;
     List<String> have;
 
-    public StudentRequest(String studentID, String want, List<String> have) {
+    public StudentDemand(String studentID, String want, List<String> have) {
         this.studentID = studentID;
         this.want = want;
         this.have = have;

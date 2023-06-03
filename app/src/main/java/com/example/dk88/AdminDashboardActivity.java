@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class AdminDashboard extends AppCompatActivity {
+import com.example.dk88.Model.Admin;
+
+public class AdminDashboardActivity extends AppCompatActivity {
     CardView cvUsers, cvRequest, cvProfile, cvLogout;
     int swipe=0;
     @Override
@@ -26,7 +28,7 @@ public class AdminDashboard extends AppCompatActivity {
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminDashboard.this, SignInActivity.class);
+                Intent intent = new Intent(AdminDashboardActivity.this, SignInActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -35,7 +37,7 @@ public class AdminDashboard extends AppCompatActivity {
         cvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminDashboard.this, AdminProfileActivity.class);
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminProfileActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("admin",admin);
                 startActivity(intent);
@@ -46,7 +48,7 @@ public class AdminDashboard extends AppCompatActivity {
         cvRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminDashboard.this, UserRequest.class);
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminRequestActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("admin",admin);
                 startActivity(intent);

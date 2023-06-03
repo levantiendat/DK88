@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 public class StudentStateInfo {
     private String StudentID;

@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.Model;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
