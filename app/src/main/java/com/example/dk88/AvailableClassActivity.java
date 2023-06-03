@@ -1,5 +1,6 @@
 package com.example.dk88;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -482,5 +483,15 @@ public class AvailableClassActivity extends AppCompatActivity {
             }
 
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AvailableClassActivity.this, StudentDashboard.class);
+        intent.putExtra("token", token);
+        intent.putExtra("studentID", studentID);
+        intent.putExtra("userName",userName);
+        // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
     }
 }
