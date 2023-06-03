@@ -27,6 +27,7 @@ import com.example.dk88.Model.StudentDemand;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -320,7 +321,14 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     private String findLostCourse (String groupID, String studentID){
         String[] members = groupID.split("-");
 
-        return "a";
+        List<String> memberList = new ArrayList<>(Arrays.asList(members));
+        memberList.addAll(Arrays.asList(members));
+        for (int i=memberList.size()-1;i>0;i--){
+            if (memberList.get(i).equals(studentID)){
+                return needClass.get(memberList.get(i-1));
+            }
+        }
+        return "";
     }
 
     private void checkMyGroup(){
@@ -389,7 +397,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     intent.putExtra("token",token);
                     intent.putExtra("studentID",studentID);
                     intent.putExtra("userName",userName);
-//                    intent.putExtra("lostCourse",gr)
+                    intent.putExtra("lostCourse",findLostCourse(groupID,studentID));
                     startActivity(intent);
                 }
 
