@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,8 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
     TextView tvLostCourse, tvDetail, tvJoined, tvWaiting, tvPhoneNumber;
     String lostCourse, detail, joined, waiting, phoneNumber;
 
-    Button btnVote, btnBack;
+    Button btnVote;
+    ImageView ivBack;
 
 
 
@@ -37,7 +39,7 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
         tvWaiting = (TextView) findViewById(R.id.waitingList);
         tvPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         btnVote = (Button) findViewById(R.id.vote_button);
-        btnBack = (Button) findViewById(R.id.back);
+        ivBack = (ImageView) findViewById(R.id.back);
 
         String token="";
         String studentID="";
@@ -196,5 +198,11 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
             }
         });
 
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
