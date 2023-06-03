@@ -3,31 +3,31 @@ package com.example.dk88.Model;
 import java.io.Serializable;
 
 public class GroupInfo implements Serializable {
-    private String lostCourse;
+    private String lophp;
     private int current;
     private int max;
     private String groupID;
 
     public GroupInfo(String lophp, int current, int max, String groupID) {
-        this.lostCourse = lophp;
+        this.lophp = lophp;
         this.current = current;
         this.max = max;
         this.groupID = groupID;
     }
 
     public GroupInfo() {
-        this.lostCourse = "";
+        this.lophp = "";
         this.current = 0;
         this.max = 0;
         this.groupID="";
     }
 
     public String getLophp() {
-        return lostCourse;
+        return lophp;
     }
 
     public void setLophp(String lophp) {
-        this.lostCourse = lophp;
+        this.lophp = lophp;
     }
 
     public int getCurrent() {

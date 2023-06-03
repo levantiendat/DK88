@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.jvm.Volatile;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +68,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     int maxPage=0;
     int currentPage=1;
     int maxElementPerPage=2;
+    String oldGroup = null;
 
 
 
@@ -86,6 +88,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         arrayclass =new ArrayList<>();
         pageContent = new HashMap<>();
         isPage = new HashMap<>();
+
+        getOldGroup();
 
 //
 //        int latestId = mPrefs.getInt("latest_id", 0);
@@ -113,6 +117,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 haveClass.clear();
                 needClass.clear();
                 getData(latestId);
+                checkMyGroup();
             }
 
         });
@@ -182,6 +187,38 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         });
     }
 
+    private void getOldGroup(){
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
+                {
+                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                oldGroup = ((String) tmp.getData());
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+    private void checkMyGroup(){
+
+    }
     private void updateGroupInfo(){
         ArrayList<String> groupIds = new ArrayList<>();
         for (GroupInfo temp: pageContent.get(currentPage)){

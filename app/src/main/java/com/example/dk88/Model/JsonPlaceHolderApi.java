@@ -68,7 +68,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseObject> voteGroup(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 
 
-
-
+    @GET ("Group/Joined/{student_id}")
+    Call<ResponseObject> getGroupOfStudent(@HeaderMap Map<String,Object> header, @Path("student_id") String student_id);
 
 }
