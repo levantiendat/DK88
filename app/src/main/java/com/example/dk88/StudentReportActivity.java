@@ -280,9 +280,7 @@ public class StudentReportActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StudentReportActivity.this, StudentTradeFinishActivity.class);
-        intent.putExtra("token", token);
-        intent.putExtra("studentID", studentID);
-        intent.putExtra("userName",userName);
+        finish();
         // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 

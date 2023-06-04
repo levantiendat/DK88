@@ -43,6 +43,7 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
     ListView listPicture;
     PictureAdapter adapter;
     Button btnAccept,btnDecline;
+    int check=0;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -106,7 +107,7 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                     loadImage(url);
                     Toast.makeText(AdminBanRequestDetailActivity.this,url,Toast.LENGTH_LONG).show();
                 }
-                showPicture();
+
 
             }
 
@@ -143,6 +144,10 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                 byte[] decodedString = Base64.decode(base64, Base64.DEFAULT); // Giải mã chuỗi Base64 thành mảng byte
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // Tạo đối tượng Bitmap từ mảng byte đã giải mã
                 arrayPicture.add(new Picture(decodedByte)); // Hiển thị đối tượng Bitmap trong ImageView
+                check++;
+                if(check==arrayPicture.size()){
+                    showPicture();
+                }
             }
 
             @Override
