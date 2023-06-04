@@ -70,7 +70,7 @@ public class StudentActiveActivity extends AppCompatActivity {
                         }
                         Uri uri=data.getData();
                         try{
-                            Bitmap bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+
                             Glide.with(StudentActiveActivity.this)
                                     .asBitmap()
                                     .load(uri) // hoặc load(url)
@@ -92,6 +92,7 @@ public class StudentActiveActivity extends AppCompatActivity {
                                                 Log.e(TAG, mUri2.toString());
                                                 imageBack.setImageBitmap(bitmap);
                                             }
+
                                         }
 
                                         @Override
@@ -293,6 +294,6 @@ public class StudentActiveActivity extends AppCompatActivity {
         Intent intent=new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select Picture"));
+        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select PictureAdapter"));
     }
 }

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +69,16 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        ivReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentTradeFinishActivity.this, StudentReportActivity.class);
+                intent.putExtra("studentID",studentID);
+                intent.putExtra("token",token);
+                intent.putExtra("userName",userName);
+                startActivity(intent);
+            }
+        });
 
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,13 +14,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
 import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.Picture;
+import com.example.dk88.Model.PictureAdapter;
 import com.example.dk88.Model.Request;
 import com.example.dk88.Model.ResponseObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +39,9 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
     Request request;
 
     ImageView image;
-
+    ArrayList<Picture> arrayPicture;
+    ListView listPicture;
+    PictureAdapter adapter;
     Button btnAccept,btnDecline;
 
     @SuppressLint("MissingInflatedId")
@@ -49,10 +55,10 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
         edtTarget=(EditText) findViewById(R.id.target);
         edtDetail=(EditText) findViewById(R.id.content);
         edtTarget.setText(edtTarget.getText()+request.getTargetID());
-        image=(ImageView) findViewById(R.id.image);
+        listPicture=(ListView) findViewById(R.id.listView);
         btnAccept=(Button) findViewById(R.id.accept);
         btnDecline=(Button) findViewById(R.id.decline);
-
+        arrayPicture=new ArrayList<>();
         getData();
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +106,7 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                     loadImage(url);
                     Toast.makeText(AdminBanRequestDetailActivity.this,url,Toast.LENGTH_LONG).show();
                 }
-
+                showPicture();
 
             }
 
@@ -136,7 +142,7 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
 
                 byte[] decodedString = Base64.decode(base64, Base64.DEFAULT); // Giải mã chuỗi Base64 thành mảng byte
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // Tạo đối tượng Bitmap từ mảng byte đã giải mã
-                image.setImageBitmap(decodedByte); // Hiển thị đối tượng Bitmap trong ImageView
+                arrayPicture.add(new Picture(decodedByte)); // Hiển thị đối tượng Bitmap trong ImageView
             }
 
             @Override
@@ -144,6 +150,10 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                 Toast.makeText(AdminBanRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void showPicture(){
+        adapter=new PictureAdapter(this, R.layout.picture_layout,arrayPicture);
+        listPicture.setAdapter(adapter);
     }
     private void isAccept(Boolean accept){
         Map<String,Object> header=new HashMap<>();
