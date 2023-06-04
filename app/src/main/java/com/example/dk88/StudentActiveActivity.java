@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -30,10 +31,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.RealPathUtil;
 import com.example.dk88.Model.ResponseObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +56,7 @@ public class StudentActiveActivity extends AppCompatActivity {
     ImageView imageFront,imageBack;
     private int imageCode=0;
     String token;
-    private Uri mUri1,mUri2;
+    private Uri mUri1,mUri2,uriFinal;
     Button btnOK;
     String strFront="",strBack="";
     String studentID;
@@ -69,6 +74,30 @@ public class StudentActiveActivity extends AppCompatActivity {
                             return;
                         }
                         Uri uri=data.getData();
+                        if(imageCode==1) {
+                            mUri1=uri;
+                            Bitmap bitmap=null;
+                            try {
+                                bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Log.e(TAG, mUri1.toString());
+                            imageFront.setImageBitmap(bitmap);
+                        }
+                        else if(imageCode==2){
+                            mUri2=uri;
+                            Bitmap bitmap=null;
+                            try {
+                                bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Log.e(TAG, mUri1.toString());
+                            imageBack.setImageBitmap(bitmap);
+                        }
                         try{
 
                             Glide.with(StudentActiveActivity.this)
@@ -82,16 +111,7 @@ public class StudentActiveActivity extends AppCompatActivity {
                                             // bitmap đã được nén và load thành công, tiếp tục xử lý ở đây
                                             String path=MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"Title",null);
 
-                                            if(imageCode==1) {
-                                                mUri1=Uri.parse(path);
-                                                Log.e(TAG, mUri1.toString());
-                                                imageFront.setImageBitmap(bitmap);
-                                            }
-                                            else if(imageCode==2){
-                                                mUri2=Uri.parse(path);
-                                                Log.e(TAG, mUri2.toString());
-                                                imageBack.setImageBitmap(bitmap);
-                                            }
+
 
                                         }
 
@@ -143,15 +163,49 @@ public class StudentActiveActivity extends AppCompatActivity {
             public void onClick(View v) {
                 check=0;
                 if(mUri1!=null){
+                    minimizeUri(mUri1);
+                    mUri1=uriFinal;
                     uploadPicture(mUri1,"Front");
                 }
                 if(mUri2!=null){
+                    minimizeUri(mUri2);
+                    mUri2=uriFinal;
                     uploadPicture(mUri2,"Back");
                 }
 
 
             }
         });
+
+    }
+    private void minimizeUri(Uri uri){
+
+        try {
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            int quality = 100;
+            originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+
+            while (outputStream.toByteArray().length > 1024 * 1024 && quality > 0) {
+                outputStream.reset();
+                quality -= 5;
+                originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            }
+
+            File outputDir = getApplicationContext().getCacheDir();
+            File outputFile = File.createTempFile("compressed_image", ".jpg", outputDir);
+
+            FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+            fileOutputStream.write(outputStream.toByteArray());
+            fileOutputStream.close();
+
+            uriFinal= Uri.fromFile(outputFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
     }
     private void uploadPicture(Uri uri,String text){
