@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.dk88.View.AdminProfileActivity;
-import com.example.dk88.AdminRequestActivity;
+import com.example.dk88.View.AdminRequestActivity;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.View.SignInActivity;
 

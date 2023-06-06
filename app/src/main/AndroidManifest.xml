@@ -54,7 +54,7 @@
             android:name=".View.AdminProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminRequestActivity"
+            android:name=".View.AdminRequestActivity"
             android:exported="false" />
         <activity
             android:name=".StudentActiveActivity"
