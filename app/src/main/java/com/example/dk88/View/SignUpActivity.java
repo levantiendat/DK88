@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.Controller.SignUpController;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
-import com.example.dk88.View.SignInActivity;
+import com.example.dk88.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private boolean passwordVisible = false;
     private EditText edtFullName, edtPhone, edtID, edtUser, edtPass, edtFacebook, editPassConfirm;
+    private SignUpController mSignUpController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,12 @@ public class SignUpActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
+        mSignUpController=new SignUpController(btnOk,back,passwordVisible,edtFullName,edtPhone,edtID,edtUser,edtPass,edtFacebook,editPassConfirm,SignUpActivity.this);
         // Xử lý sự kiện khi nhấn nút "Ok"
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerUser();
+                mSignUpController.registerUser();
             }
         });
 
@@ -52,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToSignInActivity();
+                mSignUpController.goToSignInActivity();
             }
         });
 
@@ -79,62 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
         editPassConfirm.setCompoundDrawables(null, null, eyeDrawable, null);
     }
 
-    // Xử lý việc đăng ký người dùng
-    private void registerUser() {
-        String userName = edtUser.getText().toString();
-        String password = edtPass.getText().toString();
-        String confirmPassword = editPassConfirm.getText().toString();
-        String studentID = edtID.getText().toString();
-        String fullName = edtFullName.getText().toString();
-        String phoneNumber = edtPhone.getText().toString();
-        String facebook = edtFacebook.getText().toString();
 
-        // Kiểm tra xem mật khẩu và mật khẩu xác nhận có khớp hay không
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(SignUpActivity.this, "Your password does not match the confirm password", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        // Tạo đối tượng lưu thông tin đăng ký
-        Map<String, Object> registerInfo = new HashMap<>();
-        registerInfo.put("userName", userName);
-        registerInfo.put("hashPass", password);
-        registerInfo.put("studentID", studentID);
-        registerInfo.put("name", fullName);
-        registerInfo.put("phoneNumber", phoneNumber);
-        registerInfo.put("facebook", facebook);
-
-        // Gửi yêu cầu đăng ký đến API
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().signup(registerInfo);
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                ResponseObject tmp = response.body();
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(SignUpActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                String userRole = response.headers().get("UserRole");
-                Toast.makeText(SignUpActivity.this, "Register success as " + data.get("name"), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    // Chuyển đến màn hình đăng nhập
-    private void goToSignInActivity() {
-        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-        startActivity(intent);
-    }
 
     // Xử lý sự kiện khi chạm vào biểu tượng mắt
     private void setEyeIconTouchListener(final EditText editText) {

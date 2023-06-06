@@ -45,7 +45,7 @@
             android:name=".StudentAvailableGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".View.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".StudentReportActivity"
