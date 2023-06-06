@@ -3,6 +3,7 @@ package com.example.dk88.Controller;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -179,7 +180,7 @@ public class StudentProfileController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Lỗi", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
@@ -207,7 +208,7 @@ public class StudentProfileController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error load data", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error Load Data", Toast.LENGTH_LONG).show();
             }
         });
     }

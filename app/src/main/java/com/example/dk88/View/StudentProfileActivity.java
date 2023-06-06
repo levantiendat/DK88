@@ -51,7 +51,6 @@ public class StudentProfileActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
-        mStudentProfileController = new StudentProfileController(edtOld,edtNew,edtName,edtPhone,edtFacebook,btnOK,btnBack,txtGetAdmin,token,studentID,getAdmin,userName,StudentProfileActivity.this);
         // Hiển thị thông tin của admin
         getAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +105,9 @@ public class StudentProfileActivity extends AppCompatActivity {
         getAdmin = findViewById(R.id.getAdmin1);
 
         // Tải dữ liệu sinh viên từ server
-        Toast.makeText(StudentProfileActivity.this, studentID.toString(),Toast.LENGTH_LONG).show();
+        mStudentProfileController = new StudentProfileController(edtOld, edtNew, edtName, edtPhone, edtFacebook, btnOK, btnBack, txtGetAdmin, token, studentID, getAdmin, userName, StudentProfileActivity.this);
         mStudentProfileController.loadDataFromServer(studentID);
+
     }
 
 
