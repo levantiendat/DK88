@@ -1,10 +1,8 @@
-package com.example.dk88;
+package com.example.dk88.Controller;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
+import com.example.dk88.R;
 import com.example.dk88.View.StudentDashboardActivity;
+import com.example.dk88.View.StudentProfileActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentProfileActivity extends AppCompatActivity {
+public class StudentProfileController {
     private EditText edtOld, edtNew, edtName, edtPhone, edtFacebook;
     private Button btnOK, btnBack;
     private TextView txtGetAdmin;
@@ -37,78 +37,27 @@ public class StudentProfileActivity extends AppCompatActivity {
     private TextView getAdmin;
     private String userName;
 
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_profile_layout);
+    private AppCompatActivity activity;
 
-        // Nhận dữ liệu từ Intent
-        getDataFromIntent();
-
-        // Khởi tạo các view
-        initView();
-
-        // Hiển thị thông tin của admin
-        getAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAdminInformationPopup();
-            }
-        });
-
-        // Trở về màn hình Dashboard của sinh viên
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToStudentDashboard();
-            }
-        });
-
-        // Xử lý sự kiện khi người dùng click nút OK
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Thay đổi mật khẩu
-                changePassword();
-
-                // Thay đổi thông tin sinh viên
-                changeStudentInfo();
-            }
-        });
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigateToStudentDashboard();
-    }
-
-    // Nhận dữ liệu từ Intent
-    private void getDataFromIntent() {
-        token = getIntent().getStringExtra("token");
-        studentID = getIntent().getStringExtra("studentID");
-        userName = getIntent().getStringExtra("userName");
-    }
-
-    // Khởi tạo các view
-    private void initView() {
-        edtOld = findViewById(R.id.Password);
-        edtNew = findViewById(R.id.Password1);
-        edtName = findViewById(R.id.fullname);
-        edtPhone = findViewById(R.id.phone);
-        btnOK = findViewById(R.id.ok);
-        btnBack = findViewById(R.id.back);
-        txtGetAdmin = findViewById(R.id.getAdmin1);
-        edtFacebook = findViewById(R.id.facebookLink);
-        getAdmin = findViewById(R.id.getAdmin1);
-
-        // Tải dữ liệu sinh viên từ server
-        loadDataFromServer(studentID);
+    public StudentProfileController(EditText edtOld, EditText edtNew, EditText edtName, EditText edtPhone, EditText edtFacebook, Button btnOK, Button btnBack, TextView txtGetAdmin, String token, String studentID, TextView getAdmin, String userName, AppCompatActivity activity) {
+        this.edtOld = edtOld;
+        this.edtNew = edtNew;
+        this.edtName = edtName;
+        this.edtPhone = edtPhone;
+        this.edtFacebook = edtFacebook;
+        this.btnOK = btnOK;
+        this.btnBack = btnBack;
+        this.txtGetAdmin = txtGetAdmin;
+        this.token = token;
+        this.studentID = studentID;
+        this.getAdmin = getAdmin;
+        this.userName = userName;
+        this.activity = activity;
     }
 
     // Hiển thị popup thông tin admin
-    private void showAdminInformationPopup() {
-        Context context = StudentProfileActivity.this;
+    public void showAdminInformationPopup() {
+        Context context = activity;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
 
@@ -132,20 +81,20 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
 
     // Trở về màn hình Dashboard của sinh viên
-    private void navigateToStudentDashboard() {
-        Intent intent = new Intent(StudentProfileActivity.this, StudentDashboardActivity.class);
+    public void navigateToStudentDashboard() {
+        Intent intent = new Intent(activity, StudentDashboardActivity.class);
         intent.putExtra("studentID", studentID);
         intent.putExtra("token", token);
         intent.putExtra("userName", userName);
         // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
     }
 
     // Thay đổi mật khẩu
-    private void changePassword() {
+    public void changePassword() {
         if (!edtOld.getText().toString().isEmpty()) {
             if (edtOld.getText().toString().equals(edtNew.getText().toString())) {
-                Toast.makeText(StudentProfileActivity.this, "The new password is duplicated than old password", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "The new password is duplicated than old password", Toast.LENGTH_LONG).show();
             } else {
                 Map<String, Object> headers = new HashMap<>();
                 headers.put("token", token);
@@ -159,21 +108,21 @@ public class StudentProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                         if (!response.isSuccessful()) {
-                            Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                             return;
                         }
                         ResponseObject tmp = response.body();
                         if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                            Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        Toast.makeText(StudentProfileActivity.this, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Change Password successfully ", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -181,7 +130,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
 
     // Thay đổi thông tin sinh viên
-    private void changeStudentInfo() {
+    public void changeStudentInfo() {
         if (!(edtName.getText().toString().equals(student.getName())
                 && (edtPhone.getText().toString().equals(student.getPhoneNumber())))) {
             Map<String, Object> headers = new HashMap<>();
@@ -198,31 +147,31 @@ public class StudentProfileActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                         return;
                     }
                     ResponseObject tmp = response.body();
                     if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                        Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                         return;
                     }
-                    Toast.makeText(StudentProfileActivity.this, "Change Data successfully ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_LONG).show();
 
                     navigateToStudentDashboard();
                 }
 
                 @Override
                 public void onFailure(Call<ResponseObject> call, Throwable t) {
-                    Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
-            Toast.makeText(StudentProfileActivity.this, "Nothing change information", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_LONG).show();
         }
     }
 
     // Load dữ liệu sinh viên từ server
-    private void loadDataFromServer(String studentID) {
+    public void loadDataFromServer(String studentID) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
         Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, studentID);
@@ -230,14 +179,14 @@ public class StudentProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentProfileActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentProfileActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -258,9 +207,8 @@ public class StudentProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentProfileActivity.this, "Error load data", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error load data", Toast.LENGTH_LONG).show();
             }
         });
     }
 }
-

@@ -6,9 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.dk88.StudentAvailableGroupActivity;
-import com.example.dk88.StudentProfileActivity;
+import com.example.dk88.View.StudentProfileActivity;
 import com.example.dk88.View.SignInActivity;
-import com.example.dk88.View.StudentDashboardActivity;
 
 public class StudentDashboardController {
     private CardView cvTrade, cvProfile, cvLogout;

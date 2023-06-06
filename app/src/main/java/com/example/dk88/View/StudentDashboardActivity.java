@@ -3,14 +3,11 @@ package com.example.dk88.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.dk88.Controller.StudentDashboardController;
 import com.example.dk88.R;
-import com.example.dk88.StudentAvailableGroupActivity;
-import com.example.dk88.StudentProfileActivity;
 
 public class StudentDashboardActivity extends AppCompatActivity {
     private CardView cvTrade, cvProfile, cvLogout;
