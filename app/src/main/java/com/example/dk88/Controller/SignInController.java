@@ -1,9 +1,8 @@
-package com.example.dk88;
+package com.example.dk88.Controller;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.AdminDashboardActivity;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
 import com.example.dk88.Model.User;
+import com.example.dk88.R;
+import com.example.dk88.SignUpActivity;
+import com.example.dk88.StudentActiveActivity;
+import com.example.dk88.StudentBanStatusActivity;
+import com.example.dk88.StudentDashboardActivity;
+import com.example.dk88.View.SignInActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInController {
     private Button btnSignin, btnSignup;
     private EditText edtUser, edtPass;
     private ImageView btnEye;
@@ -39,84 +45,26 @@ public class SignInActivity extends AppCompatActivity {
     private TextView showAdmin;
     private boolean passwordVisible = false;
     private SharedPreferences mPrefs;
+    private AppCompatActivity activity;
+    private boolean checkSignin=false;
     private static final String PREFS_NAME = "PASSWORD_PREFS_NAME";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.signin_layout);
-
-        // Khởi tạo SharedPreferences
-        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-
-        // Ánh xạ các phần tử UI
-        initView();
-
-        // Lấy dữ liệu từ SharedPreferences và hiển thị lên giao diện
-        getPreferencesData();
-
-        // Xử lý sự kiện click button "Sign In"
-        btnSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performSignIn();
-            }
-        });
-
-        // Xử lý sự kiện click button "Sign Up"
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToSignUp();
-            }
-        });
-
-        // Xử lý sự kiện click icon "Eye"
-        btnEye.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togglePasswordVisibility();
-            }
-        });
-
-        // Xử lý sự kiện click text "Show Admin"
-        showAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAdminInformationPopup();
-            }
-        });
+    public SignInController(Button btnSignin, Button btnSignup, EditText edtUser, EditText edtPass, ImageView btnEye, CheckBox cbRemember, TextView showAdmin, boolean passwordVisible, SharedPreferences mPrefs, AppCompatActivity activity) {
+        this.btnSignin = btnSignin;
+        this.btnSignup = btnSignup;
+        this.edtUser = edtUser;
+        this.edtPass = edtPass;
+        this.btnEye = btnEye;
+        this.cbRemember = cbRemember;
+        this.showAdmin = showAdmin;
+        this.passwordVisible = passwordVisible;
+        this.mPrefs = mPrefs;
+        this.activity = activity;
     }
 
-    // Ánh xạ các phần tử UI
-    private void initView() {
-        btnSignin = findViewById(R.id.signin1);
-        edtUser = findViewById(R.id.Username);
-        edtPass = findViewById(R.id.Password);
-        btnSignup = findViewById(R.id.signup);
-        cbRemember = findViewById(R.id.checkBox);
-        btnEye = findViewById(R.id.eyeIcon);
-        showAdmin = findViewById(R.id.show);
-    }
-
-    // Lấy dữ liệu từ SharedPreferences và hiển thị lên giao diện
-    private void getPreferencesData() {
-        if (mPrefs.contains("pref_name")) {
-            String u = mPrefs.getString("pref_name", "not found");
-            edtUser.setText(u);
-        }
-        if (mPrefs.contains("pref_pass")) {
-            String p = mPrefs.getString("pref_pass", "not found");
-            edtPass.setText(p);
-        }
-        if (mPrefs.contains("pref_check")) {
-            boolean b = mPrefs.getBoolean("pref_check", false);
-            cbRemember.setChecked(b);
-        }
-    }
 
     // Xử lý sự kiện click button "Sign In"
-    private void performSignIn() {
+    public void performSignIn() {
         String username = edtUser.getText().toString();
         String password = edtPass.getText().toString();
 
@@ -125,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
             // Gửi yêu cầu đăng nhập
             login(username, password);
         } else {
-            Toast.makeText(SignInActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Invalid username or password", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -145,23 +93,33 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(SignInActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 String token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(SignInActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                if (cbRemember.isChecked()){
+                    Boolean boolIsChecked = cbRemember.isChecked();
+                    SharedPreferences.Editor editor = mPrefs.edit();
+                    editor.putString("pref_name",edtUser.getText().toString());
+                    editor.putString("pref_pass",edtPass.getText().toString());
+                    editor.putBoolean("pref_check",boolIsChecked);
+                    editor.apply();
+                    Toast.makeText(activity, "Your account have been saved",Toast.LENGTH_LONG).show();
+                }else{
+                    mPrefs.edit().clear().apply();
+                }
                 handleLoginSuccess(tmp, token);
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(SignInActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -201,53 +159,53 @@ public class SignInActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(SignInActivity.this, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
     }
 
     // Chuyển đến màn hình đăng ký
-    private void navigateToSignUp() {
-        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-        startActivity(intent);
+    public void navigateToSignUp() {
+        Intent intent = new Intent(activity, SignUpActivity.class);
+        activity.startActivity(intent);
     }
 
     // Chuyển đến màn hình Admin Dashboard
     private void navigateToAdminDashboard(String token, Admin admin) {
-        Intent intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
+        Intent intent = new Intent(activity, AdminDashboardActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("admin", admin);
-        startActivity(intent);
+        activity.startActivity(intent);
         clearInputFields();
     }
 
     // Chuyển đến màn hình Student Active
     private void navigateToStudentActive(String token, Student student) {
-        Intent intent = new Intent(SignInActivity.this, StudentActiveActivity.class);
+        Intent intent = new Intent(activity, StudentActiveActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", student.getStudentID());
-        startActivity(intent);
+        activity.startActivity(intent);
         clearInputFields();
     }
 
     // Chuyển đến màn hình Student Ban Status
     private void navigateToStudentBanStatus() {
-        Intent intent = new Intent(SignInActivity.this, StudentBanStatusActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(activity, StudentBanStatusActivity.class);
+        activity.startActivity(intent);
         clearInputFields();
     }
 
     // Chuyển đến màn hình Student Dashboard
     private void navigateToStudentDashboard(String token, Student student) {
-        Intent intent = new Intent(SignInActivity.this, StudentDashboardActivity.class);
+        Intent intent = new Intent(activity, StudentDashboardActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", student.getStudentID());
         intent.putExtra("userName", student.getUserName());
-        startActivity(intent);
+        activity.startActivity(intent);
         clearInputFields();
     }
 
     // Hiển thị dialog thông tin Admin
-    private void showAdminInformationPopup() {
-        Context context = SignInActivity.this;
+    public void showAdminInformationPopup() {
+        Context context = activity;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
 
@@ -262,19 +220,8 @@ public class SignInActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    // Toggle hiển thị mật khẩu
-    private void togglePasswordVisibility() {
-        if (passwordVisible) {
-            edtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            btnEye.setImageResource(R.drawable.eye);
-        } else {
-            edtPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            btnEye.setImageResource(R.drawable.eye);
-        }
 
-        passwordVisible = !passwordVisible;
-        edtPass.setSelection(edtPass.length());
-    }
+
 
     // Xóa nội dung trường nhập liệu
     private void clearInputFields() {

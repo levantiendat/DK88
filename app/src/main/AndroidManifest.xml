@@ -66,7 +66,7 @@
             android:name=".StudentProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".View.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

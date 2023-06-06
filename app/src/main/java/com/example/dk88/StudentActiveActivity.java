@@ -31,9 +31,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.dk88.Model.ApiUserRequester;
-import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.RealPathUtil;
 import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.View.SignInActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -289,7 +289,7 @@ public class StudentActiveActivity extends AppCompatActivity {
 
 
                 Toast.makeText(StudentActiveActivity.this, "Your request to activation account is successfully, please wait for admin to active ", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(StudentActiveActivity.this,SignInActivity.class);
+                Intent intent=new Intent(StudentActiveActivity.this, SignInActivity.class);
                 startActivity(intent);
 
             }
