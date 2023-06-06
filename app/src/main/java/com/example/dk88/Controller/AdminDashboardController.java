@@ -5,10 +5,9 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.dk88.AdminProfileActivity;
+import com.example.dk88.View.AdminProfileActivity;
 import com.example.dk88.AdminRequestActivity;
 import com.example.dk88.Model.Admin;
-import com.example.dk88.View.AdminDashboardActivity;
 import com.example.dk88.View.SignInActivity;
 
 public class AdminDashboardController {

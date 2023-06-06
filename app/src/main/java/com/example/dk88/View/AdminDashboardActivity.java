@@ -3,12 +3,9 @@ package com.example.dk88.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.dk88.AdminProfileActivity;
-import com.example.dk88.AdminRequestActivity;
 import com.example.dk88.Controller.AdminDashboardController;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.R;
