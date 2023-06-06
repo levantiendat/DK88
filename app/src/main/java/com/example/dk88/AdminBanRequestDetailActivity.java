@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.PictureAdapter;
@@ -34,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AdminBanRequestDetailActivity extends AppCompatActivity {
-    EditText edtTarget,edtDetail;
+    EditText edtTarget, edtDetail;
     String token;
     Request request;
 
@@ -42,53 +41,78 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
     ArrayList<Picture> arrayPicture;
     ListView listPicture;
     PictureAdapter adapter;
-    Button btnAccept,btnDecline;
-    int check=0;
+    Button btnAccept, btnDecline;
+    int check = 0;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_ban_request_layout);
-        token=getIntent().getStringExtra("token");
-        request= (Request) getIntent().getSerializableExtra("request");
 
-        edtTarget=(EditText) findViewById(R.id.target);
-        edtDetail=(EditText) findViewById(R.id.content);
-        edtTarget.setText(edtTarget.getText()+request.getTargetID());
-        listPicture=(ListView) findViewById(R.id.listView);
-        btnAccept=(Button) findViewById(R.id.accept);
-        btnDecline=(Button) findViewById(R.id.decline);
-        arrayPicture=new ArrayList<>();
+        // Nhận dữ liệu từ Intent
+        getDataFromIntent();
+
+        // Khởi tạo các view
+        initView();
+
+        // Lấy dữ liệu từ server
         getData();
+    }
+
+    // Nhận dữ liệu từ Intent
+    private void getDataFromIntent() {
+        token = getIntent().getStringExtra("token");
+        request = (Request) getIntent().getSerializableExtra("request");
+    }
+
+    // Khởi tạo các view
+    private void initView() {
+        edtTarget = (EditText) findViewById(R.id.target);
+        edtDetail = (EditText) findViewById(R.id.content);
+        edtTarget.setText(edtTarget.getText() + request.getTargetID());
+
+        listPicture = (ListView) findViewById(R.id.listView);
+        btnAccept = (Button) findViewById(R.id.accept);
+        btnDecline = (Button) findViewById(R.id.decline);
+
+        arrayPicture = new ArrayList<>();
+        adapter = new PictureAdapter(this, R.layout.picture_layout, arrayPicture);
+        listPicture.setAdapter(adapter);
+
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isAccept(true);
             }
         });
+
         btnDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isAccept(false);
             }
         });
-
     }
-    private void getData(){
-        Map<String,Object> header=new HashMap<>();
-        header.put("token",token);
-        Map<String,Object> detail =new HashMap<>();
-        detail.put("requestID",request.getRequestID());
-        detail.put("targetID",request.getTargetID());
-        detail.put("requestCode",request.getRequestCode());
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readDetailRequest(header,detail);
+
+    // Lấy dữ liệu từ server
+    private void getData() {
+        Map<String, Object> header = new HashMap<>();
+        header.put("token", token);
+
+        Map<String, Object> detail = new HashMap<>();
+        detail.put("requestID", request.getRequestID());
+        detail.put("targetID", request.getTargetID());
+        detail.put("requestCode", request.getRequestCode());
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readDetailRequest(header, detail);
         call.enqueue(new Callback<ResponseObject>() {
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(AdminBanRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 ResponseObject tmp = response.body();
                 token = response.headers().get("token");
 
@@ -98,17 +122,15 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                 }
 
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                String moreDetail=data.get("moreDetail").toString();
+                String moreDetail = data.get("moreDetail").toString();
                 edtDetail.setText(moreDetail);
-                List<String> listUrl= (List<String>) data.get("imageProof");
+                List<String> listUrl = (List<String>) data.get("imageProof");
 
-                for(String url:listUrl){
-                    Log.e(TAG,url);
+                for (String url : listUrl) {
+                    Log.e(TAG, url);
                     loadImage(url);
-                    Toast.makeText(AdminBanRequestDetailActivity.this,url,Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminBanRequestDetailActivity.this, url, Toast.LENGTH_LONG).show();
                 }
-
-
             }
 
             @Override
@@ -117,10 +139,13 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
             }
         });
     }
-    private void loadImage(String url){
-        Map<String,Object> header=new HashMap<>();
-        header.put("token",token);
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header,url);
+
+    // Tải ảnh từ server
+    private void loadImage(String url) {
+        Map<String, Object> header = new HashMap<>();
+        header.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header, url);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -132,20 +157,18 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                 token = response.headers().get("token");
 
                 ResponseObject tmp = response.body();
-                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
-                {
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(AdminBanRequestDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-//                Log.d("MyApp", "The data type of tmp is: " + tmp.getClass().getSimpleName());
+
                 String base64 = tmp.getData().toString();
-
-
-                byte[] decodedString = Base64.decode(base64, Base64.DEFAULT); // Giải mã chuỗi Base64 thành mảng byte
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // Tạo đối tượng Bitmap từ mảng byte đã giải mã
-                arrayPicture.add(new Picture(decodedByte)); // Hiển thị đối tượng Bitmap trong ImageView
+                byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                arrayPicture.add(new Picture(decodedByte));
                 check++;
-                if(check==arrayPicture.size()){
+
+                if (check == arrayPicture.size()) {
                     showPicture();
                 }
             }
@@ -156,20 +179,24 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
             }
         });
     }
-    private void showPicture(){
-        adapter=new PictureAdapter(this, R.layout.picture_layout,arrayPicture);
-        listPicture.setAdapter(adapter);
-    }
-    private void isAccept(Boolean accept){
-        Map<String,Object> header=new HashMap<>();
-        header.put("token",token);
-        Map<String,Object> handle =new HashMap<>();
-        handle.put("requestID",request.getRequestID());
-        handle.put("targetID",request.getTargetID());
-        handle.put("requestCode",request.getRequestCode());
-        handle.put("isAccepted",accept);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().handleRequest(header,handle);
+    // Hiển thị danh sách ảnh
+    private void showPicture() {
+        adapter.notifyDataSetChanged();
+    }
+
+    // Xử lý yêu cầu chấp nhận hoặc từ chối
+    private void isAccept(Boolean accept) {
+        Map<String, Object> header = new HashMap<>();
+        header.put("token", token);
+
+        Map<String, Object> handle = new HashMap<>();
+        handle.put("requestID", request.getRequestID());
+        handle.put("targetID", request.getTargetID());
+        handle.put("requestCode", request.getRequestCode());
+        handle.put("isAccepted", accept);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().handleRequest(header, handle);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -177,21 +204,23 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
                     Toast.makeText(AdminBanRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
-                token=response.headers().get("token");
+
+                token = response.headers().get("token");
                 ResponseObject tmp = response.body();
-                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
-                {
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(AdminBanRequestDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(accept){
-                    Toast.makeText(AdminBanRequestDetailActivity.this,"BAN SUCCESSFULLY",Toast.LENGTH_LONG).show();
+
+                if (accept) {
+                    Toast.makeText(AdminBanRequestDetailActivity.this, "BAN SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(AdminBanRequestDetailActivity.this, "DECLINED SUCCESSFULLY", Toast.LENGTH_LONG).show();
                 }
-                else{
-                    Toast.makeText(AdminBanRequestDetailActivity.this,"DECLINED SUCCESSFULLY",Toast.LENGTH_LONG).show();
-                }
-                Intent intent=new Intent(AdminBanRequestDetailActivity.this, AdminRequestActivity.class);
-                intent.putExtra("token",token);
+
+                Intent intent = new Intent(AdminBanRequestDetailActivity.this, AdminRequestActivity.class);
+                intent.putExtra("token", token);
                 startActivity(intent);
             }
 
@@ -201,5 +230,4 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
             }
         });
     }
-
 }
