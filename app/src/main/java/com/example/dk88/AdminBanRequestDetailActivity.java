@@ -37,7 +37,6 @@ public class AdminBanRequestDetailActivity extends AppCompatActivity {
     String token;
     Request request;
 
-    ImageView image;
     ArrayList<Picture> arrayPicture;
     ListView listPicture;
     PictureAdapter adapter;
