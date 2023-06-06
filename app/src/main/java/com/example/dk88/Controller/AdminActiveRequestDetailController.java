@@ -1,19 +1,17 @@
-package com.example.dk88;
+package com.example.dk88.Controller;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.util.Base64;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.dk88.AdminRequestActivity;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.Request;
 import com.example.dk88.Model.ResponseObject;
@@ -25,62 +23,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminActiveRequestDetailActivity extends AppCompatActivity {
+public class AdminActiveRequestDetailController {
     private TextView edtStudentId;
     private ImageView imgFront, imgBack;
     private Button btnAccept, btnDecline;
     private String token;
     private Request request;
+    private AppCompatActivity activity;
 
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_active_request_layout);
-
-        // Nhận dữ liệu từ Intent
-        getDataFromIntent();
-
-        // Khởi tạo các view
-        initView();
-
-        // Lấy dữ liệu từ server
-        getData();
-
-        // Xử lý sự kiện khi nhấn nút "Accept"
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isAccept(true);
-            }
-        });
-
-        // Xử lý sự kiện khi nhấn nút "Decline"
-        btnDecline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isAccept(false);
-            }
-        });
+    public AdminActiveRequestDetailController(TextView edtStudentId, ImageView imgFront, ImageView imgBack, Button btnAccept, Button btnDecline, String token, Request request, AppCompatActivity activity) {
+        this.edtStudentId = edtStudentId;
+        this.imgFront = imgFront;
+        this.imgBack = imgBack;
+        this.btnAccept = btnAccept;
+        this.btnDecline = btnDecline;
+        this.token = token;
+        this.request = request;
+        this.activity = activity;
     }
-
-    // Nhận dữ liệu từ Intent
-    private void getDataFromIntent() {
-        token = getIntent().getStringExtra("token");
-        request = (Request) getIntent().getSerializableExtra("request");
-    }
-
-    // Khởi tạo các view
-    private void initView() {
-        edtStudentId = findViewById(R.id.studentId);
-        imgFront = findViewById(R.id.imgFront);
-        imgBack = findViewById(R.id.imgBack);
-        btnAccept = findViewById(R.id.accept);
-        btnDecline = findViewById(R.id.decline);
-    }
-
     // Lấy dữ liệu từ server
-    private void getData() {
+    public void getData() {
         Map<String, Object> header = new HashMap<>();
         header.put("token", token);
 
@@ -95,7 +57,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -103,7 +65,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
                 token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -120,7 +82,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -136,7 +98,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -144,7 +106,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -156,13 +118,13 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     // Xác nhận chấp nhận hoặc từ chối
-    private void isAccept(Boolean accept) {
+    public void isAccept(Boolean accept) {
         Map<String, Object> header = new HashMap<>();
         header.put("token", token);
 
@@ -177,7 +139,7 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -185,24 +147,24 @@ public class AdminActiveRequestDetailActivity extends AppCompatActivity {
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (accept) {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, "ACTIVE SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "ACTIVE SUCCESSFULLY", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(AdminActiveRequestDetailActivity.this, "DECLINED SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "DECLINED SUCCESSFULLY", Toast.LENGTH_LONG).show();
                 }
 
-                Intent intent = new Intent(AdminActiveRequestDetailActivity.this, AdminRequestActivity.class);
+                Intent intent = new Intent(activity, AdminRequestActivity.class);
                 intent.putExtra("token", token);
-                startActivity(intent);
+                activity.startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(AdminActiveRequestDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -39,7 +39,7 @@
             android:name=".AdminBanRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminActiveRequestDetailActivity"
+            android:name=".View.AdminActiveRequestDetailActivity"
             android:exported="false" />
         <activity
             android:name=".StudentAvailableGroupActivity"
