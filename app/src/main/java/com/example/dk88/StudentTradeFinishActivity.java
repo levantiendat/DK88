@@ -80,20 +80,6 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
             }
         });
 
-
-        ivInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StudentGroupMemberDetailDialogActivity dialog = new StudentGroupMemberDetailDialogActivity(StudentTradeFinishActivity.this,token, studentID,groupID);
-
-                Window window = dialog.getWindow();
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                window.setGravity(Gravity.CENTER);
-
-                dialog.show();
-            }
-        });
-
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
