@@ -25,7 +25,7 @@ import com.example.dk88.Model.User;
 import com.example.dk88.R;
 import com.example.dk88.View.SignUpActivity;
 import com.example.dk88.StudentActiveActivity;
-import com.example.dk88.StudentBanStatusActivity;
+import com.example.dk88.View.StudentBanStatusActivity;
 import com.example.dk88.View.StudentDashboardActivity;
 
 import java.util.HashMap;

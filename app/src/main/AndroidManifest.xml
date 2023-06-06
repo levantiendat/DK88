@@ -60,7 +60,7 @@
             android:name=".StudentActiveActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentBanStatusActivity"
+            android:name=".View.StudentBanStatusActivity"
             android:exported="false" />
         <activity
             android:name=".View.StudentProfileActivity"

@@ -1,59 +1,31 @@
-package com.example.dk88;
+package com.example.dk88.Controller;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.R;
 import com.example.dk88.View.SignInActivity;
+import com.example.dk88.View.StudentBanStatusActivity;
 
-public class StudentBanStatusActivity extends AppCompatActivity {
-    private Button btnOK;
-    private TextView btnShow;
+public class StudentBanStatusController {
+    private AppCompatActivity activity;
 
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_banned_status_layout);
-
-        initView();
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToSignInActivity();
-            }
-        });
-
-        btnShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAdminInformationPopup();
-            }
-        });
+    public StudentBanStatusController(AppCompatActivity activity) {
+        this.activity = activity;
+    }
+    public void navigateToSignInActivity() {
+        Intent intent = new Intent(activity, SignInActivity.class);
+        activity.startActivity(intent);
     }
 
-    private void initView() {
-        btnOK = findViewById(R.id.ok);
-        btnShow = findViewById(R.id.show);
-    }
-
-
-    private void navigateToSignInActivity() {
-        Intent intent = new Intent(StudentBanStatusActivity.this, SignInActivity.class);
-        startActivity(intent);
-    }
-
-    private void showAdminInformationPopup() {
-        Context context = StudentBanStatusActivity.this;
+    public void showAdminInformationPopup() {
+        Context context = activity;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.admin_information_dialog, null);
 
