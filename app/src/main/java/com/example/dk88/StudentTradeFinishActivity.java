@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.View.StudentDashboardActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

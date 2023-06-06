@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -7,13 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.dk88.View.SignInActivity;
+import com.example.dk88.Controller.StudentDashboardController;
+import com.example.dk88.R;
+import com.example.dk88.StudentAvailableGroupActivity;
+import com.example.dk88.StudentProfileActivity;
 
 public class StudentDashboardActivity extends AppCompatActivity {
     private CardView cvTrade, cvProfile, cvLogout;
     private String token;
     private String studentID;
     private String userName;
+    private StudentDashboardController mStudentDashboardController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +30,13 @@ public class StudentDashboardActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
+        mStudentDashboardController=new StudentDashboardController(cvTrade, cvProfile, cvLogout, token, studentID, userName, StudentDashboardActivity.this);
+
         // Xử lý sự kiện khi nhấn nút "Logout"
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout();
+                mStudentDashboardController.logout();
             }
         });
 
@@ -38,7 +44,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         cvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToStudentProfile();
+                mStudentDashboardController.goToStudentProfile();
             }
         });
 
@@ -46,7 +52,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         cvTrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToAvailableGroups();
+                mStudentDashboardController.goToAvailableGroups();
             }
         });
     }
@@ -65,30 +71,5 @@ public class StudentDashboardActivity extends AppCompatActivity {
         cvLogout = findViewById(R.id.logout);
     }
 
-    // Xử lý đăng xuất
-    private void logout() {
-        Intent intent = new Intent(StudentDashboardActivity.this, SignInActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
-    // Chuyển đến màn hình Student Profile
-    private void goToStudentProfile() {
-        Intent intent = new Intent(StudentDashboardActivity.this, StudentProfileActivity.class);
-        intent.putExtra("token", token);
-        intent.putExtra("studentID", studentID);
-        intent.putExtra("userName", userName);
-        startActivity(intent);
-        finish();
-    }
-
-    // Chuyển đến màn hình Available Groups
-    private void goToAvailableGroups() {
-        Intent intent = new Intent(StudentDashboardActivity.this, StudentAvailableGroupActivity.class);
-        intent.putExtra("token", token);
-        intent.putExtra("studentID", studentID);
-        intent.putExtra("userName", userName);
-        startActivity(intent);
-        finish();
-    }
 }

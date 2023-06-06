@@ -29,10 +29,10 @@
             android:name=".StudentGroupDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentDashboardActivity"
+            android:name=".View.StudentDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminDashboardActivity"
+            android:name=".View.AdminDashboardActivity"
             android:exported="false"
             android:windowContentTransitions="true" />
         <activity

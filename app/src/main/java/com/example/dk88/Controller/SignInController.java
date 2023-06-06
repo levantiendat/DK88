@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.AdminDashboardActivity;
+import com.example.dk88.View.AdminDashboardActivity;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
@@ -26,7 +26,7 @@ import com.example.dk88.R;
 import com.example.dk88.View.SignUpActivity;
 import com.example.dk88.StudentActiveActivity;
 import com.example.dk88.StudentBanStatusActivity;
-import com.example.dk88.StudentDashboardActivity;
+import com.example.dk88.View.StudentDashboardActivity;
 
 import java.util.HashMap;
 import java.util.Map;
