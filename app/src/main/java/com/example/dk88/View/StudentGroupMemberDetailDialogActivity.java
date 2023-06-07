@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.dk88.Controller.StudentGroupMemberDetailController;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.R;
 
 import java.util.HashMap;
 import java.util.Map;
