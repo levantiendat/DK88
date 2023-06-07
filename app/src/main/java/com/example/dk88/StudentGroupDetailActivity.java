@@ -30,148 +30,109 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
     Button btnVote;
     ImageView ivBack;
 
-
+    String token;
+    String studentID;
+    HashMap<String, String> needClass;
+    GroupInfo groupInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_group_detail_layout);
 
-        tvLostCourse =(TextView) findViewById(R.id.giveClass);
-        tvDetail = (TextView) findViewById(R.id.detail);
-        tvJoined = (TextView) findViewById(R.id.joinList);
-        tvWaiting = (TextView) findViewById(R.id.waitingList);
-        tvPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
-        btnVote = (Button) findViewById(R.id.vote_button);
-        ivBack = (ImageView) findViewById(R.id.back);
+        initView();
+        getDataFromIntent();
 
-        String token="";
-        String studentID="";
-        HashMap<String, String> needClass = new HashMap<>();
-        GroupInfo groupInfo = new GroupInfo();
-        lostCourse = "Summary: To get class you want, you will have to give class ";
-        detail="Detail: \n";
-        joined = "Joined: ";
-        waiting = "Waiting: ";
-        phoneNumber = "Phone number: \n";
+        // Retrieve student information and update phone numbers
+        for (String member : groupInfo.getGroupID().split("-")) {
+            if (TextUtils.isEmpty(member))
+                continue;
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            needClass = (HashMap<String, String>) bundle.getSerializable("needClass");
-            studentID = bundle.getString("studentID");
-            token = bundle.getString("token");
-            groupInfo = (GroupInfo) bundle.getSerializable("groupInfo");
-            if (needClass != null && token != null && groupInfo != null) {
-                String[] members = groupInfo.getGroupID().split("-");
-                HashMap<String, String> lost = new HashMap<>();
-                for (int i=0;i<members.length;i++){
-                    if (i==0){
-                        lost.put(members[0],needClass.get(members[members.length-1]));
-                    }else{
-                        lost.put(members[i],needClass.get(members[i-1]));
+            Map<String, Object> headers = new HashMap<>();
+            headers.put("token", token);
+
+            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, member);
+            call.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(StudentGroupDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        return;
                     }
+                    ResponseObject tmp = response.body();
 
-                    Map<String, Object> headers = new HashMap<>();
-                    headers.put("token", token);
-                    Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, members[i]);
-                    int finalI = i;
-                    call.enqueue(new Callback<ResponseObject>() {
-                        @Override
-                        public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                            if (!response.isSuccessful()) {
-                                Toast.makeText(StudentGroupDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            ResponseObject tmp = response.body();
-
-                            if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                                Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                            phoneNumber+=members[finalI] +": " + data.get("phoneNumber")+"\n";
-                            tvPhoneNumber.setText(phoneNumber);
-                        }
-                        @Override
-                        public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        }
-                    });
-
-
-                }
-                for (String member: members){
-                    detail+= member + " have class " + lost.get(member)+"\n";
+                    if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                        Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                    phoneNumber += member + ": " + data.get("phoneNumber") + "\n";
+                    tvPhoneNumber.setText(phoneNumber);
                 }
 
-                tvLostCourse.setText(lostCourse+groupInfo.getLophp());
-                tvDetail.setText(detail);
-
-
-
-                Map<String,Object> headers=new HashMap<>();
-                headers.put("token",token);
-
-                Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupInfo.getGroupID());
-                String finalStudentID = studentID;
-                call.enqueue(new Callback<ResponseObject>() {
-                    @Override
-                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        if (!response.isSuccessful())
-                        {
-                            Toast.makeText(StudentGroupDetailActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        ResponseObject tmp = response.body();
-                        if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
-                        {
-                            Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                        ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
-                        joined+= TextUtils.join(",", voteYes);
-                        tvJoined.setText(joined);
-
-                        ArrayList<String> waitList = new ArrayList<>();
-                        for (String member: members){
-                            if (!voteYes.contains(member)){
-                                waitList.add(member);
-                            }
-                        }
-                        waiting += TextUtils.join(", ", waitList);
-                        tvWaiting.setText(waiting);
-
-                        if (waiting.contains(finalStudentID)){
-                            btnVote.setText("JOIN");
-                        }else{
-                            btnVote.setText("LEAVE");
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-
-                    }
-                });
-            }
-
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+                    // Handle failure
+                }
+            });
         }
 
-        String finalToken = token;
-        String finalStudentID1 = studentID;
-        GroupInfo finalGroupInfo = groupInfo;
+        // Retrieve group information
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupInfo.getGroupID());
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(StudentGroupDetailActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
+                joined += TextUtils.join(",", voteYes);
+                tvJoined.setText(joined);
+
+                ArrayList<String> waitList = new ArrayList<>();
+                for (String member : groupInfo.getGroupID().split("-")) {
+                    if (!voteYes.contains(member)) {
+                        waitList.add(member);
+                    }
+                }
+                waiting += TextUtils.join(", ", waitList);
+                tvWaiting.setText(waiting);
+
+                if (waiting.contains(studentID)) {
+                    btnVote.setText("JOIN");
+                } else {
+                    btnVote.setText("LEAVE");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                // Handle failure
+            }
+        });
+
+        // Handle vote button click
         btnVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Map<String, Object> headers = new HashMap<>();
                 Map<String, Object> body = new HashMap<>();
 
-                headers.put("token", finalToken);
-                body.put("studentID", finalStudentID1);
-                body.put("groupID", finalGroupInfo.getGroupID());
+                headers.put("token", token);
+                body.put("studentID", studentID);
+                body.put("groupID", groupInfo.getGroupID());
 
-                Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers,body);
+                Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -186,27 +147,72 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
                             return;
                         }
 
-                        if (btnVote.getText().equals("JOIN")){
+                        if (btnVote.getText().equals("JOIN")) {
                             btnVote.setText("LEAVE");
-                        }else{
+                        } else {
                             btnVote.setText("JOIN");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseObject> call, Throwable t) {
-
+                        // Handle failure
                     }
                 });
-
             }
         });
 
+        // Handle back button click
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+    }
+
+    // Initialize views
+    private void initView() {
+        tvLostCourse = findViewById(R.id.giveClass);
+        tvDetail = findViewById(R.id.detail);
+        tvJoined = findViewById(R.id.joinList);
+        tvWaiting = findViewById(R.id.waitingList);
+        tvPhoneNumber = findViewById(R.id.phoneNumber);
+        btnVote = findViewById(R.id.vote_button);
+        ivBack = findViewById(R.id.back);
+
+        lostCourse = "Summary: To get the class you want, you will have to give a class ";
+        detail = "Detail: \n";
+        joined = "Joined: ";
+        waiting = "Waiting: ";
+        phoneNumber = "Phone number: \n";
+    }
+
+    // Retrieve data from intent
+    private void getDataFromIntent() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            needClass = (HashMap<String, String>) bundle.getSerializable("needClass");
+            studentID = bundle.getString("studentID");
+            token = bundle.getString("token");
+            groupInfo = (GroupInfo) bundle.getSerializable("groupInfo");
+            if (needClass != null && token != null && groupInfo != null) {
+                String[] members = groupInfo.getGroupID().split("-");
+                HashMap<String, String> lost = new HashMap<>();
+                for (int i = 0; i < members.length; i++) {
+                    if (i == 0) {
+                        lost.put(members[0], needClass.get(members[members.length - 1]));
+                    } else {
+                        lost.put(members[i], needClass.get(members[i - 1]));
+                    }
+                }
+                for (String member : members) {
+                    detail += member + " have class " + lost.get(member) + "\n";
+                }
+
+                tvLostCourse.setText(lostCourse + groupInfo.getLophp());
+                tvDetail.setText(detail);
+            }
+        }
     }
 }
