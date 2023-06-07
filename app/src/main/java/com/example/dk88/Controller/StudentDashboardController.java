@@ -5,7 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.dk88.StudentAvailableGroupActivity;
+import com.example.dk88.View.StudentAvailableGroupActivity;
 import com.example.dk88.View.StudentProfileActivity;
 import com.example.dk88.View.SignInActivity;
 

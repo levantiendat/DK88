@@ -42,7 +42,7 @@
             android:name=".View.AdminActiveRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentAvailableGroupActivity"
+            android:name=".View.StudentAvailableGroupActivity"
             android:exported="false" />
         <activity
             android:name=".View.SignUpActivity"

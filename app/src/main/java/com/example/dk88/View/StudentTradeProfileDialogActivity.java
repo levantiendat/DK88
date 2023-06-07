@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,12 +12,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.dk88.Controller.StudentTradeProfileController;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.DatabaseHandler;
 import com.example.dk88.Model.GroupInfo;
 import com.example.dk88.Model.ListClassAdapter;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.StudentClassRelation;
+import com.example.dk88.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +33,14 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
         android.view.View.OnClickListener {
     ListClassAdapter adapter;
     ListView listView;
-    ArrayList<GroupInfo> arrayCourse;
+
     Button btnAdd, btnSave, btnCancel;
     EditText edtNeed, edtNotNeed;
 
     Context context;
     String token = "";
     String studentID;
+    private StudentTradeProfileController mStudentTradeProfileController;
 
     public StudentTradeProfileDialogActivity(@NonNull Context context, String token, String studentID) {
         super(context);
@@ -55,9 +58,11 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
 
         initView();
 
+        mStudentTradeProfileController=new StudentTradeProfileController(listView,edtNeed,edtNotNeed,context,token,studentID);
+
         // Lấy danh sách lớp học từ SQLite và hiển thị lên ListView
-        getFromSQL(studentID);
-        listView.setAdapter(adapter);
+        mStudentTradeProfileController.getFromSQL(mStudentTradeProfileController.studentID);
+
 
         // Thiết lập sự kiện click cho các nút
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +70,7 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
             public void onClick(View view) {
                 // Xử lý sự kiện khi click nút Add
                 String classNo = edtNotNeed.getText().toString();
-                addData(classNo);
+                mStudentTradeProfileController.addData(classNo);
             }
         });
 
@@ -81,79 +86,22 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
             @Override
             public void onClick(View view) {
                 // Xử lý sự kiện khi click nút Save
-                addToSQL();
-                saveClassChanges();
-            }
-
-        });
-
-    }
-
-    private void addData(String classNo) {
-        // Thêm lớp học vào danh sách và cập nhật ListView
-        arrayCourse.add(new GroupInfo(classNo, 0, 0, ""));
-        adapter.notifyDataSetChanged();
-        listView.setAdapter(adapter);
-    }
-
-    private void addToSQL() {
-        // Thêm thông tin lớp học vào SQLite
-        DatabaseHandler db = new DatabaseHandler(context);
-        ArrayList<StudentClassRelation> list = new ArrayList<>();
-        for (GroupInfo info : arrayCourse) {
-            list.add(new StudentClassRelation(studentID, info.getLophp(), 1));
-        }
-        list.add(new StudentClassRelation(studentID, edtNeed.getText().toString(), 0));
-        for (StudentClassRelation studentClass : list) {
-            db.addStudentClass(studentClass);
-        }
-    }
-
-    private void getFromSQL(String id) {
-        // Lấy thông tin lớp học từ SQLite và cập nhật danh sách và ListView
-        DatabaseHandler db = new DatabaseHandler(context);
-        ArrayList<StudentClassRelation> list = (ArrayList<StudentClassRelation>) db.getStudentClass(id);
-        for (StudentClassRelation info : list) {
-            if (info.getHave() == 1) {
-                arrayCourse.add(new GroupInfo(info.getClassId(), 0, 0, ""));
-            } else {
-                edtNeed.setText(info.getClassId());
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    private void saveClassChanges() {
-        // Gửi yêu cầu thay đổi thông tin lớp học lên server
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("token", token);
-        Map<String, Object> detail = new HashMap<>();
-        detail.put("idQuery", 1);
-        detail.put("targetID", studentID);
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (GroupInfo gr : arrayCourse) {
-            arrayList.add(gr.getLophp());
-        }
-        detail.put("haveClass", arrayList);
-        detail.put("wantClass", edtNeed.getText().toString());
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeClass(headers, detail);
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Toast.makeText(context, response.message().toString(), Toast.LENGTH_LONG).show();
+                mStudentTradeProfileController.addToSQL();
+                mStudentTradeProfileController.saveClassChanges();
                 dismiss();
             }
-
+        });
+        mStudentTradeProfileController.adapter.setOnDeleteClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                int position = listView.getPositionForView(v);
+                mStudentTradeProfileController.removeToList(position);
+
             }
         });
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -171,8 +119,8 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
 
         // Khởi tạo danh sách lớp học và adapter
         listView = findViewById(R.id.lwclass);
-        arrayCourse = new ArrayList<>();
-        adapter = new ListClassAdapter(context, R.layout.student_list_class_item_layout, arrayCourse);
+
+
     }
 
     @Override

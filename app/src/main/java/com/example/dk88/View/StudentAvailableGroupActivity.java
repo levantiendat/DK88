@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -24,9 +24,7 @@ import com.example.dk88.Model.ListGroupAdapter;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.StudentClassRelation;
 import com.example.dk88.Model.StudentDemand;
-import com.example.dk88.View.StudentDashboardActivity;
-import com.example.dk88.View.StudentGroupDetailActivity;
-import com.example.dk88.View.StudentTradeFinishActivity;
+import com.example.dk88.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
