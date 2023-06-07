@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import com.example.dk88.View.AdminProfileActivity;
 import com.example.dk88.View.AdminRequestActivity;
 import com.example.dk88.Model.Admin;
+import com.example.dk88.View.AdminUserManagementActivity;
 import com.example.dk88.View.SignInActivity;
 
 public class AdminDashboardController {
@@ -42,6 +43,13 @@ public class AdminDashboardController {
     // Chuyển đến màn hình Admin Request
     public void goToAdminRequest() {
         Intent intent = new Intent(activity, AdminRequestActivity.class);
+        intent.putExtra("token", token);
+        intent.putExtra("admin", admin);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+    public void goToAdminUserManagementActivity(){
+        Intent intent = new Intent(activity, AdminUserManagementActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("admin", admin);
         activity.startActivity(intent);

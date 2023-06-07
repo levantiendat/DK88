@@ -1,5 +1,7 @@
 package com.example.dk88.Model;
 
+import android.net.wifi.rtt.ResponderConfig;
+
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -70,5 +72,8 @@ public interface JsonPlaceHolderApi {
 
     @GET ("Group/Joined/{student_id}")
     Call<ResponseObject> getGroupOfStudent(@HeaderMap Map<String,Object> header, @Path("student_id") String student_id);
+
+    @GET("User/ReadAllStudentID")
+    Call<ResponseObject> getAllStudentID(@HeaderMap Map<String,Object> header);
 
 }

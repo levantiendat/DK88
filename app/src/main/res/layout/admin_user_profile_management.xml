@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="15"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_weight="2"
+        android:text="USER DETAIL"
+        android:textColor="@color/black"
+
+        android:textSize="30dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tw3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        android:text="Public info:"
+        android:textColor="@color/black"
+
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <EditText
+
+        android:drawableLeft="@drawable/name"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:id="@+id/fullname"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/black_bordered_frame"
+        android:hint="Full name"/>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/phone"
+        android:layout_weight="1"
+        android:id="@+id/phone"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/black_bordered_frame"
+        android:hint="Phone number"/>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/facebook"
+        android:layout_weight="1"
+        android:id="@+id/facebookLink"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/black_bordered_frame"
+        android:hint="Facebook Link"/>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="#F8F8F6"
+            android:background="@drawable/black_bordered_button"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp"
+
+            android:text="SAVE" />
+        <Button
+            android:id="@+id/back"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:background="@drawable/white_bordered_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+
+            android:text="Back" />
+        >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        android:layout_height="25dp">
+        <TextView
+
+            android:text="Need contact admin?"
+
+            android:layout_weight="2"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/getAdmin1"
+            android:textColor="@color/black"
+            android:text="Get Admin info"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>

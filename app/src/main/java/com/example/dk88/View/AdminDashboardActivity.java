@@ -60,7 +60,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Implement the logic for handling the "Users" button click
+                mAdminDashboardController.goToAdminUserManagementActivity();
             }
         });
     }
