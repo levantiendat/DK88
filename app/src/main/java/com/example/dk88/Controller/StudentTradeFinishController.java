@@ -1,20 +1,18 @@
-package com.example.dk88;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.dk88.Controller;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.View.StudentReportActivity;
 import com.example.dk88.View.StudentDashboardActivity;
 import com.example.dk88.View.StudentGroupMemberDetailDialogActivity;
 
@@ -26,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentTradeFinishActivity extends AppCompatActivity {
+public class StudentTradeFinishController {
     String groupID = null;
     String lostCourse;
     String studentID;
@@ -35,93 +33,44 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
     String token = "";
 
     TextView tvLostCourse;
-    ImageView ivBack, ivReport, ivInfo;
+
     Button btnFinish;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_trade_group_detail_layout);
+    private AppCompatActivity activity;
 
-        // Khởi tạo và ánh xạ view
-        initView();
+    public StudentTradeFinishController(String userName, String token, String studentID,Button btnFinish,TextView tvLostCourse, AppCompatActivity activity) {
 
-        // Lấy dữ liệu từ Intent
-        getDataFromIntent();
-
-        // Kiểm tra trạng thái của nhóm
-        checkStatusGroup(studentID);
-
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToDashboard();
-            }
-        });
-
-        ivReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToReport();
-            }
-        });
-
-        ivInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showGroupMemberDetailDialog();
-            }
-        });
-
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                voteGroup();
-            }
-        });
-
+        this.tvLostCourse = tvLostCourse;
+        this.activity = activity;
+        this.studentID=studentID;
+        this.token=token;
+        this.userName=userName;
+        this.btnFinish=btnFinish;
     }
 
-    // Khởi tạo và ánh xạ các view
-    private void initView() {
-        tvLostCourse = findViewById(R.id.giveClass);
-        ivBack = findViewById(R.id.back);
-        ivReport = findViewById(R.id.report);
-        ivInfo = findViewById(R.id.info);
-        btnFinish = findViewById(R.id.finish);
-    }
 
-    // Lấy dữ liệu từ Intent
-    private void getDataFromIntent() {
-        token = getIntent().getStringExtra("token");
-        studentID = getIntent().getStringExtra("studentID");
-        userName = getIntent().getStringExtra("userName");
-        lostCourse = getIntent().getStringExtra("lostCourse");
-
-        tvLostCourse.setText(tvLostCourse.getText() + lostCourse);
-    }
 
     // Chuyển đến màn hình StudentDashboardActivity
-    private void navigateToDashboard() {
-        Intent intent = new Intent(StudentTradeFinishActivity.this, StudentDashboardActivity.class);
+    public void navigateToDashboard() {
+        Intent intent = new Intent(activity, StudentDashboardActivity.class);
         intent.putExtra("studentID", studentID);
         intent.putExtra("token", token);
         intent.putExtra("userName", userName);
-        startActivity(intent);
+        activity.startActivity(intent);
     }
 
     // Chuyển đến màn hình StudentReportActivity
-    private void navigateToReport() {
-        Intent intent = new Intent(StudentTradeFinishActivity.this, StudentReportActivity.class);
+    public void navigateToReport() {
+        Intent intent = new Intent(activity, StudentReportActivity.class);
         intent.putExtra("studentID", studentID);
         intent.putExtra("token", token);
         intent.putExtra("userName", userName);
-        startActivity(intent);
+        activity.startActivity(intent);
     }
 
     // Hiển thị dialog thông tin thành viên nhóm
-    private void showGroupMemberDetailDialog() {
-        StudentGroupMemberDetailDialogActivity dialog = new StudentGroupMemberDetailDialogActivity(StudentTradeFinishActivity.this, token, studentID, groupID);
+    public void showGroupMemberDetailDialog() {
+        StudentGroupMemberDetailDialogActivity dialog = new StudentGroupMemberDetailDialogActivity(activity, token, studentID, groupID);
 
         Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
@@ -131,7 +80,7 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
     }
 
     // Gửi request đánh giá nhóm
-    private void voteGroup() {
+    public void voteGroup() {
         Map<String, Object> headers = new HashMap<>();
         Map<String, Object> body = new HashMap<>();
         headers.put("token", token);
@@ -143,13 +92,13 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentTradeFinishActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentTradeFinishActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -167,7 +116,7 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
         });
     }
 
-    private void checkStatusGroup(String studentID) {
+    public void checkStatusGroup(String studentID) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
@@ -176,17 +125,17 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentTradeFinishActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentTradeFinishActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 groupID = (String) tmp.getData();
                 if (groupID == null) {
-                    Toast.makeText(StudentTradeFinishActivity.this, "Trade Finish!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Trade Finish!", Toast.LENGTH_SHORT).show();
                     navigateToDashboard();
                 } else {
                     setTextButton(groupID);
@@ -209,12 +158,12 @@ public class StudentTradeFinishActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentTradeFinishActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentTradeFinishActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
