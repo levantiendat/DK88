@@ -57,7 +57,7 @@
             android:name=".View.AdminRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".StudentActiveActivity"
+            android:name=".View.StudentActiveActivity"
             android:exported="false" />
         <activity
             android:name=".View.StudentBanStatusActivity"
