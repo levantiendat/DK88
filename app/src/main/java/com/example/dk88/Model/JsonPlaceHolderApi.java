@@ -76,4 +76,6 @@ public interface JsonPlaceHolderApi {
     @GET("User/ReadAllStudentID")
     Call<ResponseObject> getAllStudentID(@HeaderMap Map<String,Object> header);
 
+    @POST("User/ChangeStudentStatus")
+    Call<ResponseObject> changeStudentStatus(@HeaderMap Map<String,Object> header,@Body Map<String,Object> body);
 }

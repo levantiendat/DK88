@@ -110,7 +110,11 @@ public class AdminUserManagementActivity extends AppCompatActivity {
         listStudent.setAdapter(adapter);
     }
     private void gotoAdminUserProfile(String studentID){
-
+        Intent intent = new Intent(AdminUserManagementActivity.this, AdminUserProfileActivity.class);
+        intent.putExtra("admin", admin);
+        intent.putExtra("token", token);
+        intent.putExtra("studentID",studentID);
+        startActivity(intent);
     }
     private void backToDashBoard(){
         Intent intent = new Intent(AdminUserManagementActivity.this, AdminDashboardActivity.class);
