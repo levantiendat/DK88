@@ -84,6 +84,7 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
                 addToSQL();
                 saveClassChanges();
             }
+
         });
 
     }
