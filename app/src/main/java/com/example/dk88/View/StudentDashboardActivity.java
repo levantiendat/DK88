@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.dk88.Controller.StudentDashboardController;
 import com.example.dk88.R;
@@ -14,6 +15,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
     private String token;
     private String studentID;
     private String userName;
+    private Button btnTradeProfile,btnProfile,btnMyGroup,btnTradeCourse;
     private StudentDashboardController mStudentDashboardController;
 
     @Override

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:weightSum="10"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:layout_marginLeft="00dp"
+        android:layout_marginRight="00dp"
+        android:layout_height="50dp">
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/back"
+
+            android:background="@drawable/back"
+            android:contentDescription="TODO" />
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/tv001"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="USER MANAGEMENT"
+            android:layout_marginLeft="10dp"
+
+
+            android:layout_width="280dp"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+    <EditText
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:hint="Search"
+        android:id="@+id/search"
+        android:background="@drawable/black_frame"
+        android:drawableLeft="@drawable/search"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:dividerHeight="10.0sp"
+        android:divider="@android:color/transparent"
+        android:layout_height="450dp"/>
+
+
+
+</LinearLayout>

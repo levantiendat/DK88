@@ -19,7 +19,7 @@
         android:text="MENU" />
     <Button
         android:layout_marginTop="30dp"
-        android:id="@+id/myAccount"
+        android:id="@+id/adminProfile"
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:textSize="22dp"
@@ -41,7 +41,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        android:id="@+id/myCourse"
+        android:id="@+id/requestManagement"
         android:textSize="22dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/black_frame"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
         <TextView
-            android:id="@+id/signOut"
+            android:id="@+id/logout"
             android:textColor="@color/black"
             android:text="Sign out"
             android:textStyle="bold"

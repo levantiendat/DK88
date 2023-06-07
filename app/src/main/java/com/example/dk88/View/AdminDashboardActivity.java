@@ -5,21 +5,25 @@ import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.dk88.Controller.AdminDashboardController;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.R;
 
 public class AdminDashboardActivity extends AppCompatActivity {
-    private CardView cvUsers, cvRequest, cvProfile, cvLogout;
+
     private String token;
     private Admin admin;
+    private Button btnUser,btnRequest,btnProfile;
+    private TextView btnLogout;
     private AdminDashboardController mAdminDashboardController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_dashboard_layout);
+        setContentView(R.layout.admin_menu_layout);
 
         // Nhận dữ liệu từ Intent
         getDataFromIntent();
@@ -27,9 +31,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
-        mAdminDashboardController=new AdminDashboardController(cvUsers,cvRequest,cvProfile,cvLogout,token,admin,AdminDashboardActivity.this);
+        mAdminDashboardController=new AdminDashboardController(token,admin,AdminDashboardActivity.this);
         // Xử lý sự kiện khi nhấn nút "Logout"
-        cvLogout.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdminDashboardController.logout();
@@ -37,7 +41,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút "Profile"
-        cvProfile.setOnClickListener(new View.OnClickListener() {
+        btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdminDashboardController.goToAdminProfile();
@@ -45,7 +49,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút "Request"
-        cvRequest.setOnClickListener(new View.OnClickListener() {
+        btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAdminDashboardController.goToAdminRequest();
@@ -53,7 +57,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút "Users"
-        cvUsers.setOnClickListener(new View.OnClickListener() {
+        btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Implement the logic for handling the "Users" button click
@@ -69,10 +73,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     // Khởi tạo các view
     private void initView() {
-        cvUsers = findViewById(R.id.userManagement);
-        cvRequest = findViewById(R.id.requestManagement);
-        cvProfile = findViewById(R.id.adminProfile);
-        cvLogout = findViewById(R.id.logout);
+        btnUser = (Button)findViewById(R.id.userManagement);
+        btnRequest = (Button)findViewById(R.id.requestManagement);
+        btnProfile = (Button)findViewById(R.id.adminProfile);
+        btnLogout = (TextView) findViewById(R.id.logout);
     }
 
 

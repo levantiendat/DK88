@@ -11,16 +11,13 @@ import com.example.dk88.Model.Admin;
 import com.example.dk88.View.SignInActivity;
 
 public class AdminDashboardController {
-    private CardView cvUsers, cvRequest, cvProfile, cvLogout;
+
     private String token;
     private Admin admin;
     private AppCompatActivity activity;
 
-    public AdminDashboardController(CardView cvUsers, CardView cvRequest, CardView cvProfile, CardView cvLogout, String token, Admin admin, AppCompatActivity activity) {
-        this.cvUsers = cvUsers;
-        this.cvRequest = cvRequest;
-        this.cvProfile = cvProfile;
-        this.cvLogout = cvLogout;
+    public AdminDashboardController( String token, Admin admin, AppCompatActivity activity) {
+
         this.token = token;
         this.admin = admin;
         this.activity = activity;
