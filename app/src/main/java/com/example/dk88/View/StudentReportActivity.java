@@ -1,4 +1,4 @@
-package com.example.dk88;
+package com.example.dk88.View;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,6 +33,8 @@ import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.PictureAdapter;
 import com.example.dk88.Model.RealPathUtil;
 import com.example.dk88.Model.ResponseObject;
+import com.example.dk88.R;
+import com.example.dk88.StudentTradeFinishActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
