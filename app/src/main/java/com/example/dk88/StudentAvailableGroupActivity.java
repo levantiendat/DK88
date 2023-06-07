@@ -26,6 +26,7 @@ import com.example.dk88.Model.StudentClassRelation;
 import com.example.dk88.Model.StudentDemand;
 import com.example.dk88.View.StudentDashboardActivity;
 import com.example.dk88.View.StudentGroupDetailActivity;
+import com.example.dk88.View.StudentTradeFinishActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
