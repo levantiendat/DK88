@@ -25,6 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dk88.Controller.StudentReportController;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.PictureAdapter;
@@ -62,9 +63,9 @@ public class StudentReportActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 1000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
-    private ArrayList<Picture> arrayPicture;
-    private ArrayList<Uri> uriPicture;
-    private ArrayList<String> strPicture;
+
+
+    private StudentReportController mStudentReportController;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -81,9 +82,9 @@ public class StudentReportActivity extends AppCompatActivity {
                         Bitmap bitmap = null;
                         try {
                             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                            arrayPicture.add(new Picture(bitmap));
-                            uriPicture.add(uri);
-                            getData();
+                            mStudentReportController.arrayPicture.add(new Picture(bitmap));
+                            mStudentReportController.uriPicture.add(uri);
+                            mStudentReportController.getData();
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -100,7 +101,7 @@ public class StudentReportActivity extends AppCompatActivity {
 
         initView();
         getDataFromIntent();
-
+        mStudentReportController=new StudentReportController(token,studentID,userName,edtTarget,edtProblem,listPicture,StudentReportActivity.this);
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,129 +112,18 @@ public class StudentReportActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Uri uri : uriPicture) {
-                    minimizeUri(uri);
-                    if (uriFinal != null) {
-                        uploadPicture(uriFinal);
+                for (Uri uri : mStudentReportController.uriPicture) {
+                    mStudentReportController.minimizeUri(uri);
+                    if (mStudentReportController.uriFinal != null) {
+                        mStudentReportController.uploadPicture(mStudentReportController.uriFinal);
                     }
-                    uriFinal = null;
+                    mStudentReportController.uriFinal = null;
                 }
             }
         });
     }
 
-    private void getData() {
-        adapter = new PictureAdapter(this, R.layout.picture_layout, arrayPicture);
-        listPicture.setAdapter(adapter);
-    }
 
-    private void minimizeUri(Uri uri) {
-        try {
-            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            int quality = 100;
-            originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-
-            while (outputStream.toByteArray().length > 1024 * 1024 && quality > 0) {
-                outputStream.reset();
-                quality -= 5;
-                originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            }
-
-            File outputDir = getApplicationContext().getCacheDir();
-            File outputFile = File.createTempFile("compressed_image", ".jpg", outputDir);
-
-            FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-            fileOutputStream.write(outputStream.toByteArray());
-            fileOutputStream.close();
-
-            uriFinal = Uri.fromFile(outputFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void uploadPicture(Uri uri) {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("token", token);
-
-        String strRealPath = RealPathUtil.getRealPath(this, uri);
-        File file = new File(strRealPath);
-
-        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part picture = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
-
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(StudentReportActivity.this, "Error uploading picture", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                ResponseObject tmp = response.body();
-
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentReportActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                url = tmp.getData().toString();
-                check++;
-                if (url.length() > 0) {
-                    strPicture.add(url);
-                }
-                if (check == uriPicture.size()) {
-                    sendBan();
-                }
-                Toast.makeText(StudentReportActivity.this, tmp.getData().toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentReportActivity.this, "Error uploading picture", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void sendBan() {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("token", token);
-
-        Map<String, Object> banInfo = new HashMap<>();
-        banInfo.put("requestID", 2);
-        banInfo.put("targetID", edtTarget.getText().toString());
-        banInfo.put("requestCode", 1);
-        banInfo.put("moreDetail", edtProblem.getText().toString());
-        banInfo.put("imageProof", strPicture);
-
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().sendBanRequest(headers, banInfo);
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(StudentReportActivity.this, "Error uploading", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                ResponseObject tmp = response.body();
-                token = response.headers().get("token");
-
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(StudentReportActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Toast.makeText(StudentReportActivity.this, "Your request to ban the account is successful. Please wait for an admin to ban it.", Toast.LENGTH_LONG).show();
-                Toast.makeText(StudentReportActivity.this, "You can swipe back.", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentReportActivity.this, "Error uploading", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -292,9 +182,7 @@ public class StudentReportActivity extends AppCompatActivity {
         edtProblem = findViewById(R.id.reportProblem);
         listPicture = findViewById(R.id.listView);
 
-        arrayPicture = new ArrayList<>();
-        uriPicture = new ArrayList<>();
-        strPicture = new ArrayList<>();
+
     }
 
     private void getDataFromIntent(){
