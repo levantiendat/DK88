@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Model.ApiUserRequester;
@@ -42,12 +43,10 @@ import retrofit2.Response;
 
 
 public class StudentAvailableGroupActivity extends AppCompatActivity {
-    int time =10000;
-
     ImageView ivBack;
     ListGroupAdapter adapter;
-    ListView listview1;
-    ArrayList<GroupInfo> arrayclass;
+    ListView listView;
+    ArrayList<GroupInfo> listGroupInfo =new ArrayList<>();
     Button btnPrevious, btnNext;
 
     ImageView imgSetting;
@@ -64,8 +63,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     String studentID;
     String userName;
 
-    Map<Integer, ArrayList<GroupInfo>> pageContent;
-    Map<String, Integer> isPage;
+    Map<Integer, ArrayList<GroupInfo>> pageContent = new HashMap<>();
+    Map<String, Integer> isPage = new HashMap<>();
     int maxPage=0;
     int currentPage=1;
     int maxElementPerPage=7;
@@ -77,46 +76,15 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_list_group_layout);
-        token=getIntent().getStringExtra("token");
-        studentID=getIntent().getStringExtra("studentID");
-        userName=getIntent().getStringExtra("userName");
-        btnNext=(Button) findViewById(R.id.next);
-        btnPrevious=(Button) findViewById(R.id.previous);
-        ivBack = (ImageView) findViewById(R.id.back);
-        imgSetting = (ImageView) findViewById(R.id.set001);
-        imgReload = (ImageView) findViewById(R.id.reload);
-        listview1=(ListView) findViewById(R.id.lwclass);
-        arrayclass =new ArrayList<>();
-        pageContent = new HashMap<>();
-        isPage = new HashMap<>();
 
+        initView();
         getMyGroup();
-
-//
-//        int latestId = mPrefs.getInt("latest_id", 0);
-//        getData(latestId);
-
-//        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        int latestId = mPrefs.getInt("latest_id", 0);
-//        getData(latestId);
-
-
-//        QueryThread queryThread = new QueryThread();
-//        queryThread.start();
-//
-//        GroupInfoThread groupInfoThread = new GroupInfoThread();
-//        groupInfoThread.start();
 
         imgReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                 int latestId = mPrefs.getInt("latest_id", 0);
-                arrayclass.clear();
-                pageContent.clear();
-                isPage.clear();
-                studentRequestMap.clear();
-                haveClass.clear();
-                needClass.clear();
+                clearOldData();
                 getData(latestId);
                 checkMyGroup();
             }
@@ -129,7 +97,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
-//                    fillPage(currentPage);
+                    fillPage(currentPage);
                     updateGroupInfo();
                 }
             }
@@ -140,7 +108,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
-//                    fillPage(currentPage);
+                    fillPage(currentPage);
                     updateGroupInfo();
                 }
 
@@ -172,10 +140,10 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
             }
         });
 
-        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                GroupInfo groupInfo = arrayclass.get(position);
+                GroupInfo groupInfo = listGroupInfo.get(position);
                 Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentGroupDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("studentID", studentID);
@@ -195,12 +163,13 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+            public void onResponse(Call<ResponseObject> call, @NonNull Response<ResponseObject> response) {
                 if (!response.isSuccessful()){
                     Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
+                assert tmp != null;
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
                     Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
@@ -246,8 +215,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     Map<String, Object> data = (Map<String, Object>) tmp.getData();
                     ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
 
-                    arrayclass.get(finalI).setCurrent(voteYes.size());
-//                    fillPage(currentPage);
+                    listGroupInfo.get(finalI).setCurrent(voteYes.size());
+                    fillPage(currentPage);
                     adapter.notifyDataSetChanged();
                 }
 
@@ -261,17 +230,17 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         }
     }
     private void fillPage(int pageNumber){
-        arrayclass.clear();
+        listGroupInfo.clear();
         if (pageContent.get(pageNumber)!=null) {
             for (GroupInfo temp : pageContent.get(pageNumber)) {
-                arrayclass.add(temp);
+                listGroupInfo.add(temp);
             }
-            adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
-            listview1.setAdapter(adapter);
+            adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, listGroupInfo);
+            listView.setAdapter(adapter);
         }
     }
     private void prepareAllData(ArrayList<ArrayList<String>> listClass){
-        arrayclass.clear();
+        listGroupInfo.clear();
 
         int i=0;
         int page=1;
@@ -500,7 +469,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     }
                 }
 
-                Graph g = new Graph();
                 for (Map.Entry<String, StudentDemand> entry : studentRequestMap.entrySet()) {
                     String key = entry.getKey();
                     StudentDemand value = entry.getValue();
@@ -519,7 +487,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 try {
                     res = g.printAllCycles(studentID);
                     prepareAllData(res);
-//                    fillPage(currentPage);
                     updateGroupInfo();
                 }catch (Exception e){
 
@@ -543,5 +510,26 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 
 
+    }
+
+    private void initView(){
+        token=getIntent().getStringExtra("token");
+        studentID=getIntent().getStringExtra("studentID");
+        userName=getIntent().getStringExtra("userName");
+        btnNext=(Button) findViewById(R.id.next);
+        btnPrevious=(Button) findViewById(R.id.previous);
+        ivBack = (ImageView) findViewById(R.id.back);
+        imgSetting = (ImageView) findViewById(R.id.set001);
+        imgReload = (ImageView) findViewById(R.id.reload);
+        listView=(ListView) findViewById(R.id.lwclass);
+    }
+
+    private void clearOldData(){
+        listGroupInfo.clear();
+        pageContent.clear();
+        isPage.clear();
+        studentRequestMap.clear();
+        haveClass.clear();
+        needClass.clear();
     }
 }
