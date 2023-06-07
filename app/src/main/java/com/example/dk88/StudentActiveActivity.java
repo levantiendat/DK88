@@ -52,67 +52,60 @@ import retrofit2.Response;
 public class StudentActiveActivity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 1000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
-    ImageButton imgFront,imgBack;
-    ImageView imageFront,imageBack;
-    private int imageCode=0;
-    String token;
-    private Uri mUri1,mUri2,uriFinal;
-    Button btnOK;
-    String strFront="",strBack="";
-    String studentID;
-    int check=0;
-    private static final String TAG= StudentActiveActivity.class.getName();
-    private ActivityResultLauncher<Intent> mActivityResultLauncher=registerForActivityResult(
+    private ImageButton imgFront, imgBack;
+    private ImageView imageFront, imageBack;
+    private int imageCode = 0;
+    private String token;
+    private Uri mUri1, mUri2, uriFinal;
+    private Button btnOK;
+    private String strFront = "", strBack = "";
+    private String studentID;
+    private int check = 0;
+    private static final String TAG = StudentActiveActivity.class.getName();
+
+    private final ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 
-                    if(result.getResultCode()== Activity.RESULT_OK){
-                        Intent data=result.getData();
-                        if(data==null){
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data == null) {
                             return;
                         }
-                        Uri uri=data.getData();
-                        if(imageCode==1) {
-                            mUri1=uri;
-                            Bitmap bitmap=null;
+                        Uri uri = data.getData();
+                        if (imageCode == 1) {
+                            mUri1 = uri;
+                            Bitmap bitmap = null;
                             try {
-                                bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-
+                                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
                             Log.e(TAG, mUri1.toString());
                             imageFront.setImageBitmap(bitmap);
-                        }
-                        else if(imageCode==2){
-                            mUri2=uri;
-                            Bitmap bitmap=null;
+                        } else if (imageCode == 2) {
+                            mUri2 = uri;
+                            Bitmap bitmap = null;
                             try {
-                                bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-
+                                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
                             Log.e(TAG, mUri1.toString());
                             imageBack.setImageBitmap(bitmap);
                         }
-                        try{
-
+                        try {
                             Glide.with(StudentActiveActivity.this)
                                     .asBitmap()
-                                    .load(uri) // hoặc load(url)
+                                    .load(uri)
                                     .apply(new RequestOptions()
-                                            .override(1024, 1024)) // kích thước tối đa của ảnh sau khi nén
+                                            .override(1024, 1024))
                                     .into(new SimpleTarget<Bitmap>() {
                                         @Override
                                         public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                                            // bitmap đã được nén và load thành công, tiếp tục xử lý ở đây
-                                            String path=MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"Title",null);
-
-
-
+                                            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
                                         }
 
                                         @Override
@@ -120,9 +113,7 @@ public class StudentActiveActivity extends AppCompatActivity {
                                             Log.e(TAG, "Error transform");
                                         }
                                     });
-
-
-                        } catch(Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -135,51 +126,45 @@ public class StudentActiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_active_request_layout);
 
-        token=getIntent().getStringExtra("token");
-        studentID=getIntent().getStringExtra("studentID");
+        // Nhận dữ liệu từ Intent
+        getDataFromIntent();
 
-        imgFront=(ImageButton) findViewById(R.id.imgFront);
-        imgBack=(ImageButton) findViewById(R.id.imgBack);
-        imageFront=(ImageView) findViewById(R.id.picture);
-        imageBack=(ImageView) findViewById(R.id.picture1);
-        btnOK=(Button) findViewById(R.id.ok);
+        // Khởi tạo các view
+        initView();
 
         imgFront.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageCode=1;
+                imageCode = 1;
                 onClickRequestPermission();
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageCode=2;
+                imageCode = 2;
                 onClickRequestPermission();
             }
         });
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                check=0;
-                if(mUri1!=null){
+                check = 0;
+                if (mUri1 != null) {
                     minimizeUri(mUri1);
-                    mUri1=uriFinal;
-                    uploadPicture(mUri1,"Front");
+                    mUri1 = uriFinal;
+                    uploadPicture(mUri1, "Front");
                 }
-                if(mUri2!=null){
+                if (mUri2 != null) {
                     minimizeUri(mUri2);
-                    mUri2=uriFinal;
-                    uploadPicture(mUri2,"Back");
+                    mUri2 = uriFinal;
+                    uploadPicture(mUri2, "Back");
                 }
-
-
             }
         });
-
     }
-    private void minimizeUri(Uri uri){
 
+    private void minimizeUri(Uri uri) {
         try {
             Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -200,29 +185,23 @@ public class StudentActiveActivity extends AppCompatActivity {
             fileOutputStream.write(outputStream.toByteArray());
             fileOutputStream.close();
 
-            uriFinal= Uri.fromFile(outputFile);
+            uriFinal = Uri.fromFile(outputFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
-    private void uploadPicture(Uri uri,String text){
-        Map<String,Object> headers=new HashMap<>();
-        headers.put("token",token);
-        //Map<String, Object> uploadInfo = new HashMap<>();
-        Log.e(TAG,uri.toString());
-        String strRealPath= RealPathUtil.getRealPath(this,uri);
-        File file =new File(strRealPath);
-        Log.e(TAG,file.toString());
-        Log.e(TAG,token.toString());
-        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        Log.e(TAG,"FileBody: "+fileBody.toString());
-        MultipartBody.Part picture =MultipartBody.Part.createFormData("file",file.getName(),fileBody);
-       // uploadInfo.put("file",file);
 
-        Call<ResponseObject> call= ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,picture);
+    private void uploadPicture(Uri uri, String text) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        String strRealPath = RealPathUtil.getRealPath(this, uri);
+        File file = new File(strRealPath);
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part picture = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -232,45 +211,42 @@ public class StudentActiveActivity extends AppCompatActivity {
                 }
                 ResponseObject tmp = response.body();
 
-
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(StudentActiveActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
-
-                if(text.compareTo("Front")==0){
-                    strFront=tmp.getData().toString();
-                }
-                else{
-                    strBack=tmp.getData().toString();
+                if (text.compareTo("Front") == 0) {
+                    strFront = tmp.getData().toString();
+                } else {
+                    strBack = tmp.getData().toString();
                 }
                 check++;
-                Toast.makeText(StudentActiveActivity.this, "Upload success in " + text +" picture", Toast.LENGTH_LONG).show();
-                if(check==2){
+                Toast.makeText(StudentActiveActivity.this, "Upload success in " + text + " picture", Toast.LENGTH_LONG).show();
+                if (check == 2) {
                     sendActive();
                 }
             }
-
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
                 Toast.makeText(StudentActiveActivity.this, "Error_picture", Toast.LENGTH_LONG).show();
             }
         });
-
     }
-    private void sendActive(){
-        Map<String,Object> headers=new HashMap<>();
-        headers.put("token",token);
-        Map<String, Object> activeInfo = new HashMap<>();
-        activeInfo.put("requestID",1);
-        activeInfo.put("targetID",studentID);
-        activeInfo.put("requestCode",0);
-        activeInfo.put("imageFront",strFront);
-        activeInfo.put("imageBack",strBack);
 
-        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().sendActiveRequest(headers,activeInfo);
+    private void sendActive() {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Map<String, Object> activeInfo = new HashMap<>();
+        activeInfo.put("requestID", 1);
+        activeInfo.put("targetID", studentID);
+        activeInfo.put("requestCode", 0);
+        activeInfo.put("imageFront", strFront);
+        activeInfo.put("imageBack", strBack);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().sendActiveRequest(headers, activeInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -286,28 +262,19 @@ public class StudentActiveActivity extends AppCompatActivity {
                     return;
                 }
 
-
-
-                Toast.makeText(StudentActiveActivity.this, "Your request to activation account is successfully, please wait for admin to active ", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(StudentActiveActivity.this, SignInActivity.class);
+                Toast.makeText(StudentActiveActivity.this, "Your request to activate the account is successful, please wait for admin to activate", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(StudentActiveActivity.this, SignInActivity.class);
                 startActivity(intent);
-
             }
-
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
                 Toast.makeText(StudentActiveActivity.this, "Error_UPLOAD", Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
+
     private void onClickRequestPermission() {
-
-
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
@@ -316,19 +283,16 @@ public class StudentActiveActivity extends AppCompatActivity {
                 requestPermissions(permission, MY_REQUEST_CODE);
             }
         } else {
-            if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
-                if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     openGallery();
+                } else {
+                    String[] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permission, MY_REQUEST_CODE);
                 }
-                else{
-                    String[] permission={Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                    requestPermissions(permission,MY_REQUEST_CODE);
-                }
-
-            }
-            else{
-                String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
-                requestPermissions(permission,MY_REQUEST_CODE);
+            } else {
+                String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(permission, MY_REQUEST_CODE);
             }
         }
     }
@@ -336,18 +300,29 @@ public class StudentActiveActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==MY_REQUEST_CODE){
-            if(grantResults.length>0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == MY_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
             }
         }
-
     }
 
     private void openGallery() {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select PictureAdapter"));
+        mActivityResultLauncher.launch(Intent.createChooser(intent, "Select PictureAdapter"));
+    }
+
+    private void initView(){
+        imgFront = findViewById(R.id.imgFront);
+        imgBack = findViewById(R.id.imgBack);
+        imageFront = findViewById(R.id.picture);
+        imageBack = findViewById(R.id.picture1);
+        btnOK = findViewById(R.id.ok);    }
+    private void getDataFromIntent(){
+        token = getIntent().getStringExtra("token");
+        studentID = getIntent().getStringExtra("studentID");
+
     }
 }
