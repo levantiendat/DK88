@@ -42,8 +42,68 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
 
         initView();
         getDataFromIntent();
+        retrieveStudentPhoneNumbers();
+        retrieveGroupInformation();
 
-        // Retrieve student information and update phone numbers
+        btnVote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                voteGroup();
+            }
+        });
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void initView() {
+        tvLostCourse = findViewById(R.id.giveClass);
+        tvDetail = findViewById(R.id.detail);
+        tvJoined = findViewById(R.id.joinList);
+        tvWaiting = findViewById(R.id.waitingList);
+        tvPhoneNumber = findViewById(R.id.phoneNumber);
+        btnVote = findViewById(R.id.vote_button);
+        ivBack = findViewById(R.id.back);
+
+        lostCourse = "Summary: To get the class you want, you will have to give a class ";
+        detail = "Detail: \n";
+        joined = "Joined: ";
+        waiting = "Waiting: ";
+        phoneNumber = "Phone number: \n";
+    }
+
+    private void getDataFromIntent() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            needClass = (HashMap<String, String>) bundle.getSerializable("needClass");
+            studentID = bundle.getString("studentID");
+            token = bundle.getString("token");
+            groupInfo = (GroupInfo) bundle.getSerializable("groupInfo");
+            if (needClass != null && token != null && groupInfo != null) {
+                String[] members = groupInfo.getGroupID().split("-");
+                HashMap<String, String> lost = new HashMap<>();
+                for (int i = 0; i < members.length; i++) {
+                    if (i == 0) {
+                        lost.put(members[0], needClass.get(members[members.length - 1]));
+                    } else {
+                        lost.put(members[i], needClass.get(members[i - 1]));
+                    }
+                }
+                for (String member : members) {
+                    detail += member + " have class " + lost.get(member) + "\n";
+                }
+
+                tvLostCourse.setText(lostCourse + groupInfo.getLophp());
+                tvDetail.setText(detail);
+            }
+        }
+    }
+
+    private void retrieveStudentPhoneNumbers() {
         for (String member : groupInfo.getGroupID().split("-")) {
             if (TextUtils.isEmpty(member))
                 continue;
@@ -76,8 +136,9 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
-        // Retrieve group information
+    private void retrieveGroupInformation() {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
@@ -120,99 +181,42 @@ public class StudentGroupDetailActivity extends AppCompatActivity {
                 // Handle failure
             }
         });
-
-        // Handle vote button click
-        btnVote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Map<String, Object> headers = new HashMap<>();
-                Map<String, Object> body = new HashMap<>();
-
-                headers.put("token", token);
-                body.put("studentID", studentID);
-                body.put("groupID", groupInfo.getGroupID());
-
-                Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
-                call.enqueue(new Callback<ResponseObject>() {
-                    @Override
-                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        if (!response.isSuccessful()) {
-                            Toast.makeText(StudentGroupDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        ResponseObject tmp = response.body();
-
-                        if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                            Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        if (btnVote.getText().equals("JOIN")) {
-                            btnVote.setText("LEAVE");
-                        } else {
-                            btnVote.setText("JOIN");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        // Handle failure
-                    }
-                });
-            }
-        });
-
-        // Handle back button click
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
-    // Initialize views
-    private void initView() {
-        tvLostCourse = findViewById(R.id.giveClass);
-        tvDetail = findViewById(R.id.detail);
-        tvJoined = findViewById(R.id.joinList);
-        tvWaiting = findViewById(R.id.waitingList);
-        tvPhoneNumber = findViewById(R.id.phoneNumber);
-        btnVote = findViewById(R.id.vote_button);
-        ivBack = findViewById(R.id.back);
+    private void voteGroup() {
+        Map<String, Object> headers = new HashMap<>();
+        Map<String, Object> body = new HashMap<>();
 
-        lostCourse = "Summary: To get the class you want, you will have to give a class ";
-        detail = "Detail: \n";
-        joined = "Joined: ";
-        waiting = "Waiting: ";
-        phoneNumber = "Phone number: \n";
-    }
+        headers.put("token", token);
+        body.put("studentID", studentID);
+        body.put("groupID", groupInfo.getGroupID());
 
-    // Retrieve data from intent
-    private void getDataFromIntent() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            needClass = (HashMap<String, String>) bundle.getSerializable("needClass");
-            studentID = bundle.getString("studentID");
-            token = bundle.getString("token");
-            groupInfo = (GroupInfo) bundle.getSerializable("groupInfo");
-            if (needClass != null && token != null && groupInfo != null) {
-                String[] members = groupInfo.getGroupID().split("-");
-                HashMap<String, String> lost = new HashMap<>();
-                for (int i = 0; i < members.length; i++) {
-                    if (i == 0) {
-                        lost.put(members[0], needClass.get(members[members.length - 1]));
-                    } else {
-                        lost.put(members[i], needClass.get(members[i - 1]));
-                    }
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(StudentGroupDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    return;
                 }
-                for (String member : members) {
-                    detail += member + " have class " + lost.get(member) + "\n";
+                ResponseObject tmp = response.body();
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(StudentGroupDetailActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
                 }
 
-                tvLostCourse.setText(lostCourse + groupInfo.getLophp());
-                tvDetail.setText(detail);
+                if (btnVote.getText().equals("JOIN")) {
+                    btnVote.setText("LEAVE");
+                } else {
+                    btnVote.setText("JOIN");
+                }
             }
-        }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                // Handle failure
+            }
+        });
     }
 }

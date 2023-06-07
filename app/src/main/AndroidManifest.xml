@@ -48,7 +48,7 @@
             android:name=".View.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".View.StudentReportActivity"
+            android:name=".StudentReportActivity"
             android:exported="false" />
         <activity
             android:name=".View.AdminProfileActivity"
