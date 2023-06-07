@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.dk88.Controller.AdminUserManagementController;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ListStudentIDAdapter;
@@ -38,7 +41,9 @@ public class AdminUserManagementActivity extends AppCompatActivity {
     private String token;
     private Admin admin;
     private ArrayList<String> arrayStudentID;
+    private List<String> listStudentID;
     private ListStudentIDAdapter adapter;
+    private AdminUserManagementController mAdminUserManagementController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +52,35 @@ public class AdminUserManagementActivity extends AppCompatActivity {
         initView();
 
         getDataFromIntent();
-
-        getData();
+        mAdminUserManagementController=new AdminUserManagementController(edtSearch,listStudent,token,admin,arrayStudentID,listStudentID,adapter,AdminUserManagementActivity.this);
+        mAdminUserManagementController.getData();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToDashBoard();
+                mAdminUserManagementController.backToDashBoard();
             }
         });
         listStudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String studentID=arrayStudentID.get(position);
-                gotoAdminUserProfile(studentID);
+                String studentID=mAdminUserManagementController.listStudentID.get(position);
+                mAdminUserManagementController.gotoAdminUserProfile(studentID);
+            }
+        });
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String searchText = editable.toString().toLowerCase();
+                mAdminUserManagementController.filter(searchText);
             }
         });
 
@@ -74,56 +94,9 @@ public class AdminUserManagementActivity extends AppCompatActivity {
         token = getIntent().getStringExtra("token");
         admin = (Admin) getIntent().getSerializableExtra("admin");
     }
-    private void getData(){
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("token", token);
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getAllStudentID(headers);
 
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(AdminUserManagementActivity.this, "Error: " + response.code(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                ResponseObject tmp = response.body();
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(AdminUserManagementActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                arrayStudentID = (ArrayList<String>) tmp.getData();
-
-                fillData(arrayStudentID);
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-
-            }
-        });
-    }
-    private void fillData(ArrayList<String> arrayStudentID){
-
-        adapter = new ListStudentIDAdapter(this, R.layout.admin_user_management_item_layout, arrayStudentID);
-        listStudent.setAdapter(adapter);
-    }
-    private void gotoAdminUserProfile(String studentID){
-        Intent intent = new Intent(AdminUserManagementActivity.this, AdminUserProfileActivity.class);
-        intent.putExtra("admin", admin);
-        intent.putExtra("token", token);
-        intent.putExtra("studentID",studentID);
-        startActivity(intent);
-    }
-    private void backToDashBoard(){
-        Intent intent = new Intent(AdminUserManagementActivity.this, AdminDashboardActivity.class);
-        intent.putExtra("admin", admin);
-        intent.putExtra("token", token);
-        startActivity(intent);
-    }
     public void onBackPressed() {
 
-        backToDashBoard();
+        mAdminUserManagementController.backToDashBoard();
     }
 }
