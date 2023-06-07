@@ -51,24 +51,22 @@ import retrofit2.Response;
 
 public class StudentReportActivity extends AppCompatActivity {
 
-
-    String token="";
-    String studentID;
-    String userName;
-    Button btnSave, btnUpload;
-    EditText edtTarget, edtProblem;
-    ListView listPicture;
-    PictureAdapter adapter;
-    int check=0;
-    Uri uriFinal=null;
-    String url="";
+    private String token = "";
+    private String studentID;
+    private String userName;
+    private Button btnSave, btnUpload;
+    private EditText edtTarget, edtProblem;
+    private ListView listPicture;
+    private PictureAdapter adapter;
+    private int check = 0;
+    private Uri uriFinal = null;
+    private String url = "";
 
     private static final int MY_REQUEST_CODE = 1000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
-    ArrayList<Picture> arrayPicture;
-    ArrayList<Uri> uriPicture;
-    ArrayList<String> strPicture;
-
+    private ArrayList<Picture> arrayPicture;
+    private ArrayList<Uri> uriPicture;
+    private ArrayList<String> strPicture;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -78,72 +76,60 @@ public class StudentReportActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data == null) {
-                            Toast.makeText(StudentReportActivity.this,"Upload file falue",Toast.LENGTH_LONG);
+                            Toast.makeText(StudentReportActivity.this, "Upload file failed", Toast.LENGTH_LONG);
                             return;
                         }
                         Uri uri = data.getData();
-                        Bitmap bitmap=null;
+                        Bitmap bitmap = null;
                         try {
-                            bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                             arrayPicture.add(new Picture(bitmap));
                             uriPicture.add(uri);
                             getData();
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
-
-
                     }
                 }
             }
     );
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.student_report_layout);
-        token=getIntent().getStringExtra("token");
-        studentID=getIntent().getStringExtra("studentID");
-        userName=getIntent().getStringExtra("userName");
-        btnSave=(Button) findViewById(R.id.save);
-        btnUpload=(Button) findViewById(R.id.upload);
-        edtTarget=(EditText) findViewById(R.id.targetID);
-        edtProblem=(EditText) findViewById(R.id.reportProblem);
-        listPicture=(ListView) findViewById(R.id.listView);
 
-        arrayPicture=new ArrayList<>();
-        uriPicture=new ArrayList<>();
-        strPicture=new ArrayList<>();
+        initView();
+        getDataFromIntent();
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickRequestPermission();
             }
         });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(Uri uri:uriPicture){
+                for (Uri uri : uriPicture) {
                     minimizeUri(uri);
-                    if(uriFinal!=null){
+                    if (uriFinal != null) {
                         uploadPicture(uriFinal);
-
                     }
-                    uriFinal=null;
-
+                    uriFinal = null;
                 }
-
-
             }
         });
     }
-    private void getData(){
-        adapter=new PictureAdapter(this, R.layout.picture_layout,arrayPicture);
+
+    private void getData() {
+        adapter = new PictureAdapter(this, R.layout.picture_layout, arrayPicture);
         listPicture.setAdapter(adapter);
     }
-    private void minimizeUri(Uri uri){
 
+    private void minimizeUri(Uri uri) {
         try {
             Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -164,81 +150,72 @@ public class StudentReportActivity extends AppCompatActivity {
             fileOutputStream.write(outputStream.toByteArray());
             fileOutputStream.close();
 
-            uriFinal= Uri.fromFile(outputFile);
+            uriFinal = Uri.fromFile(outputFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
-    private void uploadPicture(Uri uri){
-        Map<String,Object> headers=new HashMap<>();
-        headers.put("token",token);
-        //Map<String, Object> uploadInfo = new HashMap<>();
-        Log.e(TAG,uri.toString());
-        String strRealPath= RealPathUtil.getRealPath(this,uri);
-        File file =new File(strRealPath);
-        Log.e(TAG,file.toString());
-        Log.e(TAG,token.toString());
-        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        Log.e(TAG,"FileBody: "+fileBody.toString());
-        MultipartBody.Part picture =MultipartBody.Part.createFormData("file",file.getName(),fileBody);
-        // uploadInfo.put("file",file);
 
-        Call<ResponseObject> call= ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers,picture);
+    private void uploadPicture(Uri uri) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        String strRealPath = RealPathUtil.getRealPath(this, uri);
+        File file = new File(strRealPath);
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part picture = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentReportActivity.this, "Error picture1", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(StudentReportActivity.this, "Error uploading picture", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
-
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(StudentReportActivity.this, tmp.getMessage(), Toast.LENGTH_LONG).show();
-
                     return;
                 }
-                    url=tmp.getData().toString();
-                    check++;
-                    if(url.length()>0){
-                    strPicture.add(url);
-                    }
-                    if(check==uriPicture.size()){
-                        sendBan();
-                    }
-                    Toast.makeText(StudentReportActivity.this,tmp.getData().toString(),Toast.LENGTH_LONG).show();
-            }
 
+                url = tmp.getData().toString();
+                check++;
+                if (url.length() > 0) {
+                    strPicture.add(url);
+                }
+                if (check == uriPicture.size()) {
+                    sendBan();
+                }
+                Toast.makeText(StudentReportActivity.this, tmp.getData().toString(), Toast.LENGTH_LONG).show();
+            }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentReportActivity.this, "Error_picture", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(StudentReportActivity.this, "Error uploading picture", Toast.LENGTH_LONG).show();
             }
         });
-
     }
-    private void sendBan(){
-        Map<String,Object> headers=new HashMap<>();
-        headers.put("token",token);
-        Map<String, Object> banInfo = new HashMap<>();
-        banInfo.put("requestID",2);
-        banInfo.put("targetID",edtTarget.getText().toString());
-        banInfo.put("requestCode",1);
-        banInfo.put("moreDetail",edtProblem.getText().toString());
-        banInfo.put("imageProof",strPicture);
 
-        Call<ResponseObject> call=ApiUserRequester.getJsonPlaceHolderApi().sendBanRequest(headers,banInfo);
+    private void sendBan() {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Map<String, Object> banInfo = new HashMap<>();
+        banInfo.put("requestID", 2);
+        banInfo.put("targetID", edtTarget.getText().toString());
+        banInfo.put("requestCode", 1);
+        banInfo.put("moreDetail", edtProblem.getText().toString());
+        banInfo.put("imageProof", strPicture);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().sendBanRequest(headers, banInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(StudentReportActivity.this, "Error_upload1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentReportActivity.this, "Error uploading", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
@@ -249,30 +226,24 @@ public class StudentReportActivity extends AppCompatActivity {
                     return;
                 }
 
-
-
-                Toast.makeText(StudentReportActivity.this, "Your request to ban account is successfully, please wait for admin to ban ", Toast.LENGTH_LONG).show();
-                Toast.makeText(StudentReportActivity.this, "You can swipe to back ", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(StudentReportActivity.this, "Your request to ban the account is successful. Please wait for an admin to ban it.", Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentReportActivity.this, "You can swipe back.", Toast.LENGTH_LONG).show();
             }
-
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(StudentReportActivity.this, "Error_UPLOAD", Toast.LENGTH_LONG).show();
+                Toast.makeText(StudentReportActivity.this, "Error uploading", Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StudentReportActivity.this, StudentTradeFinishActivity.class);
         finish();
-        // Bắt đầu Activity tiếp theo với hiệu ứng chuyển động
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-
     }
+
     private void onClickRequestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(android.Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
@@ -282,19 +253,16 @@ public class StudentReportActivity extends AppCompatActivity {
                 requestPermissions(permission, MY_REQUEST_CODE);
             }
         } else {
-            if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
-                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     openGallery();
+                } else {
+                    String[] permission = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permission, MY_REQUEST_CODE);
                 }
-                else{
-                    String[] permission={android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                    requestPermissions(permission,MY_REQUEST_CODE);
-                }
-
-            }
-            else{
-                String[] permission={Manifest.permission.READ_EXTERNAL_STORAGE};
-                requestPermissions(permission,MY_REQUEST_CODE);
+            } else {
+                String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(permission, MY_REQUEST_CODE);
             }
         }
     }
@@ -302,18 +270,38 @@ public class StudentReportActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==MY_REQUEST_CODE){
-            if(grantResults.length>0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == MY_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
             }
         }
-
     }
 
     private void openGallery() {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select PictureAdapter"));
+        mActivityResultLauncher.launch(Intent.createChooser(intent, "Select Picture"));
     }
+
+    private void initView(){
+        btnSave = findViewById(R.id.save);
+        btnUpload = findViewById(R.id.upload);
+        edtTarget = findViewById(R.id.targetID);
+        edtProblem = findViewById(R.id.reportProblem);
+        listPicture = findViewById(R.id.listView);
+
+        arrayPicture = new ArrayList<>();
+        uriPicture = new ArrayList<>();
+        strPicture = new ArrayList<>();
+    }
+
+    private void getDataFromIntent(){
+        token = getIntent().getStringExtra("token");
+        studentID = getIntent().getStringExtra("studentID");
+        userName = getIntent().getStringExtra("userName");
+    }
+
+
 }
+
