@@ -44,7 +44,7 @@
         android:layout_weight="2"
         android:textColor="@color/black"
         android:textSize="23dp"
-        android:text=""
+        android:text="Summary: To get class you want, you will have to give class "
 
         />
     <TextView
@@ -57,7 +57,7 @@
         android:layout_weight="3"
         android:textColor="@color/black"
         android:textSize="23dp"
-        android:text=""
+        android:text="Detail: \n"
 
         />
     <TextView
@@ -70,7 +70,7 @@
         android:layout_weight="2"
         android:textColor="@color/black"
         android:textSize="23dp"
-        android:text=""
+        android:text="Joined: "
 
         />
     <TextView
@@ -82,7 +82,7 @@
         android:layout_weight="2"
         android:textColor="@color/black"
         android:textSize="23dp"
-        android:text=""
+        android:text= "Waiting: "
 
         />
     <TextView
@@ -95,7 +95,7 @@
         android:layout_weight="3"
         android:textColor="@color/black"
         android:textSize="23dp"
-        android:text=""
+        android:text= "Phone number: \n"
 
         />
     <Button
