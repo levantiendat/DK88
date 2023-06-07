@@ -48,7 +48,6 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
         this.token = token;
         this.studentID = studentID;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
