@@ -20,6 +20,39 @@
         android:textSize="30dp"
         android:textStyle="bold" />
     <TextView
+        android:id="@+id/studentID"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:text="Student ID: "
+        android:textSize="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="60dp"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/tw4"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+
+            android:text="Status: "
+            android:textSize="20dp"
+
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <Spinner
+            android:background="@drawable/black_frame"
+            android:layout_width="100dp"
+            android:id="@+id/cbbStatus"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+    <TextView
         android:id="@+id/tw3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +65,7 @@
 
         android:textSize="20dp"
         android:textStyle="bold" />
+
     <EditText
 
         android:drawableLeft="@drawable/name"
@@ -67,10 +101,6 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/black_bordered_frame"
         android:hint="Facebook Link"/>
-
-
-
-
 
     <LinearLayout
         android:layout_width="match_parent"

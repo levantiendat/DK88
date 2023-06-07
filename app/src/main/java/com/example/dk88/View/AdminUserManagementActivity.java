@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -52,13 +53,16 @@ public class AdminUserManagementActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminUserManagementActivity.this, AdminDashboardActivity.class);
-                intent.putExtra("admin", admin);
-                intent.putExtra("token", token);
-                startActivity(intent);
+                backToDashBoard();
             }
         });
-
+        listStudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String studentID=arrayStudentID.get(position);
+                gotoAdminUserProfile(studentID);
+            }
+        });
 
     }
     private void initView(){
@@ -105,12 +109,17 @@ public class AdminUserManagementActivity extends AppCompatActivity {
         adapter = new ListStudentIDAdapter(this, R.layout.admin_user_management_item_layout, arrayStudentID);
         listStudent.setAdapter(adapter);
     }
+    private void gotoAdminUserProfile(String studentID){
 
-    public void onBackPressed() {
-
+    }
+    private void backToDashBoard(){
         Intent intent = new Intent(AdminUserManagementActivity.this, AdminDashboardActivity.class);
         intent.putExtra("admin", admin);
         intent.putExtra("token", token);
         startActivity(intent);
+    }
+    public void onBackPressed() {
+
+        backToDashBoard();
     }
 }
