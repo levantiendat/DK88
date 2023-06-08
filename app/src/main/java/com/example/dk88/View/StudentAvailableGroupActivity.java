@@ -59,16 +59,12 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
 
     Map<String, String> needClass = new HashMap<>();
 
-    Graph g = new Graph();
-
     String studentID;
     String userName;
 
 
     int maxPage=0;
     int currentPage=1;
-
-    String oldGroup = null;
 
     private StudentAvailableGroupController mStudentAvailableGroupController;
 
