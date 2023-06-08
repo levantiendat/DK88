@@ -85,6 +85,7 @@ public class StudentTradeProfileDialogActivity extends Dialog implements
             @Override
             public void onClick(View view) {
                 // Xử lý sự kiện khi click nút Save
+                mStudentTradeProfileController.deleteOldGroup();
                 mStudentTradeProfileController.addToSQL();
                 mStudentTradeProfileController.saveClassChanges();
                 dismiss();

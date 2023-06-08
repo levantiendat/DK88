@@ -71,7 +71,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     Map<String, Integer> isPage;
     int maxPage=0;
     int currentPage=1;
-    int maxElementPerPage=2;
+    int maxElementPerPage=7;
     String oldGroup = null;
 
 

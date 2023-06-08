@@ -50,7 +50,10 @@ public class StudentTradeProfileController {
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
     }
-
+    public void deleteOldGroup(){
+        DatabaseHandler db = new DatabaseHandler(context);
+        db.deleteStudentClass(studentID);
+    }
     public void addToSQL() {
         // Thêm thông tin lớp học vào SQLite
         DatabaseHandler db = new DatabaseHandler(context);
@@ -100,7 +103,7 @@ public class StudentTradeProfileController {
                     Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(context, response.message().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Update Trade Profile Successfully!", Toast.LENGTH_LONG).show();
 
             }
 
