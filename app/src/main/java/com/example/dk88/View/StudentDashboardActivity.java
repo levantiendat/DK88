@@ -6,12 +6,12 @@ import androidx.cardview.widget.CardView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.dk88.Controller.StudentDashboardController;
 import com.example.dk88.R;
 
 public class StudentDashboardActivity extends AppCompatActivity {
-    private CardView cvTrade, cvProfile, cvLogout;
     private String token;
     private String studentID;
     private String userName;
@@ -21,7 +21,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.student_dashboard_layout);
+        setContentView(R.layout.student_menu_layout);
 
         // Nhận dữ liệu từ Intent
         getDataFromIntent();
@@ -29,29 +29,47 @@ public class StudentDashboardActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
-        mStudentDashboardController=new StudentDashboardController(cvTrade, cvProfile, cvLogout, token, studentID, userName, StudentDashboardActivity.this);
+        mStudentDashboardController=new StudentDashboardController( token, studentID, userName, StudentDashboardActivity.this);
 
-        // Xử lý sự kiện khi nhấn nút "Logout"
-        cvLogout.setOnClickListener(new View.OnClickListener() {
+        // Xử lý sự kiện khi nhấn nút "My Account"
+        btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStudentDashboardController.logout();
+                mStudentDashboardController.showMyProfile();
             }
         });
 
-        // Xử lý sự kiện khi nhấn nút "Profile"
-        cvProfile.setOnClickListener(new View.OnClickListener() {
+        // Xử lý sự kiện khi nhấn nút "Trade Profile"
+        btnTradeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStudentDashboardController.goToStudentProfile();
+                mStudentDashboardController.showMyTradeProfile();
             }
         });
 
-        // Xử lý sự kiện khi nhấn nút "Trade"
-        cvTrade.setOnClickListener(new View.OnClickListener() {
+        // Xử lý sự kiện khi nhấn nút "My Group"
+        btnMyGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStudentDashboardController.goToAvailableGroups();
+                mStudentDashboardController.checkInGroup();
+                if (mStudentDashboardController.getMyGroup()!=null) {
+                    mStudentDashboardController.showMyAvailableGroup();
+                }else{
+                    Toast.makeText(StudentDashboardActivity.this, "You are currently not in the group!"+mStudentDashboardController.getMyGroup(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Xử lý sự kiện khi nhấn nút "Trade Course"
+        btnTradeCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mStudentDashboardController.checkInGroup();
+                if (mStudentDashboardController.getMyGroup()==null) {
+                    mStudentDashboardController.showMyAvailableGroup();
+                }else{
+                    Toast.makeText(StudentDashboardActivity.this, "You are already in a group!"+mStudentDashboardController.getMyGroup(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -65,9 +83,10 @@ public class StudentDashboardActivity extends AppCompatActivity {
 
     // Khởi tạo các view
     private void initView() {
-        cvTrade = findViewById(R.id.tradeCourse);
-        cvProfile = findViewById(R.id.userProfile);
-        cvLogout = findViewById(R.id.logout);
+        btnProfile = findViewById(R.id.myAccount);
+        btnTradeProfile = findViewById(R.id.tradeProfile);
+        btnMyGroup = findViewById(R.id.myCourse);
+        btnTradeCourse = findViewById(R.id.tradeCourse);
     }
 
 

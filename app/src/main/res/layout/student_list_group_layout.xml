@@ -36,11 +36,6 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/set001"
-            android:background="@drawable/setting"/>
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             android:id="@+id/reload"
             android:layout_marginLeft="10dp"
             android:background="@drawable/reload"/>
