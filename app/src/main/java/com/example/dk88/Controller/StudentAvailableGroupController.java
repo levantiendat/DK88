@@ -82,7 +82,7 @@ public class StudentAvailableGroupController {
                 assert tmp != null;
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -119,7 +119,7 @@ public class StudentAvailableGroupController {
                     ResponseObject tmp = response.body();
                     if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                     {
-                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Map<String, Object> data = (Map<String, Object>) tmp.getData();
@@ -225,7 +225,7 @@ public class StudentAvailableGroupController {
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -264,7 +264,7 @@ public class StudentAvailableGroupController {
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();

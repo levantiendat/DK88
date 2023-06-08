@@ -23,6 +23,8 @@ public class StudentDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_menu_layout);
 
+
+
         // Nhận dữ liệu từ Intent
         getDataFromIntent();
 
@@ -30,6 +32,9 @@ public class StudentDashboardActivity extends AppCompatActivity {
         initView();
 
         mStudentDashboardController=new StudentDashboardController( token, studentID, userName, StudentDashboardActivity.this);
+
+        // Kiểm tra xem myGroup lần đầu
+        mStudentDashboardController.checkInGroup();
 
         // Xử lý sự kiện khi nhấn nút "My Account"
         btnProfile.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +58,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mStudentDashboardController.checkInGroup();
                 if (mStudentDashboardController.getMyGroup()!=null) {
-                    mStudentDashboardController.showMyAvailableGroup();
+                    mStudentDashboardController.showMyGroup();
                 }else{
                     Toast.makeText(StudentDashboardActivity.this, "You are currently not in the group!"+mStudentDashboardController.getMyGroup(), Toast.LENGTH_LONG).show();
                 }
@@ -64,12 +69,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         btnTradeCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStudentDashboardController.checkInGroup();
-                if (mStudentDashboardController.getMyGroup()==null) {
-                    mStudentDashboardController.showMyAvailableGroup();
-                }else{
-                    Toast.makeText(StudentDashboardActivity.this, "You are already in a group!"+mStudentDashboardController.getMyGroup(), Toast.LENGTH_LONG).show();
-                }
+                mStudentDashboardController.showMyAvailableGroup();
             }
         });
     }

@@ -12,6 +12,8 @@ import androidx.cardview.widget.CardView;
 import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.StudentAvailableGroupActivity;
+import com.example.dk88.View.StudentGroupMemberDetailDialogActivity;
+import com.example.dk88.View.StudentMyGroupInfoDialogActivity;
 import com.example.dk88.View.StudentProfileActivity;
 import com.example.dk88.View.SignInActivity;
 import com.example.dk88.View.StudentTradeProfileDialogActivity;
@@ -76,7 +78,7 @@ public class StudentDashboardController {
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
                 {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 myGroup = ((String) tmp.getData());
@@ -101,7 +103,13 @@ public class StudentDashboardController {
 
     // Chuyển đến màn hình Trade Profile
     public void showMyGroup(){
+        StudentMyGroupInfoDialogActivity dialog = new StudentMyGroupInfoDialogActivity(activity, token, studentID, myGroup);
 
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window.setGravity(Gravity.CENTER);
+
+        dialog.show();
     }
 
 

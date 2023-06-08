@@ -51,7 +51,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:background="@drawable/black_frame"
-            android:text="MY COURSE" />
+            android:text="MY GROUP" />
 
         <Button
             android:id="@+id/tradeCourse"

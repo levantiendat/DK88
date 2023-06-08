@@ -59,7 +59,6 @@ public class AdminUserProfileController {
                     return;
                 }
                 ResponseObject tmp = response.body();
-                token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();

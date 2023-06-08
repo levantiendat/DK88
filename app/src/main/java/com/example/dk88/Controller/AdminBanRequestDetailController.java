@@ -73,7 +73,6 @@ public class AdminBanRequestDetailController {
                 }
 
                 ResponseObject tmp = response.body();
-                token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
                     Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
@@ -113,7 +112,6 @@ public class AdminBanRequestDetailController {
                     return;
                 }
 
-                token = response.headers().get("token");
 
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
@@ -164,7 +162,6 @@ public class AdminBanRequestDetailController {
                     return;
                 }
 
-                token = response.headers().get("token");
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
