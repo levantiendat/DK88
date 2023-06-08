@@ -1,6 +1,7 @@
 package com.example.dk88.Controller;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import com.example.dk88.Model.ResponseObject;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +23,16 @@ public class StudentMyGroupInfoDialogController {
     private Context context;
     private String token;
     private String studentID;
-    private String members;
+    private String groupID;
 
-    private TextView tvWaiting, tvJoined, tvStudent1, tvStudent2, tvStudent3, tvStudent4, tvStudent5;
+    private TextView tvStatus, tvWaiting, tvJoined, tvStudent1, tvStudent2, tvStudent3, tvStudent4, tvStudent5;
 
-    public StudentMyGroupInfoDialogController(Context context, String token, String studentID, String members, TextView tvWaiting, TextView tvJoined, TextView tvStudent1, TextView tvStudent2, TextView tvStudent3, TextView tvStudent4, TextView tvStudent5) {
+    public StudentMyGroupInfoDialogController(Context context, String token, String studentID, String groupID, TextView tvStatus, TextView tvWaiting, TextView tvJoined, TextView tvStudent1, TextView tvStudent2, TextView tvStudent3, TextView tvStudent4, TextView tvStudent5) {
         this.context = context;
         this.token = token;
         this.studentID = studentID;
-        this.members = members;
+        this.groupID = groupID;
+        this.tvStatus =  tvStatus;
         this.tvWaiting = tvWaiting;
         this.tvJoined = tvJoined;
         this.tvStudent1 = tvStudent1;
@@ -41,7 +44,7 @@ public class StudentMyGroupInfoDialogController {
 
     // Fetch student information and update UI
     public void fetchStudentInfo() {
-        String[] memberList = members.split("-");
+        String[] memberList = groupID.split("-");
         for (int i = 0; i < memberList.length; i++) {
             String memberId = memberList[i];
             fetchStudentInfoForMember(memberId, i);
@@ -107,5 +110,52 @@ public class StudentMyGroupInfoDialogController {
                 tvStudent5.setText(studentID + "\n" + name + "\n" + facebook + "\n" + phoneNumber);
                 break;
         }
+    }
+
+    public void retrieveGroupInformation() {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(context, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ResponseObject tmp = response.body();
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(context, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                Integer status = Math.toIntExact(Math.round(Double.parseDouble(data.get("status").toString())));
+
+                if (status==0){
+                    tvStatus.setText(tvStatus.getText()+"Waiting for other students to join group");
+                }else{
+                    tvStatus.setText(tvStatus.getText()+"Waiting for other student to finish trade");
+                }
+
+                ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
+                String joined = TextUtils.join(",", voteYes);
+                tvJoined.setText(tvJoined.getText()+joined);
+
+                ArrayList<String> waitList = new ArrayList<>();
+                for (String member : groupID.split("-")) {
+                    if (!voteYes.contains(member)) {
+                        waitList.add(member);
+                    }
+                }
+                String waiting = TextUtils.join(", ", waitList);
+                tvWaiting.setText(tvWaiting.getText()+waiting);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                // Handle failure
+            }
+        });
     }
 }

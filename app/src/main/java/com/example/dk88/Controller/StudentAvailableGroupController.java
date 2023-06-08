@@ -46,7 +46,7 @@ public class StudentAvailableGroupController {
     Map<String, Integer> isPage = new HashMap<>();
     public int maxPage=0;
     public int currentPage=1;
-    int maxElementPerPage=7;
+    int maxElementPerPage=2;
     String oldGroup = null;
     ListGroupAdapter adapter;
     ListView listView;

@@ -28,17 +28,17 @@ public class StudentMyGroupInfoDialogActivity extends Dialog implements View.OnC
     private Context context;
     private String token;
     private String studentID;
-    private String members;
+    private String groupID;
 
-    private TextView tvWaitingList, tvJoinedList, tvStudent1, tvStudent2, tvStudent3, tvStudent4, tvStudent5;
+    private TextView tvStatus, tvWaitingList, tvJoinedList, tvStudent1, tvStudent2, tvStudent3, tvStudent4, tvStudent5;
     private StudentMyGroupInfoDialogController mStudentMyGroupInfoDialogController;
 
-    public StudentMyGroupInfoDialogActivity(@NonNull Context context, String token, String studentID, String members) {
+    public StudentMyGroupInfoDialogActivity(@NonNull Context context, String token, String studentID, String groupID) {
         super(context);
         this.context = context;
         this.token = token;
         this.studentID = studentID;
-        this.members = members;
+        this.groupID = groupID;
     }
 
     @Override
@@ -49,13 +49,15 @@ public class StudentMyGroupInfoDialogActivity extends Dialog implements View.OnC
 
         // Initialize views
         initView();
-        mStudentMyGroupInfoDialogController = new StudentMyGroupInfoDialogController(context,token,studentID,members,tvWaitingList, tvJoinedList, tvStudent1,tvStudent2,tvStudent3,tvStudent4,tvStudent5);
+        mStudentMyGroupInfoDialogController = new StudentMyGroupInfoDialogController(context,token,studentID,groupID,tvStatus, tvWaitingList, tvJoinedList, tvStudent1,tvStudent2,tvStudent3,tvStudent4,tvStudent5);
         // Fetch student information and update UI
         mStudentMyGroupInfoDialogController.fetchStudentInfo();
+        mStudentMyGroupInfoDialogController.retrieveGroupInformation();
     }
 
     // Initialize views
     private void initView() {
+        tvStatus = findViewById(R.id.status);
         tvWaitingList = findViewById(R.id.waitingList);
         tvJoinedList = findViewById(R.id.joinList);
         tvStudent1 = findViewById(R.id.student1);

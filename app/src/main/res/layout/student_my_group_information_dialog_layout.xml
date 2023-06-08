@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="250dp"
-    android:layout_height="650dp"
+    android:layout_height="700dp"
     android:orientation="vertical"
-    android:weightSum="13"
+    android:weightSum="14"
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/tw1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:text="MY GROUP INFO"
         android:textColor="@color/black"
 
         android:textSize="30dp"
         android:textStyle="bold" />
     <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="Status: "/>
+    <TextView
         android:id="@+id/joinList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:textColor="@color/black"
         android:textSize="18dp"
-        android:text="Joined: "
-
+        android:text="Vote Yes: "
         />
     <TextView
         android:id="@+id/waitingList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:text= "Waiting: "
@@ -43,15 +48,15 @@
         />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_weight="2"
         android:id="@+id/student1"
         android:textSize="18dp"
         android:textColor="@color/black"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="5dp" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_weight="2"
         android:id="@+id/student2"
         android:textSize="18dp"
@@ -60,7 +65,7 @@
         android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_weight="2"
         android:id="@+id/student3"
         android:textSize="18dp"
@@ -69,7 +74,7 @@
         android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_weight="2"
         android:id="@+id/student4"
         android:textSize="18dp"
@@ -78,7 +83,7 @@
         android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_weight="2"
         android:id="@+id/student5"
         android:textSize="18dp"
