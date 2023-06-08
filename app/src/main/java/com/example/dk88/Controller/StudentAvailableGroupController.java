@@ -59,7 +59,7 @@ public class StudentAvailableGroupController {
         this.studentID = studentID;
         this.userName = userName;
 
-        this.adapter = adapter;
+
         this.listView = listView;
 
         this.activity = activity;
