@@ -519,7 +519,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         btnNext=(Button) findViewById(R.id.next);
         btnPrevious=(Button) findViewById(R.id.previous);
         ivBack = (ImageView) findViewById(R.id.back);
-        imgSetting = (ImageView) findViewById(R.id.set001);
         imgReload = (ImageView) findViewById(R.id.reload);
         listView=(ListView) findViewById(R.id.lwclass);
     }
