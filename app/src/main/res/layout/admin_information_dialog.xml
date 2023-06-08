@@ -31,7 +31,7 @@
         android:textColor="@color/black"
 
         android:textSize="20dp"
-        android:textStyle="bold" />
+         />
     <TextView
         android:id="@+id/tw4"
         android:layout_width="match_parent"
@@ -44,5 +44,5 @@
         android:textColor="@color/black"
 
         android:textSize="20dp"
-        android:textStyle="bold" />
+         />
 </LinearLayout>
