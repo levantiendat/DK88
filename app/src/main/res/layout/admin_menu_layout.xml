@@ -1,79 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_marginTop="30dp"
-    android:orientation="vertical"
-
+    android:layout_height="match_parent"
     android:layout_marginBottom="30dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
+    <LinearLayout
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_horizontal"
-        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/logoutLayout"
+        android:layout_marginBottom="30dp">
 
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="MENU" />
-    <Button
-        android:layout_marginTop="30dp"
-        android:id="@+id/adminProfile"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:textSize="22dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/black_frame"
-        android:text="MY ACCOUNT"
-        />
-    <Button
-        android:layout_marginTop="30dp"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:id="@+id/userManagement"
-        android:textSize="22dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/black_frame"
-        android:text="USER MANAGEMENT"
-        />
-    <Button
-        android:layout_marginTop="30dp"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:id="@+id/requestManagement"
-        android:textSize="22dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/black_frame"
-        android:text="REQUEST MANAGEMENT"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="MENU" />
+
+        <Button
+            android:id="@+id/adminProfile"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/black_frame"
+            android:text="MY ACCOUNT" />
+
+        <Button
+            android:id="@+id/userManagement"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/black_frame"
+            android:text="USER MANAGEMENT" />
+
+        <Button
+            android:id="@+id/requestManagement"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/black_frame"
+            android:text="REQUEST MANAGEMENT" />
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/logoutLayout"
         android:layout_width="match_parent"
-        android:layout_marginTop="280dp"
+        android:layout_height="22dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:gravity="center_horizontal|bottom"
         android:weightSum="6"
-        android:orientation="horizontal"
-        android:gravity="bottom"
-        android:layout_weight="1"
-        android:layout_height="22dp">
+        android:orientation="horizontal">
+
         <TextView
-
             android:text="Login another account?"
-
-            android:layout_weight="2"
-            android:textSize="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/logout"
             android:textColor="@color/black"
             android:text="Sign out"
             android:textStyle="bold"
-            android:layout_weight="1"
-            android:textSize="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>
