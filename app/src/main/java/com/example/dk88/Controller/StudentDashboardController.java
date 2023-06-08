@@ -112,6 +112,12 @@ public class StudentDashboardController {
         dialog.show();
     }
 
+    public void logout(){
+        Intent intent = new Intent(activity, SignInActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
 
 
 }

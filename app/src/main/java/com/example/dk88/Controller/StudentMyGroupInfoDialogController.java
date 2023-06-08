@@ -84,6 +84,8 @@ public class StudentMyGroupInfoDialogController {
                 // Handle failure
             }
         });
+
+
     }
 
     // Update the UI based on the index

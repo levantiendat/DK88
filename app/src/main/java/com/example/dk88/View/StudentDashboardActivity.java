@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dk88.Controller.StudentDashboardController;
@@ -16,6 +17,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
     private String studentID;
     private String userName;
     private Button btnTradeProfile,btnProfile,btnMyGroup,btnTradeCourse;
+    private TextView btnLogout;
     private StudentDashboardController mStudentDashboardController;
 
     @Override
@@ -72,6 +74,13 @@ public class StudentDashboardActivity extends AppCompatActivity {
                 mStudentDashboardController.showMyAvailableGroup();
             }
         });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mStudentDashboardController.logout();
+            }
+        });
     }
 
     // Nhận dữ liệu từ Intent
@@ -87,6 +96,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         btnTradeProfile = findViewById(R.id.tradeProfile);
         btnMyGroup = findViewById(R.id.myCourse);
         btnTradeCourse = findViewById(R.id.tradeCourse);
+        btnLogout =  findViewById(R.id.signOut);
     }
 
 
