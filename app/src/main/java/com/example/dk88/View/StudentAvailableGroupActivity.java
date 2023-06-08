@@ -71,7 +71,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     Map<String, Integer> isPage;
     int maxPage=0;
     int currentPage=1;
-    int maxElementPerPage=7;
+    int maxElementPerPage=2;
     String oldGroup = null;
 
 
@@ -106,6 +106,8 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 needClass.clear();
                 getData(latestId);
                 checkMyGroup();
+                currentPage=1;
+                Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -113,9 +115,9 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
+                    Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                     updateGroupInfo();
                 }
             }
@@ -123,9 +125,9 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
+                    Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                     updateGroupInfo();
                 }
 

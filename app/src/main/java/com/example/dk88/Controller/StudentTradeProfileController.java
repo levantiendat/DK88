@@ -59,7 +59,7 @@ public class StudentTradeProfileController {
         DatabaseHandler db = new DatabaseHandler(context);
         ArrayList<StudentClassRelation> list = new ArrayList<>();
         for (GroupInfo info : arrayCourse) {
-            list.add(new StudentClassRelation(studentID, info.getLophp(), 1));
+            list.add(new StudentClassRelation(studentID, info.getLophp().trim(), 1));
         }
         list.add(new StudentClassRelation(studentID, edtNeed.getText().toString(), 0));
         for (StudentClassRelation studentClass : list) {
