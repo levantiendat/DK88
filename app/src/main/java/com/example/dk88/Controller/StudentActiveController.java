@@ -120,13 +120,13 @@ public class StudentActiveController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error picture1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error picture1", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -136,7 +136,7 @@ public class StudentActiveController {
                     strBack = tmp.getData().toString();
                 }
                 check++;
-                Toast.makeText(activity, "Upload success in " + text + " picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Upload success in " + text + " picture", Toast.LENGTH_SHORT).show();
                 if (check == 2) {
                     sendActive();
                 }
@@ -144,7 +144,7 @@ public class StudentActiveController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error_picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error_picture", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -165,24 +165,24 @@ public class StudentActiveController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error_upload1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error_upload1", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Toast.makeText(activity, "Your request to activate the account is successful, please wait for admin to activate", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Your request to activate the account is successful, please wait for admin to activate", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error_UPLOAD", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error_UPLOAD", Toast.LENGTH_SHORT).show();
             }
         });
     }

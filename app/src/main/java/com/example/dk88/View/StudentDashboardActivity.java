@@ -62,7 +62,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
                 if (mStudentDashboardController.getMyGroup()!=null) {
                     mStudentDashboardController.showMyGroup();
                 }else{
-                    Toast.makeText(StudentDashboardActivity.this, "You are currently not in the group!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StudentDashboardActivity.this, "You are currently not in the group!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

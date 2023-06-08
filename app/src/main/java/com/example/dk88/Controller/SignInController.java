@@ -71,7 +71,7 @@ public class SignInController {
             // Gửi yêu cầu đăng nhập
             login(username, password);
         } else {
-            Toast.makeText(activity, "Invalid username or password", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Invalid username or password", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -91,14 +91,14 @@ public class SignInController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 String token = response.headers().get("token");
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (cbRemember.isChecked()){
@@ -108,7 +108,7 @@ public class SignInController {
                     editor.putString("pref_pass",edtPass.getText().toString());
                     editor.putBoolean("pref_check",boolIsChecked);
                     editor.apply();
-                    Toast.makeText(activity, "Your account have been saved",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Your account have been saved",Toast.LENGTH_SHORT).show();
                 }else{
                     mPrefs.edit().clear().apply();
                 }
@@ -117,7 +117,7 @@ public class SignInController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -157,7 +157,7 @@ public class SignInController {
             }
         }
 
-        Toast.makeText(activity, "Login success as " + data.get("name"), Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Login success as " + data.get("name"), Toast.LENGTH_SHORT).show();
     }
 
     // Chuyển đến màn hình đăng ký

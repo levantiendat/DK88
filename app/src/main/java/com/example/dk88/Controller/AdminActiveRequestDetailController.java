@@ -57,7 +57,7 @@ public class AdminActiveRequestDetailController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -65,7 +65,7 @@ public class AdminActiveRequestDetailController {
 
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -82,7 +82,7 @@ public class AdminActiveRequestDetailController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,7 +98,7 @@ public class AdminActiveRequestDetailController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -106,7 +106,7 @@ public class AdminActiveRequestDetailController {
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -118,7 +118,7 @@ public class AdminActiveRequestDetailController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -139,7 +139,7 @@ public class AdminActiveRequestDetailController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -147,14 +147,14 @@ public class AdminActiveRequestDetailController {
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (accept) {
-                    Toast.makeText(activity, "ACTIVE SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "ACTIVE SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(activity, "DECLINED SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "DECLINED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                 }
 
                 Intent intent = new Intent(activity, AdminRequestActivity.class);
@@ -164,7 +164,7 @@ public class AdminActiveRequestDetailController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

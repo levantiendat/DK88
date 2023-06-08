@@ -55,7 +55,7 @@ public class SignUpController {
 
         // Kiểm tra xem mật khẩu và mật khẩu xác nhận có khớp hay không
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(activity, "Your password does not match the confirm password", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Your password does not match the confirm password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -74,22 +74,22 @@ public class SignUpController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                 String userRole = response.headers().get("UserRole");
-                Toast.makeText(activity, "Register success as " + data.get("name"), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Register success as " + data.get("name"), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

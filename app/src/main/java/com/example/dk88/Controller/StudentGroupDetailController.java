@@ -91,13 +91,13 @@ public class StudentGroupDetailController {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ResponseObject tmp = response.body();
 
                     if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Map<String, Object> data = (Map<String, Object>) tmp.getData();
@@ -171,13 +171,13 @@ public class StudentGroupDetailController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

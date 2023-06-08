@@ -100,16 +100,16 @@ public class StudentTradeProfileController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(context, "Update Trade Profile Successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Update Trade Profile Successfully!", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -75,7 +75,7 @@ public class StudentReportActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data == null) {
-                            Toast.makeText(StudentReportActivity.this, "Upload file failed", Toast.LENGTH_LONG);
+                            Toast.makeText(StudentReportActivity.this, "Upload file failed", Toast.LENGTH_SHORT);
                             return;
                         }
                         Uri uri = data.getData();

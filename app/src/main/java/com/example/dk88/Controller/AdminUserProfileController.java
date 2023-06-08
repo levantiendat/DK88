@@ -55,13 +55,13 @@ public class AdminUserProfileController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Lỗi", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Lỗi", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -84,7 +84,7 @@ public class AdminUserProfileController {
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error Load Data", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error Load Data", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -128,26 +128,26 @@ public class AdminUserProfileController {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ResponseObject tmp = response.body();
                     if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_SHORT).show();
 
 
                 }
 
                 @Override
                 public void onFailure(Call<ResponseObject> call, Throwable t) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_SHORT).show();
         }
     }
     public void changeStatus(){
@@ -180,26 +180,26 @@ public class AdminUserProfileController {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ResponseObject tmp = response.body();
                     if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     backToManagement();
                 }
 
                 @Override
                 public void onFailure(Call<ResponseObject> call, Throwable t) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
         }
         else{
-            Toast.makeText(activity, "Nothing change status information", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Nothing change status information", Toast.LENGTH_SHORT).show();
         }
     }
     public void backToManagement(){

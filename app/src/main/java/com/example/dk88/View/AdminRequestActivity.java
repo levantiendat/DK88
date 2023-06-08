@@ -95,7 +95,7 @@ public class AdminRequestActivity extends AppCompatActivity {
                 if (mToast != null) {
                     mToast.cancel();
                 }
-                mToast = Toast.makeText(AdminRequestActivity.this, "MSSV: " + request.getTargetID(), Toast.LENGTH_LONG);
+                mToast = Toast.makeText(AdminRequestActivity.this, "MSSV: " + request.getTargetID(), Toast.LENGTH_SHORT);
                 mToast.show();
 
                 if (request.getRequestCode() == 0) {

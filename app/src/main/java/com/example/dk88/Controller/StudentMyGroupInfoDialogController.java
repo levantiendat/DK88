@@ -61,14 +61,14 @@ public class StudentMyGroupInfoDialogController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(context, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

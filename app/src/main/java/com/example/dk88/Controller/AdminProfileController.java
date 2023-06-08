@@ -51,11 +51,11 @@ public class AdminProfileController {
     public void checkAndPerformChanges() {
         if (edtOld.getText().toString().isEmpty() && edtName.getText().toString().equals(admin.getName())
                 && edtEmail.getText().toString().equals(admin.getEmail()) && edtPhone.getText().toString().equals(admin.getPhoneNumber())) {
-            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_SHORT).show();
         }else{
             if (!edtOld.getText().toString().isEmpty()) {
                 if (edtOld.getText().toString().equals(edtNew.getText().toString())) {
-                    Toast.makeText(activity, "The new password is duplicated than old password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "The new password is duplicated than old password", Toast.LENGTH_SHORT).show();
                 } else {
                     // Thay đổi mật khẩu
                     changePassword();
@@ -67,7 +67,7 @@ public class AdminProfileController {
                 // Thay đổi thông tin
                 changeProfile();
             } else {
-                Toast.makeText(activity, "Nothing change information", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Nothing change information", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -87,23 +87,23 @@ public class AdminProfileController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                 String userRole = response.headers().get("UserRole");
-                Toast.makeText(activity, "Change Password successfully ", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Change Password successfully ", Toast.LENGTH_SHORT).show();
                 goToAdminDashboard();
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -125,23 +125,23 @@ public class AdminProfileController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                 String userRole = response.headers().get("UserRole");
-                Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_SHORT).show();
                 goToAdminDashboard();
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

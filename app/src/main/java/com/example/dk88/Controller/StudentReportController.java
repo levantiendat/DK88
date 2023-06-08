@@ -114,13 +114,13 @@ public class StudentReportController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error uploading picture", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error uploading picture", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -132,12 +132,12 @@ public class StudentReportController {
                 if (check == uriPicture.size()) {
                     sendBan();
                 }
-                Toast.makeText(activity, tmp.getData().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, tmp.getData().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error uploading picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error uploading picture", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -158,23 +158,23 @@ public class StudentReportController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error uploading", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error uploading", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ResponseObject tmp = response.body();
 
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Toast.makeText(activity, "Your request to ban the account is successful. Please wait for an admin to ban it.", Toast.LENGTH_LONG).show();
-                Toast.makeText(activity, "You can swipe back.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Your request to ban the account is successful. Please wait for an admin to ban it.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "You can swipe back.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error uploading", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Error uploading", Toast.LENGTH_SHORT).show();
             }
         });
     }

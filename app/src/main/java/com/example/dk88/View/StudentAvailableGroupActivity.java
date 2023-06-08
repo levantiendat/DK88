@@ -321,8 +321,13 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 }
 
                 oldGroup = ((String) tmp.getData());
+
                 if (beforeUpdate==null){
-                    return;
+                    if (oldGroup==null){
+                        return;
+                    }else{
+                        checkStatusGroup(oldGroup);
+                    }
                 }else{
                     if (oldGroup==null){
                         Toast.makeText(StudentAvailableGroupActivity.this, "You lost group "+ beforeUpdate, Toast.LENGTH_SHORT).show();

@@ -55,13 +55,13 @@ public class AdminUserManagementController {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(activity, "Error: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 ResponseObject tmp = response.body();
                 if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
