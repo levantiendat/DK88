@@ -50,7 +50,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
 
     ImageView ivBack;
     ListGroupAdapter adapter;
-    ListView listview1;
+    ListView listView;
     ArrayList<GroupInfo> arrayclass;
     Button btnPrevious, btnNext;
 
@@ -87,27 +87,12 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         btnPrevious=(Button) findViewById(R.id.previous);
         ivBack = (ImageView) findViewById(R.id.back);
         imgReload = (ImageView) findViewById(R.id.reload);
-        listview1=(ListView) findViewById(R.id.lwclass);
+        listView=(ListView) findViewById(R.id.lwclass);
         arrayclass =new ArrayList<>();
         pageContent = new HashMap<>();
         isPage = new HashMap<>();
 
         getMyGroup();
-
-//
-//        int latestId = mPrefs.getInt("latest_id", 0);
-//        getData(latestId);
-
-//        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        int latestId = mPrefs.getInt("latest_id", 0);
-//        getData(latestId);
-
-
-//        QueryThread queryThread = new QueryThread();
-//        queryThread.start();
-//
-//        GroupInfoThread groupInfoThread = new GroupInfoThread();
-//        groupInfoThread.start();
 
         imgReload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +116,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+"out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if (currentPage+1<=maxPage) {
                     currentPage += 1;
-//                    fillPage(currentPage);
                     updateGroupInfo();
                 }
             }
@@ -142,7 +126,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 Toast.makeText(StudentAvailableGroupActivity.this,"Page " + currentPage +" "+" out of "+maxPage,Toast.LENGTH_SHORT).show();
                 if(currentPage>1){
                     currentPage-=1;
-//                    fillPage(currentPage);
                     updateGroupInfo();
                 }
 
@@ -160,7 +143,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
             }
         });
 
-        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 GroupInfo groupInfo = arrayclass.get(position);
@@ -235,7 +218,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                     ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
 
                     arrayclass.get(finalI).setCurrent(voteYes.size());
-//                    fillPage(currentPage);
                     adapter.notifyDataSetChanged();
                 }
 
@@ -255,7 +237,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 arrayclass.add(temp);
             }
             adapter = new ListGroupAdapter(this, R.layout.student_list_group_item_layout, arrayclass);
-            listview1.setAdapter(adapter);
+            listView.setAdapter(adapter);
         }
     }
     private void prepareAllData(ArrayList<ArrayList<String>> listClass){
@@ -507,7 +489,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 try {
                     res = g.printAllCycles(studentID);
                     prepareAllData(res);
-//                    fillPage(currentPage);
                     updateGroupInfo();
                 }catch (Exception e){
 
@@ -521,97 +502,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         });
     }
 
-    class QueryThread extends Thread{
-        @Override
-        public void run() {
-            while (true){
-                try {
-                    mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                    int latestId = mPrefs.getInt("latest_id", 0);
-                    arrayclass.clear();
-                    pageContent.clear();
-                    isPage.clear();
-                    studentRequestMap.clear();
-                    haveClass.clear();
-                    needClass.clear();
-                    getData(latestId);
-                    fillPage(currentPage);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(StudentAvailableGroupActivity.this,"API CALLING "+"VER REQUEST:"+String.valueOf(latestId),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    Thread.sleep(time);
-
-
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }
-    }
-
-    class GroupInfoThread extends Thread{
-        @Override
-        public void run() {
-            while (true){
-                try {
-                    ArrayList<String> groupIds = new ArrayList<>();
-                    for (GroupInfo temp: pageContent.get(currentPage)){
-                        groupIds.add(temp.getGroupID());
-                    }
-
-                    for (int i=0;i<groupIds.size();i++){
-                        Map<String,Object> headers=new HashMap<>();
-                        headers.put("token",token);
-
-                        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers,groupIds.get(i));
-                        int finalI = i;
-                        call.enqueue(new Callback<ResponseObject>() {
-                            @Override
-                            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                                if (!response.isSuccessful())
-                                {
-                                    Toast.makeText(StudentAvailableGroupActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                ResponseObject tmp = response.body();
-                                if (tmp.getRespCode()!=ResponseObject.RESPONSE_OK)
-                                {
-                                    Toast.makeText(StudentAvailableGroupActivity.this, tmp.getMessage(), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                                ArrayList<String> voteYes = (ArrayList<String>) data.get("voteYes");
-
-                                arrayclass.get(finalI).setCurrent(voteYes.size());
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseObject> call, Throwable t) {
-
-                            }
-                        });
-
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-
-                    Thread.sleep(time);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-        }
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentDashboardActivity.class);
