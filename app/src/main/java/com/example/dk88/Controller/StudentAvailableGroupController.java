@@ -50,11 +50,11 @@ public class StudentAvailableGroupController {
     String oldGroup = null;
     ListGroupAdapter adapter;
     ListView listView;
-    ArrayList<GroupInfo> listGroupInfo =new ArrayList<>();
+    public ArrayList<GroupInfo> listGroupInfo =new ArrayList<>();
 
     private AppCompatActivity activity;
 
-    public StudentAvailableGroupController(String token, String studentID, String userName ,ListGroupAdapter adapter, ListView listView, AppCompatActivity activity) {
+    public StudentAvailableGroupController(String token, String studentID, String userName , ListView listView, AppCompatActivity activity) {
 
         this.studentID = studentID;
         this.userName = userName;

@@ -45,15 +45,15 @@ import retrofit2.Response;
 
 public class StudentAvailableGroupActivity extends AppCompatActivity {
     ImageView ivBack;
-    ListGroupAdapter adapter;
+
     ListView listView;
-    ArrayList<GroupInfo> listGroupInfo =new ArrayList<>();
+
     Button btnPrevious, btnNext;
 
 
     ImageView imgReload;
     String token="";
-    SharedPreferences mPrefs;
+
     static final String PREFS_NAME="idQUERY_PREFS_NAME";
 
 
@@ -74,7 +74,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         setContentView(R.layout.student_list_group_layout);
 
         initView();
-        mStudentAvailableGroupController=new StudentAvailableGroupController(token,studentID,userName,adapter,listView,StudentAvailableGroupActivity.this);
+        mStudentAvailableGroupController=new StudentAvailableGroupController(token,studentID,userName,listView,StudentAvailableGroupActivity.this);
         mStudentAvailableGroupController.getMyGroup();
 
         imgReload.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +126,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                GroupInfo groupInfo = listGroupInfo.get(position);
+                GroupInfo groupInfo = mStudentAvailableGroupController.listGroupInfo.get(position);
                 Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentGroupDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("studentID", studentID);
