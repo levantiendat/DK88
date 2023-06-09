@@ -90,6 +90,9 @@ public class StudentProfileActivity extends AppCompatActivity {
         edtFacebook = findViewById(R.id.facebookLink);
         getAdmin = findViewById(R.id.getAdmin1);
 
+        // Tải dữ liệu sinh viên từ server
+        mStudentProfileController = new StudentProfileController(edtOld, edtNew, edtName, edtPhone, edtFacebook, btnOK, btnBack, txtGetAdmin, token, studentID, getAdmin, userName, StudentProfileActivity.this);
+        mStudentProfileController.loadDataFromServer(studentID);
     }
 
     class MainControlThread implements Runnable {
@@ -97,7 +100,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         public void run() {
             while (isRunning) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -126,7 +129,6 @@ public class StudentProfileActivity extends AppCompatActivity {
         super.onPause();
         isRunning = false;
     }
-
 }
 
 

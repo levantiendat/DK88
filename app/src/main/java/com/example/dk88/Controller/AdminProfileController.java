@@ -138,6 +138,9 @@ public class AdminProfileController {
                     }
                     Map<String, Object> data = (Map<String, Object>) tmp.getData();
                     String userRole = response.headers().get("UserRole");
+                    admin.setName(edtName.getText().toString());
+                    admin.setPhoneNumber(edtPhone.getText().toString());
+                    admin.setEmail(edtEmail.getText().toString());
                     Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_SHORT).show();
                     goToAdminDashboard();
                 }
