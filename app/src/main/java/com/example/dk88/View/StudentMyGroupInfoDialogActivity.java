@@ -76,7 +76,6 @@ public class StudentMyGroupInfoDialogActivity extends Dialog implements View.OnC
         tvStudent3.setText("");
         tvStudent4.setText("");
         tvStudent5.setText("");
-
     }
 
     private class MainControlThread implements Runnable {
@@ -86,7 +85,7 @@ public class StudentMyGroupInfoDialogActivity extends Dialog implements View.OnC
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    return;
                 }
 
                 handler.post(new Runnable() {
@@ -124,6 +123,7 @@ public class StudentMyGroupInfoDialogActivity extends Dialog implements View.OnC
 
     private void stopMainControlThread() {
         isRunning = false;
+        mainThread.interrupt(); // Ngắt giấc ngủ của luồng
         if (mainThread != null) {
             try {
                 mainThread.join();
