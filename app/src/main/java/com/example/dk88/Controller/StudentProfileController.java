@@ -131,7 +131,7 @@ public class StudentProfileController {
     // Thay đổi thông tin sinh viên
     public void changeStudentInfo() {
         if (!(edtName.getText().toString().equals(student.getName())
-                && (edtPhone.getText().toString().equals(student.getPhoneNumber())))) {
+                && (edtPhone.getText().toString().equals(student.getPhoneNumber()) && edtFacebook.getText().toString().equals(student.getFacebook())))) {
             Map<String, Object> headers = new HashMap<>();
             headers.put("token", token);
             Map<String, Object> changeInfo = new HashMap<>();

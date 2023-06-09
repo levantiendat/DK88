@@ -503,7 +503,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         public void run() {
             while (isRunning) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -538,7 +538,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 getData(latestId);
                 checkMyGroup();
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

@@ -1,11 +1,13 @@
 package com.example.dk88.View;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +15,7 @@ import com.example.dk88.Controller.StudentProfileController;
 import com.example.dk88.R;
 
 public class StudentProfileActivity extends AppCompatActivity {
+    volatile boolean isRunning = true;
     private EditText edtOld, edtNew, edtName, edtPhone, edtFacebook;
     private Button btnOK, btnBack;
     private TextView txtGetAdmin;
@@ -87,12 +90,48 @@ public class StudentProfileActivity extends AppCompatActivity {
         edtFacebook = findViewById(R.id.facebookLink);
         getAdmin = findViewById(R.id.getAdmin1);
 
-        // Tải dữ liệu sinh viên từ server
-        mStudentProfileController = new StudentProfileController(edtOld, edtNew, edtName, edtPhone, edtFacebook, btnOK, btnBack, txtGetAdmin, token, studentID, getAdmin, userName, StudentProfileActivity.this);
-        mStudentProfileController.loadDataFromServer(studentID);
-
     }
 
+    class MainControlThread implements Runnable {
+        @Override
+        public void run() {
+            while (isRunning) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Tải dữ liệu sinh viên từ server
+                        mStudentProfileController = new StudentProfileController(edtOld, edtNew, edtName, edtPhone, edtFacebook, btnOK, btnBack, txtGetAdmin, token, studentID, getAdmin, userName, StudentProfileActivity.this);
+                        mStudentProfileController.loadDataFromServer(studentID);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isRunning = true;
+        Thread mainThread = new Thread(new MainControlThread());
+        mainThread.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isRunning = false;
+    }
 
 }
+
+
+
+
+
+
 

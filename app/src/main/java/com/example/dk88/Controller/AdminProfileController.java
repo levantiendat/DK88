@@ -109,39 +109,46 @@ public class AdminProfileController {
 
     // Thay đổi thông tin
     private void changeProfile() {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("token", token);
+        if (!(edtName.getText().toString().equals(admin.getName())
+                && (edtPhone.getText().toString().equals(admin.getPhoneNumber()) && edtEmail.getText().toString().equals(admin.getEmail())))) {
 
-        Map<String, Object> changeInfo = new HashMap<>();
-        changeInfo.put("userName", admin.getUserName());
-        changeInfo.put("name", edtName.getText().toString());
-        changeInfo.put("phoneNumber", edtPhone.getText().toString());
-        changeInfo.put("email", edtEmail.getText().toString());
-        changeInfo.put("roleCode", admin.getRoleCode());
 
-        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
-        call.enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                if (!response.isSuccessful()) {
+            Map<String, Object> headers = new HashMap<>();
+            headers.put("token", token);
+
+            Map<String, Object> changeInfo = new HashMap<>();
+            changeInfo.put("userName", admin.getUserName());
+            changeInfo.put("name", edtName.getText().toString());
+            changeInfo.put("phoneNumber", edtPhone.getText().toString());
+            changeInfo.put("email", edtEmail.getText().toString());
+            changeInfo.put("roleCode", admin.getRoleCode());
+
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
+            call.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ResponseObject tmp = response.body();
+                    if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                        Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Map<String, Object> data = (Map<String, Object>) tmp.getData();
+                    String userRole = response.headers().get("UserRole");
+                    Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_SHORT).show();
+                    goToAdminDashboard();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
                     Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-                ResponseObject tmp = response.body();
-                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
-                    Toast.makeText(activity, tmp.getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Map<String, Object> data = (Map<String, Object>) tmp.getData();
-                String userRole = response.headers().get("UserRole");
-                Toast.makeText(activity, "Change Data successfully ", Toast.LENGTH_SHORT).show();
-                goToAdminDashboard();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        } else {
+            Toast.makeText(activity, "Nothing change information", Toast.LENGTH_SHORT).show();
+        }
     }
 }
