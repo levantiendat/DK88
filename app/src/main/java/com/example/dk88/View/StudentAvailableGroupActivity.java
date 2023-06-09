@@ -28,8 +28,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +39,6 @@ import retrofit2.Response;
 
 
 public class StudentAvailableGroupActivity extends AppCompatActivity {
-
     final Integer STATUS_TRADE_GROUP = 1;
     volatile Integer groupStatus = 0;
 
