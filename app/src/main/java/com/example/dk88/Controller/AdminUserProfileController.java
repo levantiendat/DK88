@@ -10,11 +10,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
 import com.example.dk88.View.AdminUserManagementActivity;
-import com.example.dk88.View.AdminUserProfileActivity;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class AdminUserProfileController {
     public void getDataFromServer(){
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getStudentInfo(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -123,7 +122,7 @@ public class AdminUserProfileController {
             changeInfo.put("facebook", edtFacebook.getText().toString());
             changeInfo.put("roleCode", student.getRoleCode());
 
-            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -174,7 +173,7 @@ public class AdminUserProfileController {
             statusInfo.put("studentID",student.getStudentID());
             statusInfo.put("status",statusFinal);
 
-            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeStudentStatus(headers, statusInfo);
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeStudentStatus(headers, statusInfo);
 
             call.enqueue(new Callback<ResponseObject>() {
                 @Override

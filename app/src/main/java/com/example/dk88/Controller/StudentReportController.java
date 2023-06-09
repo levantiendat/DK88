@@ -3,20 +3,18 @@ package com.example.dk88.Controller;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.Picture;
 import com.example.dk88.Model.PictureAdapter;
 import com.example.dk88.Model.RealPathUtil;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.R;
-import com.example.dk88.View.StudentReportActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -109,7 +107,7 @@ public class StudentReportController {
         RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part picture = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -153,7 +151,7 @@ public class StudentReportController {
         banInfo.put("moreDetail", edtProblem.getText().toString());
         banInfo.put("imageProof", strPicture);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().sendBanRequest(headers, banInfo);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().sendBanRequest(headers, banInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

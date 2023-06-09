@@ -1,12 +1,11 @@
 package com.example.dk88.Controller;
 
 import android.content.Context;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.DatabaseHandler;
 import com.example.dk88.Model.GroupInfo;
 import com.example.dk88.Model.ListClassAdapter;
@@ -95,7 +94,7 @@ public class StudentTradeProfileController {
         }
         detail.put("haveClass", arrayList);
         detail.put("wantClass", edtNeed.getText().toString());
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeClass(headers, detail);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeClass(headers, detail);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

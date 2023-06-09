@@ -8,13 +8,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ListUserRequestAdapter;
 import com.example.dk88.Model.Request;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.StudentStateInfo;
 import com.example.dk88.R;
-import com.example.dk88.View.AdminRequestActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +81,7 @@ public class AdminRequestController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readRequestPage(headers, page);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().readRequestPage(headers, page);
 
         call.enqueue(new Callback<ResponseObject>() {
             @Override

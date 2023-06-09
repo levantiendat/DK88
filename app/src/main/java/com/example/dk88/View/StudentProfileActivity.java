@@ -1,33 +1,16 @@
 package com.example.dk88.View;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Controller.StudentProfileController;
-import com.example.dk88.Model.ApiUserRequester;
-import com.example.dk88.Model.ResponseObject;
-import com.example.dk88.Model.Student;
 import com.example.dk88.R;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class StudentProfileActivity extends AppCompatActivity {
     private EditText edtOld, edtNew, edtName, edtPhone, edtFacebook;

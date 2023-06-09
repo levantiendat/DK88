@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.View.AdminRequestActivity;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.Request;
 import com.example.dk88.Model.ResponseObject;
 
@@ -51,7 +51,7 @@ public class AdminActiveRequestDetailController {
         detail.put("targetID", request.getTargetID());
         detail.put("requestCode", request.getRequestCode());
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readDetailRequest(header, detail);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().readDetailRequest(header, detail);
 
         call.enqueue(new Callback<ResponseObject>() {
             @Override
@@ -92,7 +92,7 @@ public class AdminActiveRequestDetailController {
         Map<String, Object> header = new HashMap<>();
         header.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().readImage(header, url);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().readImage(header, url);
 
         call.enqueue(new Callback<ResponseObject>() {
             @Override
@@ -134,7 +134,7 @@ public class AdminActiveRequestDetailController {
         handle.put("requestCode", request.getRequestCode());
         handle.put("isAccepted", accept);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().handleRequest(header, handle);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().handleRequest(header, handle);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

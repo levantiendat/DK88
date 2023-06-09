@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.View.AdminDashboardActivity;
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
 import com.example.dk88.Model.User;
@@ -86,7 +86,7 @@ public class SignInController {
         loginInfo.put("userName", username);
         loginInfo.put("hashPass", password);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().login(loginInfo);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().login(loginInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

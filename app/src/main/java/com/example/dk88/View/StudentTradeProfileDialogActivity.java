@@ -8,26 +8,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.dk88.Controller.StudentTradeProfileController;
-import com.example.dk88.Model.ApiUserRequester;
-import com.example.dk88.Model.DatabaseHandler;
-import com.example.dk88.Model.GroupInfo;
 import com.example.dk88.Model.ListClassAdapter;
-import com.example.dk88.Model.ResponseObject;
-import com.example.dk88.Model.StudentClassRelation;
 import com.example.dk88.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class StudentTradeProfileDialogActivity extends Dialog implements
         android.view.View.OnClickListener {

@@ -8,10 +8,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.AdminDashboardActivity;
-import com.example.dk88.View.AdminProfileActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +81,7 @@ public class AdminProfileController {
         passInfo.put("oldHashPass", edtOld.getText().toString().trim());
         passInfo.put("newHashPass", edtNew.getText().toString().trim());
 
-        Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(headers, passInfo);
+        Call<ResponseObject> call1 = ApiRequester.getJsonPlaceHolderApi().changePass(headers, passInfo);
         call1.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -120,7 +119,7 @@ public class AdminProfileController {
         changeInfo.put("email", edtEmail.getText().toString());
         changeInfo.put("roleCode", admin.getRoleCode());
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
