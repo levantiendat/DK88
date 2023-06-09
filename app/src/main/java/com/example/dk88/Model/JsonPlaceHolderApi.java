@@ -1,7 +1,5 @@
 package com.example.dk88.Model;
 
-import android.net.wifi.rtt.ResponderConfig;
-
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +80,6 @@ public interface JsonPlaceHolderApi {
     @POST("User/ChangeStudentStatus")
     Call<ResponseObject> changeStudentStatus(@HeaderMap Map<String, Object> header, @Body Map<String, Object> body);
 
-    @GET("User/ReadListPublicInfo")
-    Call<ResponseObject> getListStudentInfo(@HeaderMap Map<String, Object> header, @Body Map<String, Object> body);
+    @POST("User/ReadListPublicInfo")
+    Call<ResponseObject> getListStudentInfo(@HeaderMap Map<String, Object> header, @Body List<String> body);
 }

@@ -7,7 +7,9 @@ import android.widget.Toast;
 import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -38,10 +40,51 @@ public class StudentGroupMemberDetailController {
     // Fetch student information and update UI
     public void fetchStudentInfo() {
         String[] memberList = members.split("-");
-        for (int i = 0; i < memberList.length; i++) {
-            String memberId = memberList[i];
-            fetchStudentInfoForMember(memberId, i);
-        }
+//        for (int i = 0; i < memberList.length; i++) {
+//            String memberId = memberList[i];
+//            fetchStudentInfoForMember(memberId, i);
+//        }
+
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("token", token);
+
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getListStudentInfo(headers, Arrays.asList(memberList));
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseObject tmp = response.body();
+
+                if (tmp.getRespCode() != ResponseObject.RESPONSE_OK) {
+                    Toast.makeText(context, tmp.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                List<Map<String, Object>> data = (List<Map<String, Object>>) tmp.getData();
+
+                for (int i=0; i<data.size();i++) {
+                    Map<String, Object> tempInfo = data.get(i);
+                    String studentID = "Student ID: " + tempInfo.get("studentID");
+                    String phoneNumber = "Phone Number: " + tempInfo.get("phoneNumber");
+                    String facebook = "Facebook: " + tempInfo.get("facebook");
+                    String name = "Name: " +tempInfo.get("name");
+
+
+                    // Update the UI based on the index
+                    updateUI(i, studentID, name, facebook, phoneNumber);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+            }
+        });
     }
 
     // Fetch student information for a specific member and update UI
