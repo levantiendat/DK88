@@ -3,7 +3,6 @@ package com.example.dk88.Controller;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,12 +14,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
 import com.example.dk88.R;
 import com.example.dk88.View.StudentDashboardActivity;
-import com.example.dk88.View.StudentProfileActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +102,7 @@ public class StudentProfileController {
                 passInfo.put("oldHashPass", edtOld.getText().toString().trim());
                 passInfo.put("newHashPass", edtNew.getText().toString().trim());
 
-                Call<ResponseObject> call1 = ApiUserRequester.getJsonPlaceHolderApi().changePass(headers, passInfo);
+                Call<ResponseObject> call1 = ApiRequester.getJsonPlaceHolderApi().changePass(headers, passInfo);
                 call1.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -143,7 +141,7 @@ public class StudentProfileController {
             changeInfo.put("facebook", edtFacebook.getText().toString());
             changeInfo.put("roleCode", student.getRoleCode());
 
-            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().changeProfile(headers, changeInfo);
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -175,7 +173,7 @@ public class StudentProfileController {
     public void loadDataFromServer(String studentID) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getStudentInfo(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

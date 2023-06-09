@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.DatabaseHandler;
 import com.example.dk88.Model.Graph;
 import com.example.dk88.Model.GroupInfo;
@@ -17,7 +17,6 @@ import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.StudentClassRelation;
 import com.example.dk88.Model.StudentDemand;
 import com.example.dk88.R;
-import com.example.dk88.View.StudentAvailableGroupActivity;
 import com.example.dk88.View.StudentTradeFinishActivity;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class StudentAvailableGroupController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, @NonNull Response<ResponseObject> response) {
@@ -106,7 +105,7 @@ public class StudentAvailableGroupController {
             Map<String,Object> headers=new HashMap<>();
             headers.put("token",token);
 
-            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers,groupIds.get(i));
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupInfo(headers,groupIds.get(i));
             int finalI = i;
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
@@ -214,7 +213,7 @@ public class StudentAvailableGroupController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -253,7 +252,7 @@ public class StudentAvailableGroupController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -295,7 +294,7 @@ public class StudentAvailableGroupController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getNewQueryClass(headers,id);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getNewQueryClass(headers,id);
 
         call.enqueue(new Callback<ResponseObject>() {
 
