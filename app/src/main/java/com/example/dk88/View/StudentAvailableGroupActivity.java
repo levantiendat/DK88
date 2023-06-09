@@ -343,6 +343,15 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 }
                 Map<String, Object> data = (Map<String, Object>) tmp.getData();
                 Integer status = Math.toIntExact(Math.round(Double.parseDouble(data.get("status").toString())));
+//                if (status == STATUS_TRADE_GROUP) {
+//                    Toast.makeText(StudentAvailableGroupActivity.this, "Your group is ready!", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentTradeFinishActivity.class);
+//                    intent.putExtra("token", token);
+//                    intent.putExtra("studentID", studentID);
+//                    intent.putExtra("userName", userName);
+//                    intent.putExtra("lostCourse", findLostCourse(oldGroup, studentID));
+//                    startActivity(intent);
+//                }
                 groupStatus = status;
 
             }
