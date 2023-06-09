@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.StudentReportActivity;
-import com.example.dk88.View.StudentDashboardActivity;
+import com.example.dk88.View.StudentMenuActivity;
 import com.example.dk88.View.StudentGroupMemberDetailDialogActivity;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class StudentTradeFinishController {
 
     // Chuyển đến màn hình StudentDashboardActivity
     public void navigateToDashboard() {
-        Intent intent = new Intent(activity, StudentDashboardActivity.class);
+        Intent intent = new Intent(activity, StudentMenuActivity.class);
         intent.putExtra("studentID", studentID);
         intent.putExtra("token", token);
         intent.putExtra("userName", userName);

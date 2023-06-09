@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.View.AdminDashboardActivity;
+import com.example.dk88.View.AdminMenuActivity;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
@@ -26,7 +26,7 @@ import com.example.dk88.R;
 import com.example.dk88.View.SignUpActivity;
 import com.example.dk88.View.StudentActiveActivity;
 import com.example.dk88.View.StudentBanStatusActivity;
-import com.example.dk88.View.StudentDashboardActivity;
+import com.example.dk88.View.StudentMenuActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -168,7 +168,7 @@ public class SignInController {
 
     // Chuyển đến màn hình Admin Dashboard
     private void navigateToAdminDashboard(String token, Admin admin) {
-        Intent intent = new Intent(activity, AdminDashboardActivity.class);
+        Intent intent = new Intent(activity, AdminMenuActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("admin", admin);
         activity.startActivity(intent);
@@ -193,7 +193,7 @@ public class SignInController {
 
     // Chuyển đến màn hình Student Dashboard
     private void navigateToStudentDashboard(String token, Student student) {
-        Intent intent = new Intent(activity, StudentDashboardActivity.class);
+        Intent intent = new Intent(activity, StudentMenuActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", student.getStudentID());
         intent.putExtra("userName", student.getUserName());

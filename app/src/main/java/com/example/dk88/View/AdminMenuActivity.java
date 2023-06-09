@@ -1,7 +1,6 @@
 package com.example.dk88.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.example.dk88.Controller.AdminDashboardController;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.R;
 
-public class AdminDashboardActivity extends AppCompatActivity {
+public class AdminMenuActivity extends AppCompatActivity {
 
     private String token;
     private Admin admin;
@@ -31,7 +30,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
-        mAdminDashboardController=new AdminDashboardController(token,admin,AdminDashboardActivity.this);
+        mAdminDashboardController=new AdminDashboardController(token,admin, AdminMenuActivity.this);
         // Xử lý sự kiện khi nhấn nút "Logout"
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

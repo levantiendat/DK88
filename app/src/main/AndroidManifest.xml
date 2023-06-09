@@ -38,10 +38,10 @@
             android:name=".View.StudentGroupDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".View.StudentDashboardActivity"
+            android:name=".View.StudentMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".View.AdminDashboardActivity"
+            android:name=".View.AdminMenuActivity"
             android:exported="false"
             android:windowContentTransitions="true" />
         <activity

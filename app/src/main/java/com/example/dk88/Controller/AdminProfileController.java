@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dk88.Model.Admin;
 import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
-import com.example.dk88.View.AdminDashboardActivity;
+import com.example.dk88.View.AdminMenuActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class AdminProfileController {
     }
     // Chuyển đến AdminDashboardActivity
     public void goToAdminDashboard() {
-        Intent intent = new Intent(activity, AdminDashboardActivity.class);
+        Intent intent = new Intent(activity, AdminMenuActivity.class);
         intent.putExtra("admin", admin);
         intent.putExtra("token", token);
         activity.startActivity(intent);

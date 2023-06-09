@@ -54,7 +54,7 @@ public class AdminRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Chuyển đến AdminDashboardActivity
-                Intent intent = new Intent(AdminRequestActivity.this, AdminDashboardActivity.class);
+                Intent intent = new Intent(AdminRequestActivity.this, AdminMenuActivity.class);
                 intent.putExtra("admin", admin);
                 intent.putExtra("token", token);
                 startActivity(intent);

@@ -33,15 +33,15 @@
             android:background="@drawable/black_frame"
             android:text="MY ACCOUNT" />
 
-        <Button
-            android:id="@+id/tradeProfile"
-            android:layout_width="300dp"
-            android:layout_height="70dp"
-            android:textSize="22dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/black_frame"
-            android:text="TRADE PROFILE" />
+<!--        <Button-->
+<!--            android:id="@+id/tradeProfile"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:textSize="22dp"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:background="@drawable/black_frame"-->
+<!--            android:text="TRADE PROFILE" />-->
 
         <Button
             android:id="@+id/myCourse"

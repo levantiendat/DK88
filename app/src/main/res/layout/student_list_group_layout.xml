@@ -16,6 +16,7 @@
         android:layout_marginRight="00dp"
         android:layout_height="50dp">
         <ImageView
+            android:layout_marginLeft="20dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/back"
@@ -33,6 +34,12 @@
 
             android:layout_width="220dp"
             android:layout_height="50dp"/>
+        <ImageView
+            android:layout_marginLeft="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tradeProfile"
+            android:background="@drawable/trade_profile_icon"/>
     </LinearLayout>
     <ListView
         android:id="@+id/lwclass"

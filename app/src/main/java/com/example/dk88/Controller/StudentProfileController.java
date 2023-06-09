@@ -18,7 +18,7 @@ import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.Student;
 import com.example.dk88.R;
-import com.example.dk88.View.StudentDashboardActivity;
+import com.example.dk88.View.StudentMenuActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +81,7 @@ public class StudentProfileController {
 
     // Trở về màn hình Dashboard của sinh viên
     public void navigateToStudentDashboard() {
-        Intent intent = new Intent(activity, StudentDashboardActivity.class);
+        Intent intent = new Intent(activity, StudentMenuActivity.class);
         intent.putExtra("studentID", studentID);
         intent.putExtra("token", token);
         intent.putExtra("userName", userName);

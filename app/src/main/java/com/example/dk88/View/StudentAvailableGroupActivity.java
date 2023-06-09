@@ -4,7 +4,11 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,10 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +51,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<GroupInfo> arrayclass;
     Button btnPrevious, btnNext;
+    ImageView ivTradeProfile;
 
     String token = "";
     SharedPreferences mPrefs;
@@ -77,6 +80,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         token = getIntent().getStringExtra("token");
         studentID = getIntent().getStringExtra("studentID");
         userName = getIntent().getStringExtra("userName");
+        ivTradeProfile = (ImageView) findViewById(R.id.tradeProfile);
         btnNext = (Button) findViewById(R.id.next);
         btnPrevious = (Button) findViewById(R.id.previous);
         ivBack = (ImageView) findViewById(R.id.back);
@@ -115,14 +119,26 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentDashboardActivity.class);
+                Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentMenuActivity.class);
                 intent.putExtra("studentID", studentID);
                 intent.putExtra("token", token);
                 intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         });
+        // Xử lý sự kiện khi nhấn nút "Trade Profile"
+        ivTradeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StudentTradeProfileDialogActivity dialog = new StudentTradeProfileDialogActivity(StudentAvailableGroupActivity.this,token, studentID);
 
+                Window window = dialog.getWindow();
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                window.setGravity(Gravity.CENTER);
+
+                dialog.show();
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -490,7 +506,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentDashboardActivity.class);
+        Intent intent = new Intent(StudentAvailableGroupActivity.this, StudentMenuActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("studentID", studentID);
         intent.putExtra("userName", userName);
@@ -537,6 +553,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
                 mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                 int latestId = mPrefs.getInt("latest_id", 0);
                 getData(latestId);
+                Log.d("LASTEST ID", "test");
                 checkMyGroup();
                 try {
                     Thread.sleep(1000);
@@ -550,6 +567,7 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("ON RESUME", "Test");
         isRunning = true;
         Thread mainThread = new Thread(new MainControlThread());
         mainThread.start();
@@ -561,5 +579,6 @@ public class StudentAvailableGroupActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         isRunning = false;
+        Log.d("ON PAUSE", "test");
     }
 }

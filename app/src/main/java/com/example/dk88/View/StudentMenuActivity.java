@@ -1,7 +1,6 @@
 package com.example.dk88.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import com.example.dk88.Controller.StudentDashboardController;
 import com.example.dk88.R;
 
-public class StudentDashboardActivity extends AppCompatActivity {
+public class StudentMenuActivity extends AppCompatActivity {
     private String token;
     private String studentID;
     private String userName;
@@ -33,7 +32,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         // Khởi tạo các view
         initView();
 
-        mStudentDashboardController=new StudentDashboardController( token, studentID, userName, StudentDashboardActivity.this);
+        mStudentDashboardController=new StudentDashboardController( token, studentID, userName, StudentMenuActivity.this);
 
         // Kiểm tra xem myGroup lần đầu
         mStudentDashboardController.checkInGroup();
@@ -47,12 +46,12 @@ public class StudentDashboardActivity extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút "Trade Profile"
-        btnTradeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mStudentDashboardController.showMyTradeProfile();
-            }
-        });
+//        btnTradeProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mStudentDashboardController.showMyTradeProfile();
+//            }
+//        });
 
         // Xử lý sự kiện khi nhấn nút "My Group"
         btnMyGroup.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +61,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
                 if (mStudentDashboardController.getMyGroup()!=null) {
                     mStudentDashboardController.showMyGroup();
                 }else{
-                    Toast.makeText(StudentDashboardActivity.this, "You are currently not in the group!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudentMenuActivity.this, "You are currently not in the group!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,7 +92,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
     // Khởi tạo các view
     private void initView() {
         btnProfile = findViewById(R.id.myAccount);
-        btnTradeProfile = findViewById(R.id.tradeProfile);
+//        btnTradeProfile = findViewById(R.id.tradeProfile);
         btnMyGroup = findViewById(R.id.myCourse);
         btnTradeCourse = findViewById(R.id.tradeCourse);
         btnLogout =  findViewById(R.id.signOut);

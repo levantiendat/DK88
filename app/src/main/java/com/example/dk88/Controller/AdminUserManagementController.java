@@ -12,7 +12,7 @@ import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ListStudentIDAdapter;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.R;
-import com.example.dk88.View.AdminDashboardActivity;
+import com.example.dk88.View.AdminMenuActivity;
 import com.example.dk88.View.AdminUserProfileActivity;
 
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class AdminUserManagementController {
         activity.startActivity(intent);
     }
     public void backToDashBoard(){
-        Intent intent = new Intent(activity, AdminDashboardActivity.class);
+        Intent intent = new Intent(activity, AdminMenuActivity.class);
         intent.putExtra("admin", admin);
         intent.putExtra("token", token);
         activity.startActivity(intent);
