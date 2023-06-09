@@ -82,4 +82,6 @@ public interface JsonPlaceHolderApi {
     @POST("User/ChangeStudentStatus")
     Call<ResponseObject> changeStudentStatus(@HeaderMap Map<String, Object> header, @Body Map<String, Object> body);
 
+    @GET("User/ReadListPublicInfo")
+    Call<ResponseObject> getListStudentInfo(@HeaderMap Map<String, Object> header, @Body Map<String, Object> body);
 }
