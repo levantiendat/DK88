@@ -16,7 +16,7 @@
         android:layout_marginRight="00dp"
         android:layout_height="50dp">
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/back"
@@ -27,7 +27,8 @@
             android:id="@+id/tv001"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="25dp"
+            android:layout_marginLeft="10dp"
             android:text="GROUP AVAILABLE"
 
 
@@ -35,7 +36,7 @@
             android:layout_width="220dp"
             android:layout_height="50dp"/>
         <ImageView
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="30dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/tradeProfile"

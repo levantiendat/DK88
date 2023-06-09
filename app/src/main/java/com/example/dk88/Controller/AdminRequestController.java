@@ -66,11 +66,11 @@ public class AdminRequestController {
             }
             listData.add(std);
 
-            if (mToast != null) {
-                mToast.cancel();
-            }
-            mToast = Toast.makeText(activity, "Page: " + String.valueOf(page), Toast.LENGTH_SHORT);
-            mToast.show();
+//            if (mToast != null) {
+//                mToast.cancel();
+//            }
+//            mToast = Toast.makeText(activity, "Page: " + String.valueOf(page), Toast.LENGTH_SHORT);
+//            mToast.show();
         }
         adapter = new ListUserRequestAdapter(activity, R.layout.student_list_group_item_layout, listData);
         listView.setAdapter(adapter);

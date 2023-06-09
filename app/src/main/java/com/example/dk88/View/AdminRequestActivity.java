@@ -65,7 +65,12 @@ public class AdminRequestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Tăng số trang lên 1 và lấy dữ liệu mới
                 page += 1;
-                mAdminRequestController.getData(page);
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            mToast = Toast.makeText(AdminRequestActivity.this, "Page: " + String.valueOf(page), Toast.LENGTH_SHORT);
+            mToast.show();
+            mAdminRequestController.getData(page);
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +79,11 @@ public class AdminRequestActivity extends AppCompatActivity {
                 // Giảm số trang xuống 1 (nếu số trang lớn hơn 1) và lấy dữ liệu mới
                 if (page > 1) {
                     page -= 1;
+                    if (mToast != null) {
+                        mToast.cancel();
+                    }
+                    mToast = Toast.makeText(AdminRequestActivity.this, "Page: " + String.valueOf(page), Toast.LENGTH_SHORT);
+                    mToast.show();
                     mAdminRequestController.getData(page);
                 }
             }
