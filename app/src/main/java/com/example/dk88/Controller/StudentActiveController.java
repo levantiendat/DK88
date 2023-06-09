@@ -1,34 +1,15 @@
 package com.example.dk88.Controller;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.RealPathUtil;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.SignInActivity;
@@ -36,7 +17,6 @@ import com.example.dk88.View.StudentActiveActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,7 +95,7 @@ public class StudentActiveController {
         RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part picture = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().uploadPicture(headers, picture);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -160,7 +140,7 @@ public class StudentActiveController {
         activeInfo.put("imageFront", strFront);
         activeInfo.put("imageBack", strBack);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().sendActiveRequest(headers, activeInfo);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().sendActiveRequest(headers, activeInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.StudentReportActivity;
 import com.example.dk88.View.StudentDashboardActivity;
@@ -87,7 +87,7 @@ public class StudentTradeFinishController {
         body.put("studentID", studentID);
         body.put("groupID", groupID);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -120,7 +120,7 @@ public class StudentTradeFinishController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -153,7 +153,7 @@ public class StudentTradeFinishController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

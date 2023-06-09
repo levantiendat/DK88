@@ -13,21 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Controller.AdminRequestController;
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
 import com.example.dk88.Model.Request;
-import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.Model.StudentStateInfo;
 import com.example.dk88.Model.ListUserRequestAdapter;
 import com.example.dk88.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AdminRequestActivity extends AppCompatActivity {
     private Toast mToast;

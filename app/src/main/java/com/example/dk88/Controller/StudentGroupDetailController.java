@@ -3,16 +3,14 @@ package com.example.dk88.Controller;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.GroupInfo;
 import com.example.dk88.Model.ResponseObject;
-import com.example.dk88.View.StudentGroupDetailActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +84,7 @@ public class StudentGroupDetailController {
             Map<String, Object> headers = new HashMap<>();
             headers.put("token", token);
 
-            Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, member);
+            Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getStudentInfo(headers, member);
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -117,7 +115,7 @@ public class StudentGroupDetailController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupInfo.getGroupID());
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupInfo.getGroupID());
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -166,7 +164,7 @@ public class StudentGroupDetailController {
         body.put("studentID", studentID);
         body.put("groupID", groupInfo.getGroupID());
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().voteGroup(headers, body);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

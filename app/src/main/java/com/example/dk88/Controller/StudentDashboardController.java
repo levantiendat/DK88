@@ -7,12 +7,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.StudentAvailableGroupActivity;
-import com.example.dk88.View.StudentGroupMemberDetailDialogActivity;
 import com.example.dk88.View.StudentMyGroupInfoDialogActivity;
 import com.example.dk88.View.StudentProfileActivity;
 import com.example.dk88.View.SignInActivity;
@@ -67,7 +65,7 @@ public class StudentDashboardController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupOfStudent(headers, studentID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

@@ -8,12 +8,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dk88.Model.Admin;
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ListStudentIDAdapter;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.R;
 import com.example.dk88.View.AdminDashboardActivity;
-import com.example.dk88.View.AdminUserManagementActivity;
 import com.example.dk88.View.AdminUserProfileActivity;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class AdminUserManagementController {
     public void getData(){
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getAllStudentID(headers);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getAllStudentID(headers);
 
         call.enqueue(new Callback<ResponseObject>() {
             @Override

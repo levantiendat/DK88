@@ -5,10 +5,8 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +54,7 @@ public class StudentMyGroupInfoDialogController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getStudentInfo(headers, memberId);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getStudentInfo(headers, memberId);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
@@ -116,7 +114,7 @@ public class StudentMyGroupInfoDialogController {
         Map<String, Object> headers = new HashMap<>();
         headers.put("token", token);
 
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().getGroupInfo(headers, groupID);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {

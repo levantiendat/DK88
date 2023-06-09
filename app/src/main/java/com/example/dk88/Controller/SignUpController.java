@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dk88.Model.ApiUserRequester;
+import com.example.dk88.Model.ApiRequester;
 import com.example.dk88.Model.ResponseObject;
 import com.example.dk88.View.SignInActivity;
-import com.example.dk88.View.SignUpActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +68,7 @@ public class SignUpController {
         registerInfo.put("facebook", facebook);
 
         // Gửi yêu cầu đăng ký đến API
-        Call<ResponseObject> call = ApiUserRequester.getJsonPlaceHolderApi().signup(registerInfo);
+        Call<ResponseObject> call = ApiRequester.getJsonPlaceHolderApi().signup(registerInfo);
         call.enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
